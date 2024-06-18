@@ -799,8 +799,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &23324017
@@ -5726,8 +5724,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &297286118
@@ -6982,8 +6978,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &376437666
@@ -15391,7 +15385,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 853593452}
         m_TargetAssemblyTypeName: AICharacterController, Assembly-CSharp
-        m_MethodName: DestryRandomNearEnemy
+        m_MethodName: KillNearlestEnemy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -22426,8 +22420,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1096409730
@@ -22980,8 +22972,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1116573111
@@ -28155,8 +28145,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1387281119
@@ -29204,8 +29192,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!1 &1410675349
@@ -30747,8 +30733,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1483212655
@@ -41106,8 +41090,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1990644772
@@ -41872,8 +41854,6 @@ MonoBehaviour:
     _dead: 0
     _invincibleTime: 0.1
     _prevHitTime: 0
-    additionalEffectOnHit: []
-    noManaRegenOnHit: 0
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &2019724107
