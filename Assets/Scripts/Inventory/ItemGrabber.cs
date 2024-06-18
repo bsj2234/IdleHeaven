@@ -10,15 +10,17 @@ public class ItemGrabber : MonoBehaviour
     private Vector3 _initialPos;
     private float _time;
 
-    public void Grab()
+    public void GrabToTarget(Transform target)
     {
-        _target = FindAnyObjectByType<AICharacterController>().transform;
+        _target = target;
         _initialPos = transform.position;
     }
 
     private void FixedUpdate()
     {
-        Debug.Assert(_target != null);
+        Debug.Log(_target != null);
+        if (_target == null)
+            return;
         //처음 위치에서 타겟 위치까지 이동시킴
         Vector3 tempPos = Vector3.Lerp(_initialPos, _target.position, _time / _duration);
         float nomyTime = _time / _duration;
