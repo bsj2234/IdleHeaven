@@ -772,6 +772,8 @@ GameObject:
   - component: {fileID: 23324018}
   - component: {fileID: 23324017}
   - component: {fileID: 23324016}
+  - component: {fileID: 23324021}
+  - component: {fileID: 23324022}
   m_Layer: 0
   m_Name: Target (1)
   m_TagString: Enemy
@@ -791,7 +793,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 23324021}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &23324017
@@ -880,6 +883,47 @@ Transform:
   m_Children: []
   m_Father: {fileID: 710226001}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &23324021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23324015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &23324022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23324015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &29663741
 GameObject:
   m_ObjectHideFlags: 0
@@ -5675,6 +5719,8 @@ GameObject:
   - component: {fileID: 297286119}
   - component: {fileID: 297286118}
   - component: {fileID: 297286117}
+  - component: {fileID: 297286121}
+  - component: {fileID: 297286122}
   m_Layer: 0
   m_Name: Target (5)
   m_TagString: Enemy
@@ -5709,7 +5755,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 297286121}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &297286118
@@ -5783,6 +5830,47 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297286115}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &297286121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297286115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &297286122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297286115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &301967796
 GameObject:
   m_ObjectHideFlags: 0
@@ -6922,6 +7010,8 @@ GameObject:
   - component: {fileID: 376437667}
   - component: {fileID: 376437666}
   - component: {fileID: 376437665}
+  - component: {fileID: 376437669}
+  - component: {fileID: 376437670}
   m_Layer: 0
   m_Name: Target (8)
   m_TagString: Enemy
@@ -6956,7 +7046,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 376437669}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &376437666
@@ -7030,6 +7121,47 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376437663}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &376437669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376437663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &376437670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376437663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &380562711
 GameObject:
   m_ObjectHideFlags: 0
@@ -14946,6 +15078,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c010ccd70928af044add77872efba65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.39
+      Unique: 0.155
+      Legendary: 0.01
+    weaponDatas:
+    - ItemPrefab: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac,
+        type: 3}
+      Desctription: 
+    - ItemPrefab: {fileID: 1005229118967789176, guid: ed4a2d1e6edd94942821c2b2a7c5eb5d,
+        type: 3}
+      Desctription: 
+    accessoryDatas:
+    - ItemPrefab: {fileID: 1005229118967789176, guid: 7cae8a6533a4dcf42acfa3c5c2c3e92e,
+        type: 3}
+      Desctription: 
+    - ItemPrefab: {fileID: 1005229118967789176, guid: 230d4115fd47bcf43a4b1ee7a8b91170,
+        type: 3}
+      Desctription: 
+    equipmentDatas:
+    - ItemPrefab: {fileID: 1005229118967789176, guid: adfce117bb83de241827159a39b62e08,
+        type: 3}
+      Desctription: 
+    - ItemPrefab: {fileID: 1005229118967789176, guid: d665d7b12ac804d4dbc3107daa09cf1d,
+        type: 3}
+      Desctription: 
 --- !u!4 &752457527
 Transform:
   m_ObjectHideFlags: 0
@@ -16786,7 +16945,7 @@ MonoBehaviour:
   _maxHp: 100
   _hp: 100
   _dead: 0
-  _invincibleTime: 0.1
+  _invincibleTimeOnHit: 0.1
   _prevHitTime: 0
 --- !u!1 &856353424
 GameObject:
@@ -22379,6 +22538,8 @@ GameObject:
   - component: {fileID: 1096409731}
   - component: {fileID: 1096409730}
   - component: {fileID: 1096409729}
+  - component: {fileID: 1096409733}
+  - component: {fileID: 1096409734}
   m_Layer: 0
   m_Name: Target (7)
   m_TagString: Enemy
@@ -22413,7 +22574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 1096409733}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1096409730
@@ -22487,6 +22649,47 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1096409727}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1096409733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096409727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &1096409734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096409727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &1099626958
 GameObject:
   m_ObjectHideFlags: 0
@@ -22924,6 +23127,8 @@ GameObject:
   - component: {fileID: 1116573112}
   - component: {fileID: 1116573111}
   - component: {fileID: 1116573110}
+  - component: {fileID: 1116573114}
+  - component: {fileID: 1116573115}
   m_Layer: 0
   m_Name: Target (6)
   m_TagString: Enemy
@@ -22958,7 +23163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 1116573114}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1116573111
@@ -23032,6 +23238,47 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1116573108}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1116573114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116573108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &1116573115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116573108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &1122850007
 GameObject:
   m_ObjectHideFlags: 0
@@ -28090,6 +28337,8 @@ GameObject:
   - component: {fileID: 1387281120}
   - component: {fileID: 1387281119}
   - component: {fileID: 1387281118}
+  - component: {fileID: 1387281122}
+  - component: {fileID: 1387281123}
   m_Layer: 0
   m_Name: Target (9)
   m_TagString: Enemy
@@ -28124,7 +28373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 1387281122}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1387281119
@@ -28198,6 +28448,47 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1387281116}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1387281122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387281116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &1387281123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387281116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &1388158750
 GameObject:
   m_ObjectHideFlags: 0
@@ -29059,6 +29350,8 @@ GameObject:
   - component: {fileID: 1406330269}
   - component: {fileID: 1406330272}
   - component: {fileID: 1406330273}
+  - component: {fileID: 1406330274}
+  - component: {fileID: 1406330275}
   m_Layer: 0
   m_Name: Target
   m_TagString: Enemy
@@ -29164,9 +29457,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 1406330274}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
+--- !u!114 &1406330274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406330267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &1406330275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406330267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &1410675349
 GameObject:
   m_ObjectHideFlags: 0
@@ -30664,6 +30999,8 @@ GameObject:
   - component: {fileID: 1483212656}
   - component: {fileID: 1483212655}
   - component: {fileID: 1483212654}
+  - component: {fileID: 1483212658}
+  - component: {fileID: 1483212659}
   m_Layer: 0
   m_Name: Target (2)
   m_TagString: Enemy
@@ -30698,7 +31035,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 1483212658}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1483212655
@@ -30772,6 +31110,47 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483212652}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1483212658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483212652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &1483212659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483212652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &1489186596
 GameObject:
   m_ObjectHideFlags: 0
@@ -41014,6 +41393,8 @@ GameObject:
   - component: {fileID: 1990644773}
   - component: {fileID: 1990644772}
   - component: {fileID: 1990644771}
+  - component: {fileID: 1990644775}
+  - component: {fileID: 1990644776}
   m_Layer: 0
   m_Name: Target (3)
   m_TagString: Enemy
@@ -41048,7 +41429,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 1990644775}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1990644772
@@ -41122,6 +41504,47 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1990644769}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1990644775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990644769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &1990644776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990644769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &1992031627
 GameObject:
   m_ObjectHideFlags: 0
@@ -41771,6 +42194,8 @@ GameObject:
   - component: {fileID: 2019724108}
   - component: {fileID: 2019724107}
   - component: {fileID: 2019724106}
+  - component: {fileID: 2019724110}
+  - component: {fileID: 2019724111}
   m_Layer: 0
   m_Name: Target (4)
   m_TagString: Enemy
@@ -41805,7 +42230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat: {fileID: 0}
+  autoSet: 0
+  combat: {fileID: 2019724110}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &2019724107
@@ -41879,6 +42305,47 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019724104}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2019724110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019724104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTimeOnHit: 0.1
+  _prevHitTime: 0
+--- !u!114 &2019724111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019724104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator:
+    _rarityTable:
+      Common: 1
+      Epic: 0.848
+      Unique: 0.47
+      Legendary: 0.083
+    weaponDatas: []
+    accessoryDatas: []
+    equipmentDatas: []
+  spawner: {fileID: 752457526}
 --- !u!1 &2023870226
 GameObject:
   m_ObjectHideFlags: 0
