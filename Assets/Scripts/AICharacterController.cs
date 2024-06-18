@@ -120,6 +120,10 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
         }
         attackAbleEnemies.Sort(SortEnemy);
         attackAbleEnemies.RemoveAll((item) => item.GetGameObject() == null);
+        if (attackAbleEnemies.Count == 0)
+        {
+            return null;
+        }
         string Enemy_array = "";
         foreach(var enemy in attackAbleEnemies)
         {
@@ -203,7 +207,12 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
 
     public void KillNearlestEnemy()
     {
-        GetNearestEnemy().GetCombat().Die();
+        ICombat nearestEnmey = GetNearestEnemy();
+        if (nearestEnmey == null)
+        {
+            return;
+        }
+        combat.DealDamage(nearestEnmey.GetCombat(),99999);
     }
 
     public GameObject GetGameObject()
