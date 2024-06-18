@@ -30,10 +30,17 @@ public class ChaseState : BaseState
     {
         if (target == null)
         {
-            SetTarget(_owner.GetNearestEnemy().GetTransform());
+            ICombat NearestEnemy = _owner.GetNearestEnemy();
+            if (NearestEnemy == null)
+            {
+                stateMachine.ChangeState<IdleState>();
+                return;
+            }
+            SetTarget(NearestEnemy.GetTransform());
             if (target == null)
             {
                 stateMachine.ChangeState<IdleState>();
+                return;
             }
         }
         Vector3 selftToTarget = target.position - _transform.position;
