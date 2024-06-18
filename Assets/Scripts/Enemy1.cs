@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Combat))]
 public class Enemy1 : MonoBehaviour, ICombat
 {
-    [SerializeField] Combat combat = new Combat();
+    [SerializeField] bool autoSet = false;
+    [SerializeField] Combat combat;
 
     [SerializeField] ItemSpawner spawner;
     
@@ -13,13 +15,15 @@ public class Enemy1 : MonoBehaviour, ICombat
     private void Start()
     {
         combat.Init(transform);
-        combat.OnDeadWAttacker += SpawnItem;
         combat.OnDead += DestroySelf;
     }
-
-    public void SpawnItem(Combat attacker)
+    private void OnValidate()
     {
-        spawner.SpawnItem(true, transform, item, attacker._owner.GetComponent<ICombat>());
+        if(autoSet)
+        {
+            combat = GetComponent<Combat>();
+            autoSet = false;
+        }
     }
 
 
