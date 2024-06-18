@@ -170,7 +170,7 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
     }
     public void TakeDamage(ICombat attackerCombat, float damage)
     {
-        combat.TakeDamage(damage);
+        combat.TakeDamage(attackerCombat.GetCombat(), damage);
     }
     public void Attack(ICombat targetCombat, float damage)
     {
@@ -191,7 +191,7 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
 
     public void DestryRandomNearEnemy()
     {
-        Destroy(GetNearestEnemy().GetTransform().gameObject);
+        GetNearestEnemy().GetCombat().Die();
     }
 
     public GameObject GetGameObject()
