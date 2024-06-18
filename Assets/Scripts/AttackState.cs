@@ -34,10 +34,10 @@ public class AttackState : BaseState
     }
     public override void UpdateState()
     {
-        if(targetCombat.IsDead())
+        if(targetCombat.IsDead() || target == null)
         {
-            owner.PopEnemy(targetCombat);
-            ICombat nextEnemy = owner.PeekNearestEnemy();
+            owner.RemoveEnemy(targetCombat);
+            ICombat nextEnemy = owner.GetNearestEnemy();
             if (nextEnemy!= null)
             {
                 stateMachine
@@ -56,7 +56,7 @@ public class AttackState : BaseState
             Debug.Log($"{owner} attacked {target}");
             ICombat enemyCombat = target.GetComponent<ICombat>();
             Debug.Assert(enemyCombat != null, $"Enemy is null while {owner.transform.name} try attacking");
-            owner.DealDamage(target.GetComponent<ICombat>(), 30f);
+            owner.Attack(target.GetComponent<ICombat>(), 30f);
             attackCooldown = 1f;
         }
         else
