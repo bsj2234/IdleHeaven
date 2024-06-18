@@ -8,10 +8,11 @@ public class Enemy1 : MonoBehaviour, ICombat
     private void Start()
     {
         combat.Init(transform);
+        combat.OnDead += DestroySelf;
     }
-    public void Attack(Combat targetCombat, float damage)
+    public void Attack(ICombat targetCombat, float damage)
     {
-        targetCombat.DealDamage(targetCombat, damage);
+        targetCombat.TakeDamage(this, damage);
     }
 
     public Combat GetCombat()
@@ -19,7 +20,7 @@ public class Enemy1 : MonoBehaviour, ICombat
         return combat;
     }
 
-    public void TakeDamage(Combat attackerCombat, float damage)
+    public void TakeDamage(ICombat attackerCombat, float damage)
     {
         combat.TakeDamage(damage);
     }
@@ -37,5 +38,19 @@ public class Enemy1 : MonoBehaviour, ICombat
     public Transform GetTransform()
     {
         return transform;
+    }
+
+    private void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+
+    public GameObject GetGameObject()
+    {
+        if(this == null)
+        {
+            return null;
+        }
+        return gameObject;
     }
 }
