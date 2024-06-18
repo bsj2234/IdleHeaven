@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class ItemSpawner : MonoBehaviour
 {
-    public ItemGrabber SpawnItem(bool autoGet, Transform position, GameObject itemPrefab, ICombat attacker)
+    public DroppedItem SpawnItem(Transform position, GameObject itemPrefab)
     {
-        GameObject itemObj = Instantiate(itemPrefab, position.position, position.rotation);
-        itemObj.TryGetComponent(out ItemGrabber magnatic);
-        itemObj.TryGetComponent(out DroppedItem drop);
-        magnatic.enabled = autoGet;
-        magnatic.Grab();
-        drop.SetAcquirer(attacker.GetTransform());
-        return magnatic;
+        Instantiate(itemPrefab, position.position, position.rotation)
+            .TryGetComponent(out DroppedItem itemObj);
+        return itemObj;
     }
 }
