@@ -189,7 +189,7 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
         return transform;
     }
 
-    public void DestryRandomNearEnemy()
+    public void KillNearlestEnemy()
     {
         GetNearestEnemy().GetCombat().Die();
     }

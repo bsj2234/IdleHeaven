@@ -4,12 +4,25 @@ using UnityEngine;
 
 public class Enemy1 : MonoBehaviour, ICombat
 {
-    Combat combat = new Combat();
+    [SerializeField] Combat combat = new Combat();
+
+    [SerializeField] ItemSpawner spawner;
+    
+    [SerializeField] GameObject item;
+
     private void Start()
     {
         combat.Init(transform);
+        combat.OnDeadWAttacker += SpawnItem;
         combat.OnDead += DestroySelf;
     }
+
+    public void SpawnItem(Combat attacker)
+    {
+        spawner.SpawnItem(true, transform, item, attacker._owner.GetComponent<ICombat>());
+    }
+
+
     public void Attack(ICombat targetCombat, float damage)
     {
         targetCombat.TakeDamage(this, damage);
@@ -22,7 +35,7 @@ public class Enemy1 : MonoBehaviour, ICombat
 
     public void TakeDamage(ICombat attackerCombat, float damage)
     {
-        combat.TakeDamage(damage);
+        combat.TakeDamage(attackerCombat.GetCombat(), damage);
     }
 
     public bool IsDead()
