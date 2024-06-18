@@ -791,14 +791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &23324017
@@ -5716,14 +5709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &297286118
@@ -6970,14 +6956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &376437666
@@ -16662,6 +16641,7 @@ GameObject:
   - component: {fileID: 853593455}
   - component: {fileID: 853593456}
   - component: {fileID: 853593457}
+  - component: {fileID: 853593458}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -16681,6 +16661,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0453572127ac64f48933329938056336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AutoComponentSet: 1
+  combat: {fileID: 853593458}
   Agent_movement: {fileID: 853593457}
   patrolWaypoints:
   - {fileID: 1614233167}
@@ -16787,6 +16769,25 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &853593458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853593451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 0}
+  initalMaxHp: 0
+  _maxHp: 100
+  _hp: 100
+  _dead: 0
+  _invincibleTime: 0.1
+  _prevHitTime: 0
 --- !u!1 &856353424
 GameObject:
   m_ObjectHideFlags: 0
@@ -22412,14 +22413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1096409730
@@ -22964,14 +22958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1116573111
@@ -28137,14 +28124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1387281119
@@ -29184,14 +29164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!1 &1410675349
@@ -30725,14 +30698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1483212655
@@ -41082,14 +41048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &1990644772
@@ -41846,14 +41805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combat:
-    _owner: {fileID: 0}
-    initalMaxHp: 0
-    _maxHp: 100
-    _hp: 100
-    _dead: 0
-    _invincibleTime: 0.1
-    _prevHitTime: 0
+  combat: {fileID: 0}
   spawner: {fileID: 752457526}
   item: {fileID: 1005229118967789176, guid: 7cbd73f543d24104da7dc66f94f799ac, type: 3}
 --- !u!65 &2019724107

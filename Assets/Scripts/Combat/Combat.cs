@@ -12,14 +12,14 @@ public interface ICombat
 }
 
 [System.Serializable]
-public class Combat
+public class Combat:MonoBehaviour
 {
     public Transform _owner;
     public float initalMaxHp;
     [SerializeField] private float _maxHp = 100f;
     [SerializeField] private float _hp = 100f;
     [SerializeField] private bool _dead = false;
-    [SerializeField] private float _invincibleTime = .1f;
+    [SerializeField] private float _invincibleTimeOnHit = .1f;
     [SerializeField] private float _prevHitTime = 0f;
 
     public System.Action OnDamaged { get; set; }
@@ -66,7 +66,7 @@ public class Combat
     }
     private bool IsDamageable()
     {
-        if (Time.time < _prevHitTime + _invincibleTime)
+        if (Time.time < _prevHitTime + _invincibleTimeOnHit)
         {
             return false;
         }

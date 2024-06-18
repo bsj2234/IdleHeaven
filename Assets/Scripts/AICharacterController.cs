@@ -12,14 +12,14 @@ public interface IMovableAI: IMovable
     public NavMeshAgent GetAgent();
 }
 
-[RequireComponent (typeof(StateMachine))]
+[RequireComponent (typeof(StateMachine), typeof(Combat))]
 public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
 {
-
-    private Combat combat = new Combat();
+    [SerializeField] bool AutoComponentSet = false;
+    [SerializeField] Combat combat;
     private Weapon weapon;
 
-    [SerializeField] private NavMeshAgent Agent_movement;
+    [SerializeField] NavMeshAgent Agent_movement;
 
     private StateMachine stateMachine;
     public Transform[] patrolWaypoints;
@@ -28,6 +28,18 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
     private List<ICombat> attackAbleEnemies = new List<ICombat>();
 
 
+    private void OnValidate()
+    {
+        if(AutoComponentSet)
+        {
+            AutoInit();
+        }
+    }
+    private void AutoInit()
+    {
+        stateMachine = GetComponent<StateMachine>();
+        combat = GetComponent<Combat>();
+    }
     //IsGrounded(Walk,Run)	IsFlying	IsSwimming	IsClimbing	IsJumping IsBurrowing	IsSliding	IsSwinging	IsCreeping	IsRolling	IsFloating	IsGliding	IsSoaring
     private void Start()
     {
