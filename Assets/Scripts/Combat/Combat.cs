@@ -3,11 +3,12 @@ using UnityEngine;
 public interface ICombat
 {
     Combat GetCombat();
-    void TakeDamage(Combat attackerCombat, float damage);
-    void Attack(Combat targetCombat, float damage);
+    void TakeDamage(ICombat attackerCombat, float damage);
+    void Attack(ICombat targetCombat, float damage);
     bool IsDead();
     float GetDistance(Vector3 origin);
     Transform GetTransform();
+    GameObject GetGameObject();
 }
 
 [System.Serializable]
