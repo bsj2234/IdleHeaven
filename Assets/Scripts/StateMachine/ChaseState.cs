@@ -6,12 +6,14 @@ public class ChaseState : BaseState
     private Transform target;
     private readonly Transform _transform;
     private readonly NavMeshAgent _navMeshAgent;
+    private AICharacterController _owner;
 
     public ChaseState(StateMachine stateMachine, Transform target) : base(stateMachine)
     {
         this.target = target;
         _transform = stateMachine.transform;
         _navMeshAgent = _transform.GetComponent<IMovableAI>().GetAgent();
+        _owner = _transform.GetComponent<AICharacterController>();
     }
 
     public override void EnterState()
@@ -26,6 +28,14 @@ public class ChaseState : BaseState
 
     public override void UpdateState()
     {
+        if (target == null)
+        {
+            SetTarget(_owner.GetNearestEnemy().GetTransform());
+            if (target == null)
+            {
+                stateMachine.ChangeState<IdleState>();
+            }
+        }
         Vector3 selftToTarget = target.position - _transform.position;
 
         bool isInAttackRange = Mathf.Abs(selftToTarget.y) < .5f && new Vector2(selftToTarget.x, selftToTarget.z).magnitude < 2f;
