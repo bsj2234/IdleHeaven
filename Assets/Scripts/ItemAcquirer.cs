@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ItemAcquirer : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log($"Test Trigger {other.gameObject.name}");
+        //뭘로 판단할까
+        if (other.TryGetComponent(out DroppedItem droppedItem))
+        {
+            if (droppedItem.GetAcquirer() == transform.parent)
+            {
+                Debug.Log("ItemAcquired");
+                Destroy(droppedItem.gameObject);
+            }
+        }
     }
 }

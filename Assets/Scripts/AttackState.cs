@@ -61,8 +61,7 @@ public class AttackState : BaseState
         if (isAttackable)
         {
             Debug.Log($"{_controller} attacked {target}");
-            Health enemyCombat = target.GetComponent<Health>();
-            Debug.Assert(enemyCombat != null, $"Enemy is null while {_controller.transform.name} try attacking");
+            Debug.Assert(targetCombat != null, $"Enemy is null while {_controller.transform.name} try attacking");
             _attack.DealDamage(target.GetComponent<Health>(), 30f);
             attackCooldown = 1f;
         }
