@@ -16,9 +16,6 @@ public class CharacterAIController : MonoBehaviour
     private StateMachine stateMachine;
     public Transform[] patrolWaypoints;
     public Transform chaseTarget;
-    public event Action<Transform> EnemyFoundHandler;
-
-
 
     private void OnValidate()
     {
