@@ -8,19 +8,21 @@ public class AttackState : BaseState
 
     Transform target;
     Health targetCombat;
-    AICharacterController owner;
+    CharacterAIController _controller;
     Attack _attack;
-    public AttackState(StateMachine stateMachine) : base(stateMachine)
+    Detector _detector;
+    public AttackState(StateMachine stateMachine, CharacterAIController controller, Attack attack ,Detector detector) : base(stateMachine)
     {
-        owner = stateMachine.Owner.GetComponent<AICharacterController>();
-        _attack = stateMachine.GetComponent<Attack>();
+        _controller = controller;
+        _attack = attack;
+        _detector = detector;
     }
 
     public AttackState SetTarget(Transform target)
     {
         this.target = target;
         targetCombat = target.GetComponent<Health>();
-        Debug.Assert(targetCombat != null, $"{owner.name} is Not Attackable Object");
+        Debug.Assert(targetCombat != null, $"{_controller.name} is Not Attackable Object");
         return this;
     }
 
@@ -36,10 +38,13 @@ public class AttackState : BaseState
     }
     public override void UpdateState()
     {
-        if(targetCombat.IsDead() || target == null)
+        if (targetCombat != null)
         {
-            owner.RemoveEnemy(targetCombat);
-            Health nextEnemy = owner.GetNearestEnemy();
+            if (targetCombat.IsDead())
+            {
+                _detector.RemoveTarget(targetCombat.transform);
+            }
+            Health nextEnemy = _detector.GetNearestTarget().GetComponent<Health>();
             if (nextEnemy!= null)
             {
                 stateMachine
@@ -55,9 +60,9 @@ public class AttackState : BaseState
         bool isAttackable = attackCooldown < 0f;
         if (isAttackable)
         {
-            Debug.Log($"{owner} attacked {target}");
+            Debug.Log($"{_controller} attacked {target}");
             Health enemyCombat = target.GetComponent<Health>();
-            Debug.Assert(enemyCombat != null, $"Enemy is null while {owner.transform.name} try attacking");
+            Debug.Assert(enemyCombat != null, $"Enemy is null while {_controller.transform.name} try attacking");
             _attack.DealDamage(target.GetComponent<Health>(), 30f);
             attackCooldown = 1f;
         }

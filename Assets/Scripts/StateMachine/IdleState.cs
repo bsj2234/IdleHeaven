@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class IdleState : BaseState
 {
-    private AICharacterController character;
-    public IdleState(StateMachine stateMachine) : base(stateMachine)
+    private CharacterAIController _character;
+    private Detector _detector;
+    public IdleState(StateMachine stateMachine, CharacterAIController _controller, Detector detector) : base(stateMachine)
     {
-        base.stateMachine = stateMachine;
-        character = stateMachine.Owner.GetComponent<AICharacterController>();
+        _character = _controller;
+        _detector = detector;
+        _detector.FoundTargetHandler += OnFoundEnemy;
     }
     public override void EnterState()
     {
@@ -20,5 +22,13 @@ public class IdleState : BaseState
         Debug.Log("Exiting Idle State");
     }
 
-    
+    void OnFoundEnemy(Transform enemy)
+    {
+        if (stateMachine.CurrentState == this)
+        {
+            stateMachine.GetState<ChaseState>()
+                .SetTarget(enemy)
+                .ChangeStateTo<ChaseState>();
+        }
+    }
 }
