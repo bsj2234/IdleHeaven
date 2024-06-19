@@ -1,9 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using IdleHeaven;
+using System.Linq;
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] List<Item> items = new List<Item>();
+    [SerializeField] List<Item> items;
+
+    [SerializeField] ItemAcquirer[] acquirers;
+
+    private void Awake()
+    {
+        acquirers = GetComponentsInChildren<ItemAcquirer>();
+        foreach (ItemAcquirer acquirer in acquirers)
+        {
+            acquirer.OnItemAcquired += HandleItemAcquired;
+        }
+
+    }
+
+    private void HandleItemAcquired(Item item)
+    {
+        AddItem(item);
+    }
 
     public void AddItem(Item item)
     {
