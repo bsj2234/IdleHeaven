@@ -6,8 +6,11 @@ namespace IdleHeaven
     [System.Serializable]
     public class Item
     {
+        [field: SerializeField]
         public string Name { get; set; }
+        [field: SerializeField]
         public ItemData ItemData { get; set; }
+        [field: SerializeField]
         public Sprite Icon { get; set; }
 
 
