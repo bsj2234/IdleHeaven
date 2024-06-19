@@ -12,9 +12,13 @@ public class Enemy : MonoBehaviour
     
     [SerializeField] GameObject item;
 
-    private void Start()
+    private void Awake()
     {
-        combat.OnDead += DestroySelf;
+        combat.OnDead += HandleDead;
+    }
+    private void OnDestroy()
+    {
+        combat.OnDead -= HandleDead;
     }
     private void OnValidate()
     {
@@ -25,7 +29,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void DestroySelf()
+    private void HandleDead()
     {
         Destroy(gameObject);
     }

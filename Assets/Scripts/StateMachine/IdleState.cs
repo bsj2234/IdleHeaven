@@ -8,7 +8,7 @@ public class IdleState : BaseState
     {
         _character = _controller;
         _detector = detector;
-        _detector.FoundTargetHandler += OnFoundEnemy;
+        _detector.OnFoundTarget += OnFoundEnemy;
     }
     public override void EnterState()
     {

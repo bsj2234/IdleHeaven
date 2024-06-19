@@ -16,7 +16,11 @@ public class ChaseState : BaseState
         _navMeshAgent = stateMachine.GetComponent<NavMeshAgent>();
         _owner = stateMachine.GetComponent<CharacterAIController>();
         _detector = detector;
-        _detector.FoundTargetHandler += OnFoundEnemy;
+        _detector.OnFoundTarget += HandleFoundEnemy;
+    }
+    ~ChaseState() 
+    {
+        _detector.OnFoundTarget -= HandleFoundEnemy;
     }
 
     public override void EnterState()
@@ -74,7 +78,7 @@ public class ChaseState : BaseState
         return this;
     }
 
-    void OnFoundEnemy(Transform enemy)
+    void HandleFoundEnemy(Transform enemy)
     {
         if (stateMachine.CurrentState == this)
         {

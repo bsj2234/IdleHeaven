@@ -15,7 +15,7 @@ public class Health : MonoBehaviour
     public Action<Attack> OnDamagedWAttacker { get; set; }
     public Action OnDead { get; set; }
     public Action<Attack> OnDeadWAttacker { get; set; }
-    public Func<bool> AdditionalDamageableCondition { get; set; }
+    public Func<bool> OnDamageableCheck { get; set; }
     public Action OnHeal { get; set; }
     private void Awake()
     {
@@ -57,9 +57,9 @@ public class Health : MonoBehaviour
             return false;
         }
         bool result = true;
-        if (AdditionalDamageableCondition != null)
+        if (OnDamageableCheck != null)
         {
-            result = result && AdditionalDamageableCondition.Invoke();
+            result = result && OnDamageableCheck.Invoke();
         }
         if (!result)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Detector : MonoBehaviour
 {
-    public Action<Transform> FoundTargetHandler;
+    public Action<Transform> OnFoundTarget;
     public Action<Transform> LooseTargetHandler;
 
     private List<Transform> _targetsInDetector = new List<Transform>();
@@ -17,10 +17,10 @@ public class Detector : MonoBehaviour
         //Debug.Log($"{name} Trigger Enter");
         if (other.CompareTag(_targetTag))
         {
-            if(FoundTargetHandler != null)
+            if(OnFoundTarget != null)
             {
                 Transform target = other.transform;
-                FoundTargetHandler.Invoke(target);
+                OnFoundTarget.Invoke(target);
 
                 _targetsInDetector.Add(target);
             }
