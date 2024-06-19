@@ -1,22 +1,13 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public interface IMovable
-{
-}
-public interface IMovableAI: IMovable
-{
-    public NavMeshAgent GetAgent();
-}
-
-[RequireComponent (typeof(StateMachine), typeof(Combat))]
-public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
+public class AICharacterController : MonoBehaviour
 {
     [SerializeField] bool AutoComponentSet = false;
-    [SerializeField] Combat combat;
+    [SerializeField] Health _health;
+    [SerializeField] Attack _attack;
     private Weapon weapon;
 
     [SerializeField] NavMeshAgent Agent_movement;
@@ -25,7 +16,7 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
     public Transform[] patrolWaypoints;
     public Transform chaseTarget;
     public event Action<Transform> EnemyFoundHandler;
-    private List<ICombat> attackAbleEnemies = new List<ICombat>();
+    private List<Health> attackAbleEnemies = new List<Health>();
 
 
     private void OnValidate()
@@ -38,13 +29,11 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
     private void AutoInit()
     {
         stateMachine = GetComponent<StateMachine>();
-        combat = GetComponent<Combat>();
+        _health = GetComponent<Health>();
     }
     //IsGrounded(Walk,Run)	IsFlying	IsSwimming	IsClimbing	IsJumping IsBurrowing	IsSliding	IsSwinging	IsCreeping	IsRolling	IsFloating	IsGliding	IsSoaring
     private void Start()
     {
-        combat.Init(transform);
-
         stateMachine = GetComponent<StateMachine>();
         stateMachine.Init(transform);
 
@@ -66,11 +55,11 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
     {
         stateMachine.ChangeState<AttackState>();
     }
-    private void OnFoundEnemy(ICombat target)
+    private void OnFoundEnemy(Health target)
     {
 
         attackAbleEnemies.Add(target);
-        Debug.Log($"Enemy found{target.GetTransform().name}");
+        Debug.Log($"Enemy found{target.transform.name}");
 
         if (stateMachine.CurrentState != stateMachine.GetState<AttackState>())
         {
@@ -92,34 +81,34 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
         //Debug.Log($"{name} Trigger Enter");
         if(other.CompareTag("Enemy"))
         {
-            OnFoundEnemy(other.transform.GetComponent<ICombat>());
+            OnFoundEnemy(other.transform.GetComponent<Health>());
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if(other.CompareTag("Enemy"))
         {
-            if(TryGetComponent(out ICombat enemyCombat))
+            if(TryGetComponent(out Health enemyCombat))
             {
-                if(!combat.IsDead())
+                if(!_health.IsDead())
                 {
                     OnLooseEnemy(enemyCombat);
                 }
             }
         }
     }
-    private void OnLooseEnemy(ICombat enemyCombat)
+    private void OnLooseEnemy(Health enemyCombat)
     {
         attackAbleEnemies.Remove(enemyCombat);
     }
-    public ICombat GetNearestEnemy()
+    public Health GetNearestEnemy()
     {
         if (attackAbleEnemies.Count == 0)
         {
             return null;
         }
         attackAbleEnemies.Sort(SortEnemy);
-        attackAbleEnemies.RemoveAll((item) => item.GetGameObject() == null);
+        attackAbleEnemies.RemoveAll((item) => item.gameObject == null);
         if (attackAbleEnemies.Count == 0)
         {
             return null;
@@ -127,7 +116,7 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
         string Enemy_array = "";
         foreach(var enemy in attackAbleEnemies)
         {
-            Enemy_array = $"{Enemy_array} ,{enemy.GetTransform().name}";
+            Enemy_array = $"{Enemy_array} ,{enemy.transform.name}";
         }
         Debug.Log(Enemy_array);
 
@@ -141,84 +130,41 @@ public class AICharacterController : MonoBehaviour, IMovableAI, ICombat
         return result;
     }
 
-    private int SortEnemy(ICombat lhs, ICombat rhs)
+    private int SortEnemy(Health lhs, Health rhs)
     {
         if(lhs == null)
         {
-            Debug.Log(1);
             return -1;
         }
         if(rhs == null)
         {
-            Debug.Log(2);
             return 1;
         }
-        if(lhs.GetGameObject() == null)
-        {
-            Debug.Log(3);
-
-            return -1;
-        }
-        if( rhs.GetGameObject() == null)
-        {
-            Debug.Log(4);
-            return 1;
-        }
-        return rhs.GetDistance(transform.position).CompareTo(lhs.GetDistance(transform.position));
+        float DistanceToLhs = Vector3.Distance(lhs.transform.position,transform.position);
+        float DistanceToRhs = Vector3.Distance(rhs.transform.position,transform.position);
+        return DistanceToRhs.CompareTo(DistanceToLhs);
     }
 
-    public void RemoveEnemy(ICombat combat)
+    public void RemoveEnemy(Health enemy)
     {
         if (attackAbleEnemies.Count == 0)
         {
             Debug.Log("Tried pop but empty");
             return;
         }
-        attackAbleEnemies.Remove(combat);
-    }
-    public NavMeshAgent GetAgent()
-    {
-        return Agent_movement;
-    }
-    public Combat GetCombat()
-    {
-        return combat;
-    }
-    public void TakeDamage(ICombat attackerCombat, float damage)
-    {
-        combat.TakeDamage(attackerCombat.GetCombat(), damage);
-    }
-    public void Attack(ICombat targetCombat, float damage)
-    {
-        combat.DealDamage( targetCombat.GetCombat(),damage);
-    }
-    public bool IsDead()
-    {
-        return combat.IsDead();
+        attackAbleEnemies.Remove(enemy);
     }
     public float GetDistance(Vector3 origin)
     {
         return Vector3.Distance(origin, transform.position);
     }
-    public Transform GetTransform()
-    {
-        return transform;
-    }
-
     public void KillNearlestEnemy()
     {
-        ICombat nearestEnmey = GetNearestEnemy();
+        Health nearestEnmey = GetNearestEnemy();
         if (nearestEnmey == null)
         {
             return;
         }
-        combat.DealDamage(nearestEnmey.GetCombat(),99999);
-    }
-
-    public GameObject GetGameObject()
-    {
-        if (this == null)
-            return null;
-        return gameObject;
+        _attack.DealDamage(nearestEnmey,99999);
     }
 }

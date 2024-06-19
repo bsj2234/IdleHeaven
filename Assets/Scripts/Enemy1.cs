@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Combat))]
+[RequireComponent(typeof(Attack))]
 public class Enemy1 : MonoBehaviour, ICombat
 {
     [SerializeField] bool autoSet = false;
-    [SerializeField] Combat combat;
+    [SerializeField] Attack combat;
 
     [SerializeField] ItemSpawner spawner;
     
@@ -21,7 +21,7 @@ public class Enemy1 : MonoBehaviour, ICombat
     {
         if(autoSet)
         {
-            combat = GetComponent<Combat>();
+            combat = GetComponent<Attack>();
             autoSet = false;
         }
     }
@@ -32,7 +32,7 @@ public class Enemy1 : MonoBehaviour, ICombat
         targetCombat.TakeDamage(this, damage);
     }
 
-    public Combat GetCombat()
+    public Attack GetCombat()
     {
         return combat;
     }
