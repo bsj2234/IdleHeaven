@@ -10,7 +10,7 @@ public class ItemDroper : MonoBehaviour
     private void Awake()
     {
         AICharacterController characterController = GetComponent<AICharacterController>();
-        Attack combat = GetComponent<Attack>();
+        Health combat = GetComponent<Health>();
         combat.OnDeadWAttacker += DropItem;
     }
 

@@ -7,17 +7,19 @@ public class AttackState : BaseState
     float attackCooldown = 0f;
 
     Transform target;
-    ICombat targetCombat;
+    Health targetCombat;
     AICharacterController owner;
+    Attack _attack;
     public AttackState(StateMachine stateMachine) : base(stateMachine)
     {
         owner = stateMachine.Owner.GetComponent<AICharacterController>();
+        _attack = stateMachine.GetComponent<Attack>();
     }
 
     public AttackState SetTarget(Transform target)
     {
         this.target = target;
-        targetCombat = target.GetComponent<ICombat>();
+        targetCombat = target.GetComponent<Health>();
         Debug.Assert(targetCombat != null, $"{owner.name} is Not Attackable Object");
         return this;
     }
@@ -37,12 +39,12 @@ public class AttackState : BaseState
         if(targetCombat.IsDead() || target == null)
         {
             owner.RemoveEnemy(targetCombat);
-            ICombat nextEnemy = owner.GetNearestEnemy();
+            Health nextEnemy = owner.GetNearestEnemy();
             if (nextEnemy!= null)
             {
                 stateMachine
                     .GetState<ChaseState>()
-                    .SetTarget(nextEnemy.GetTransform())
+                    .SetTarget(nextEnemy.transform)
                     .ChangeStateTo<ChaseState>();
             }
             else
@@ -54,9 +56,9 @@ public class AttackState : BaseState
         if (isAttackable)
         {
             Debug.Log($"{owner} attacked {target}");
-            ICombat enemyCombat = target.GetComponent<ICombat>();
+            Health enemyCombat = target.GetComponent<Health>();
             Debug.Assert(enemyCombat != null, $"Enemy is null while {owner.transform.name} try attacking");
-            owner.Attack(target.GetComponent<ICombat>(), 30f);
+            _attack.DealDamage(target.GetComponent<Health>(), 30f);
             attackCooldown = 1f;
         }
         else

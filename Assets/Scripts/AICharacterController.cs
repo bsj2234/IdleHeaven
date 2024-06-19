@@ -63,13 +63,13 @@ public class AICharacterController : MonoBehaviour
 
         if (stateMachine.CurrentState != stateMachine.GetState<AttackState>())
         {
-            stateMachine.GetState<ChaseState>().SetTarget(GetNearestEnemy().GetTransform());
+            stateMachine.GetState<ChaseState>().SetTarget(GetNearestEnemy().transform);
             stateMachine.ChangeState<ChaseState>();
         }
 
         if (EnemyFoundHandler != null)
         {
-            EnemyFoundHandler.Invoke(GetNearestEnemy().GetTransform());
+            EnemyFoundHandler.Invoke(GetNearestEnemy().transform);
         }
         else
         {

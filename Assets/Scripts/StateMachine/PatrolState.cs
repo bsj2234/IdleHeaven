@@ -14,7 +14,7 @@ public class PatrolState : BaseState
     {
         this.waypoints = waypoints;
         this._transform = stateMachine.transform;
-        _navMeshAgent = _transform.GetComponent<IMovableAI>().GetAgent();
+        _navMeshAgent = _transform.GetComponent<NavMeshAgent>();
     }
 
      public override void EnterState()

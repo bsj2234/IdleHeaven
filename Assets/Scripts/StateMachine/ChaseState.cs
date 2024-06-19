@@ -12,7 +12,7 @@ public class ChaseState : BaseState
     {
         this.target = target;
         _transform = stateMachine.transform;
-        _navMeshAgent = _transform.GetComponent<IMovableAI>().GetAgent();
+        _navMeshAgent = _transform.GetComponent<NavMeshAgent>();
         _owner = _transform.GetComponent<AICharacterController>();
     }
 
@@ -30,13 +30,13 @@ public class ChaseState : BaseState
     {
         if (target == null)
         {
-            ICombat NearestEnemy = _owner.GetNearestEnemy();
+            Health NearestEnemy = _owner.GetNearestEnemy();
             if (NearestEnemy == null)
             {
                 stateMachine.ChangeState<IdleState>();
                 return;
             }
-            SetTarget(NearestEnemy.GetTransform());
+            SetTarget(NearestEnemy.transform);
             if (target == null)
             {
                 stateMachine.ChangeState<IdleState>();
