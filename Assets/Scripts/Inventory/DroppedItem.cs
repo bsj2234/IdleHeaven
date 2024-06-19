@@ -31,4 +31,9 @@ public class DroppedItem : MonoBehaviour
     {
         return _item;
     }
+
+    public void Init(Item item)
+    {
+        _item = item;
+    }
 }

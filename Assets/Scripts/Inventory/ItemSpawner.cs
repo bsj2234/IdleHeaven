@@ -11,6 +11,7 @@ public class ItemSpawner : MonoBehaviour
         Instantiate(item.ItemData.ItemPrefab, position.position, position.rotation)
             .TryGetComponent(out DroppedItem itemObj);
         itemObj.GetComponent<ItemMono>().Init(item);
-        return itemObj;
+        itemObj.Init(item);
+         return itemObj;
     }
 }
