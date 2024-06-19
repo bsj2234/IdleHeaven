@@ -1,16 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IInventory
-{
-    void AddItem(ItemInfo item);
-    void RemoveItem(ItemInfo item);
-    bool ContainsItem(ItemInfo item);
-    ItemInfo FindItemByName(string itemName);
-    IEnumerable<ItemInfo> GetItems();
-}
-
-public class Inventory : MonoBehaviour, IInventory
+public class Inventory : MonoBehaviour
 {
     private List<ItemInfo> items = new List<ItemInfo>();
 
