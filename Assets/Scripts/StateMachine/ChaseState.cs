@@ -6,14 +6,17 @@ public class ChaseState : BaseState
     private Transform target;
     private readonly Transform _transform;
     private readonly NavMeshAgent _navMeshAgent;
-    private AICharacterController _owner;
+    private CharacterAIController _owner;
+    private Detector _detector;
 
-    public ChaseState(StateMachine stateMachine, Transform target) : base(stateMachine)
+    public ChaseState(StateMachine stateMachine, Transform target, Detector detector) : base(stateMachine)
     {
         this.target = target;
         _transform = stateMachine.transform;
-        _navMeshAgent = _transform.GetComponent<NavMeshAgent>();
-        _owner = _transform.GetComponent<AICharacterController>();
+        _navMeshAgent = stateMachine.GetComponent<NavMeshAgent>();
+        _owner = stateMachine.GetComponent<CharacterAIController>();
+        _detector = detector;
+        _detector.FoundTargetHandler += OnFoundEnemy;
     }
 
     public override void EnterState()
@@ -30,7 +33,7 @@ public class ChaseState : BaseState
     {
         if (target == null)
         {
-            Health NearestEnemy = _owner.GetNearestEnemy();
+            Transform NearestEnemy = _detector.GetNearestTarget();
             if (NearestEnemy == null)
             {
                 stateMachine.ChangeState<IdleState>();
@@ -69,5 +72,15 @@ public class ChaseState : BaseState
             Debug.Log("Update target");
         }
         return this;
+    }
+
+    void OnFoundEnemy(Transform enemy)
+    {
+        if (stateMachine.CurrentState == this)
+        {
+            stateMachine.GetState<ChaseState>()
+                .SetTarget(enemy)
+                .ChangeStateTo<ChaseState>();
+        }
     }
 }

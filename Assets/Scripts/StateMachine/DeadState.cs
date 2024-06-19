@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DeadState : BaseState
 {
-    private AICharacterController character;
+    private CharacterAIController character;
     public DeadState(StateMachine stateMachine) : base(stateMachine)
     {
         base.stateMachine = stateMachine;
