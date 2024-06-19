@@ -1,5 +1,5 @@
 using UnityEngine;
-public class DisableFrustrumCulling : MonoBehaviour
+public class CustomFrustrum: MonoBehaviour
 {
     private Camera cam;
 
