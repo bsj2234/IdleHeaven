@@ -38,13 +38,17 @@ public class AttackState : BaseState
     }
     public override void UpdateState()
     {
-        if (targetCombat != null)
+        bool isDestroyedOrDead = targetCombat == null || targetCombat.IsDead();
+        if (isDestroyedOrDead)
         {
-            if (targetCombat.IsDead())
+            bool isDestroyedAndDead = targetCombat != null && targetCombat.IsDead();
+            if (isDestroyedAndDead)
             {
                 _detector.RemoveTarget(targetCombat.transform);
             }
+
             Health nextEnemy = _detector.GetNearestTarget().GetComponent<Health>();
+
             if (nextEnemy!= null)
             {
                 stateMachine
