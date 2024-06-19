@@ -82,8 +82,10 @@ public class ChaseState : BaseState
     {
         if (stateMachine.CurrentState == this)
         {
+            Transform target = _detector.GetNearestTarget();
+            Debug.Assert(target != null);
             stateMachine.GetState<ChaseState>()
-                .SetTarget(enemy)
+                .SetTarget(target)
                 .ChangeStateTo<ChaseState>();
         }
     }
