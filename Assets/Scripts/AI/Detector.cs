@@ -20,9 +20,9 @@ public class Detector : MonoBehaviour
             if(OnFoundTarget != null)
             {
                 Transform target = other.transform;
-                OnFoundTarget.Invoke(target);
 
                 _targetsInDetector.Add(target);
+                OnFoundTarget.Invoke(target);
             }
         }
     }
@@ -45,12 +45,14 @@ public class Detector : MonoBehaviour
     {
         if (_targetsInDetector.Count == 0)
         {
+            Debug.Log(1);
             return null;
         }
         _targetsInDetector.Sort(SortTarget);
         _targetsInDetector.RemoveAll((item) => item == null);
         if (_targetsInDetector.Count == 0)
         {
+            Debug.Log(2);
             return null;
         }
 
@@ -67,6 +69,7 @@ public class Detector : MonoBehaviour
                 result = _targetsInDetector[i];
             }
         }
+        Debug.Log(3);
         return result;
     }
 
