@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4952192514014866964}
   - component: {fileID: -8142907294717851281}
   - component: {fileID: -1039042427795680179}
+  - component: {fileID: -721634603165269476}
   m_Layer: 0
   m_Name: TestAmulet1
   m_TagString: Untagged
@@ -135,4 +136,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab64cb7173ef32429ba7c7232b8e496, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Acquirer: {fileID: 0}
+  _acquirer: {fileID: 0}
+--- !u!114 &-721634603165269476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005229118967789176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258dc076027412249b0cc8ceb9c73d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

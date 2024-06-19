@@ -1,35 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using IdleHeaven;
 public class Inventory : MonoBehaviour
 {
-    private List<ItemInfo> items = new List<ItemInfo>();
+    [SerializeField] List<Item> items = new List<Item>();
 
-    public void AddItem(ItemInfo item)
+    public void AddItem(Item item)
     {
         items.Add(item);
     }
 
-    public void RemoveItem(ItemInfo item)
+    public void RemoveItem(Item item)
     {
         items.Remove(item);
     }
 
-    public bool ContainsItem(ItemInfo item)
+    public bool ContainsItem(Item item)
     {
         return items.Contains(item);
     }
-    public ItemInfo FindItemByName(string itemName)
+    public Item FindItemByName(string itemName)
     {
         return items.Find(other => itemName == other.Name);
     }
 
-    public IEnumerable<ItemInfo> GetItems()
+    public IEnumerable<Item> GetItems()
     {
         return items;
     }
 
-    public List<ItemInfo> GetAllItems()
+    public List<Item> GetAllItems()
     {
         return items;
     }

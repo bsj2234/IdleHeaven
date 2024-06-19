@@ -4672,7 +4672,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &242226558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16810,12 +16810,11 @@ GameObject:
   - component: {fileID: 853593453}
   - component: {fileID: 853593452}
   - component: {fileID: 853593454}
-  - component: {fileID: 853593455}
-  - component: {fileID: 853593456}
-  - component: {fileID: 853593457}
-  - component: {fileID: 853593458}
   - component: {fileID: 853593460}
   - component: {fileID: 853593459}
+  - component: {fileID: 853593456}
+  - component: {fileID: 853593457}
+  - component: {fileID: 853593461}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -16836,8 +16835,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoComponentSet: 0
-  _health: {fileID: 0}
-  _attack: {fileID: 0}
+  _health: {fileID: 853593460}
+  _attack: {fileID: 853593459}
+  _detector: {fileID: 1207944502}
   Agent_movement: {fileID: 853593457}
   patrolWaypoints:
   - {fileID: 1614233167}
@@ -16875,27 +16875,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f107c429e58fad458bca4da1e2f8795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &853593455
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853593451}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 16.3
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &853593456
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16945,25 +16924,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &853593458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853593451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 792c8c603db982a43953e61d4a883c3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _owner: {fileID: 0}
-  initalMaxHp: 0
-  _maxHp: 100
-  _hp: 100
-  _dead: 0
-  _invincibleTimeOnHit: 0.1
-  _prevHitTime: 0
 --- !u!114 &853593459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16995,6 +16955,19 @@ MonoBehaviour:
   _invincibleTimeOnHit: 0.1
   _prevHitTime: 0
   _attackComponentOfSelf: {fileID: 0}
+--- !u!114 &853593461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853593451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8d68526d50286141aa8f10eca510f0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
 --- !u!1 &856353424
 GameObject:
   m_ObjectHideFlags: 0
@@ -24193,6 +24166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1207944501}
   - component: {fileID: 1207944502}
+  - component: {fileID: 1207944503}
   m_Layer: 0
   m_Name: EnemyDetector
   m_TagString: Untagged
@@ -24228,6 +24202,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetTag: Enemy
+--- !u!135 &1207944503
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207944500}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 999
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1209188029
 GameObject:
   m_ObjectHideFlags: 0
@@ -39815,6 +39810,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas_Inventory
+      objectReference: {fileID: 0}
+    - target: {fileID: 2632158774657550264, guid: 58fbf1ddb05137c4291cca1e6b5edca5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2973087036710616528, guid: 58fbf1ddb05137c4291cca1e6b5edca5,
         type: 3}

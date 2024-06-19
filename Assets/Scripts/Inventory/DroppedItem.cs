@@ -10,7 +10,7 @@ public class DroppedItem : MonoBehaviour
     private Item _item;
     private void OnEnable()
     {
-        _item = GetComponent<Item>();
+        _item = GetComponent<ItemMono>().Item;
     }
     private void OnDisable()
     {

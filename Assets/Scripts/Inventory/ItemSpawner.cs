@@ -6,10 +6,11 @@ using IdleHeaven;
 public class ItemSpawner : MonoBehaviour
 {
     [SerializeField] public ItemGenerator generator;
-    public DroppedItem SpawnItem(Transform position, GameObject itemPrefab)
+    public DroppedItem SpawnItem(Transform position, Item item)
     {
-        Instantiate(itemPrefab, position.position, position.rotation)
+        Instantiate(item.ItemData.ItemPrefab, position.position, position.rotation)
             .TryGetComponent(out DroppedItem itemObj);
+        itemObj.GetComponent<ItemMono>().Init(item);
         return itemObj;
     }
 }
