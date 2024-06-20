@@ -11,7 +11,7 @@ public class ReplaceWithPrefabEditor : Editor
 {
     private static int objectPickerID;
 
-    [MenuItem("GameObject/Replace Selected Objects With Prefab", false, 0)]
+    [MenuItem("GameObject/Prefab/Replace Selected Objects With Prefab", false, 0)]
     private static void ReplaceWithSelectedPrefab()
     {
         if (Selection.gameObjects.Length > 0)
@@ -54,7 +54,7 @@ public class ReplaceWithPrefabEditor : Editor
         }
     }
 
-    [MenuItem("GameObject/Replace Selected Objects With Prefab", true)]
+    [MenuItem("GameObject/Prefab/Replace Selected Objects With Prefab", true)]
     private static bool ValidateReplaceWithSelectedPrefab()
     {
         return Selection.gameObjects.Length > 0;
