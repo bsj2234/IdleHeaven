@@ -1,6 +1,12 @@
 using UnityEditor;
 using UnityEngine;
-
+/// <summary>
+///  i did not know it was provied in unity
+///  but still the menu was not visible sometime so i will keep it
+///  
+/// HOW TO USE
+/// select objects and right clit ti select replace selected objects with prefab
+/// </summary>
 public class ReplaceWithPrefabEditor : Editor
 {
     private static int objectPickerID;
