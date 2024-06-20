@@ -9,6 +9,7 @@ namespace IdleHeaven
         [SerializeField] private string _itemName;
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private string _description;
+        [SerializeField] private Sprite _icon;
 
 
         public string ItemName
@@ -36,6 +37,12 @@ namespace IdleHeaven
         {
             get { return _description; }
             set { _description = value; }
+        }
+
+        public Sprite Icon
+        {
+            get { return _icon; }
+            set { _icon = value; }
         }
     }
 
