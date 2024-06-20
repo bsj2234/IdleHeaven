@@ -86,7 +86,7 @@ namespace IdleHeaven
                     Debug.Assert(false);
                     return null;
             }
-            Item item = new Item($"{data.ItemPrefab.name}",null,data);
+            Item item = new Item($"{data.ItemPrefab.name}",data);
             return item;
 
 
