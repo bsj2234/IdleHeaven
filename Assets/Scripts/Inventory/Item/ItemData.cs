@@ -10,9 +10,33 @@ namespace IdleHeaven
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private string _description;
 
-        public string ItemName => _itemName;
-        public GameObject ItemPrefab => _itemPrefab;
-        public string Description => _description;
+
+        public string ItemName
+        {
+            get { return _itemName; }
+            set { _itemName = value; }
+        }
+
+        public GameObject ItemPrefab
+        {
+            get { return _itemPrefab; }
+            set { _itemPrefab = value; }
+        }
+
+        public string PrefabPath
+        {
+            set
+            {
+                GameObject prefab = ResourceLoader.LoadPrefab(value);
+                _itemPrefab = prefab;
+            }
+        }
+
+        public string Description
+        {
+            get { return _description; }
+            set { _description = value; }
+        }
     }
 
     [System.Serializable]
@@ -22,8 +46,17 @@ namespace IdleHeaven
         [SerializeField] private ICharacterEffector[] _effects;
         [SerializeField] private IRequirement _useRequirement;
 
-        public ICharacterEffector[] Effects => _effects;
-        public IRequirement UseRequirement => _useRequirement;
+        public ICharacterEffector[] Effects
+        {
+            get { return _effects; }
+            set { _effects = value; }
+        }
+
+        public IRequirement UseRequirement
+        {
+            get { return _useRequirement; }
+            set { _useRequirement = value; }
+        }
     }
 
     [System.Serializable]
@@ -32,8 +65,17 @@ namespace IdleHeaven
         [SerializeField] private ICharacterEffector[] _effects;
         [SerializeField] private IRequirement _equipRequirement;
 
-        public ICharacterEffector[] Effects => _effects;
-        public IRequirement EquipRequirement => _equipRequirement;
+        public ICharacterEffector[] Effects
+        {
+            get { return _effects; }
+            set { _effects = value; }
+        }
+
+        public IRequirement EquipRequirement
+        {
+            get { return _equipRequirement; }
+            set { _equipRequirement = value; }
+        }
     }
 
     [System.Serializable]
@@ -45,10 +87,29 @@ namespace IdleHeaven
         [SerializeField] private int _minDamage;
         [SerializeField] private int _maxDamage;
 
-        public string WeaponType => _weaponType;
-        public string AttackSpeed => _attackSpeed;
-        public int MinDamage => _minDamage;
-        public int MaxDamage => _maxDamage;
+        public string WeaponType
+        {
+            get { return _weaponType; }
+            set { _weaponType = value; }
+        }
+
+        public string AttackSpeed
+        {
+            get { return _attackSpeed; }
+            set { _attackSpeed = value; }
+        }
+
+        public int MinDamage
+        {
+            get { return _minDamage; }
+            set { _minDamage = value; }
+        }
+
+        public int MaxDamage
+        {
+            get { return _maxDamage; }
+            set { _maxDamage = value; }
+        }
     }
 
     [System.Serializable]
@@ -57,7 +118,11 @@ namespace IdleHeaven
     {
         [SerializeField] private int _defenseValue;
 
-        public int DefenseValue => _defenseValue;
+        public int DefenseValue
+        {
+            get { return _defenseValue; }
+            set { _defenseValue = value; }
+        }
     }
 
     [System.Serializable]
@@ -66,6 +131,12 @@ namespace IdleHeaven
     {
         [SerializeField] private int _resistanceValue;
 
-        public int ResistanceValue => _resistanceValue;
+        public int ResistanceValue
+        {
+            get { return _resistanceValue; }
+            set { _resistanceValue = value; }
+        }
     }
 }
+
+
