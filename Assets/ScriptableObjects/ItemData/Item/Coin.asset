@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1418db8837d084fb2b1543b5a8d013, type: 3}
   m_Name: Coin
   m_EditorClassIdentifier: 
-  _itemName: 
-  _itemPrefab: {fileID: 0}
-  _description: 
+  _itemName: Coin
+  _itemPrefab: {fileID: 1005229118967789176, guid: 7cae8a6533a4dcf42acfa3c5c2c3e92e,
+    type: 3}
+  _description: 'It''s a Coin! '
