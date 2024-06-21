@@ -7,32 +7,31 @@ using UnityEngine;
 
 public class CharacterStatView : MonoBehaviour
 {
-    [SerializeField] CharacterStats _characterStats;
-    [SerializeField] List<HrizontalNamedLable> valuse;
+    [SerializeField] CharacteStatsViewModel _viewModel;
+    [SerializeField] List<HrizontalNamedLable> values;
 
-    
 
     private void OnEnable()
     {
-        foreach (var stat in _characterStats.Stats.stats)
+        if(_viewModel == null)
         {
-            stat.PropertyChanged += Stat_OnStatChanged;
+            _viewModel = new CharacteStatsViewModel();
+
         }
+        _viewModel.Init();
+        _viewModel.PropertyChanged += ViewModel_PropertyChanged;
     }
 
     private void OnDisable()
     {
-        foreach (var stat in _characterStats.Stats.stats)
-        {
-            stat.PropertyChanged -= Stat_OnStatChanged;
-        }
+        _viewModel.PropertyChanged -= ViewModel_PropertyChanged;
     }
 
-    private void Stat_OnStatChanged(object sender, PropertyChangedEventArgs e)
+    private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
-            case "Value":
+            case "Stat":
                 UpdateStatView(sender as Stat);
                 break;
             default:
@@ -42,15 +41,15 @@ public class CharacterStatView : MonoBehaviour
 
     private void UpdateStatView(Stat stat)
     {
-        valuse[(int)stat.StatType].Name.text = stat.StatType.ToString();
-        valuse[(int)stat.StatType].Value.text = stat.Value.ToString();
+        values[(int)stat.StatType].Name.text = stat.StatType.ToString();
+        values[(int)stat.StatType].Value.text = stat.Value.ToString();
     }
 
     public void TestMVVM()
     {
-        foreach (var stat in _characterStats.Stats.stats)
+        foreach(var stat in _viewModel._characterStats.Stats.stats)
         {
-            stat.Value += 1;
+            stat.Value += 10;
         }
     }
 }

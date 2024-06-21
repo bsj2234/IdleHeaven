@@ -21,9 +21,9 @@ namespace IdleHeaven
 
 
     [System.Serializable]
-    public class Stat : INotifyPropertyChanged
+    public class Stat
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event Action<Stat> StatChanged;
 
         [SerializeField]
         private StatType _statType;
@@ -57,7 +57,10 @@ namespace IdleHeaven
 
         public void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if(StatChanged != null)
+            {
+                StatChanged(this);
+            }
         }
     }
 
@@ -118,6 +121,14 @@ namespace IdleHeaven
             foreach (Stat stat in other.stats)
             {
                 this[stat.StatType] += stat.Value;
+            }
+        }
+
+        internal void SubtractStats(Stats other)
+        {
+            foreach (Stat stat in other.stats)
+            {
+                this[stat.StatType] -= stat.Value;
             }
         }
     }

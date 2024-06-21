@@ -2,21 +2,54 @@ using IdleHeaven;
 using System.ComponentModel;
 using UnityEngine;
 
-public class CharacteStatsViewModel : Notifier
+[System.Serializable]
+public class CharacteStatsViewModel : INotifyPropertyChanged
 {
-    public Stats _characterStats;
+    public CharacterStats _characterStats;
 
     public CharacteStatsViewModel()
     {
-        foreach (var stat in _characterStats.stats)
+        if(_characterStats != null)
         {
-            stat.PropertyChanged += OnPlayerStatChanged;
+            foreach (Stat stat in _characterStats.Stats.stats)
+            {
+                if (stat != null)
+                    stat.StatChanged += HandleStatChanged;
+            }
+            Debug.LogError("CharacterStats is Not null");
+        }
+        else
+        {
+            Debug.LogError("CharacterStats is null");
         }
     }
 
-    public void OnPlayerStatChanged(object sender, PropertyChangedEventArgs e)
+    public void Init()
     {
-        Debug.Log("Stat changed: " + e.PropertyName);
+
+        if (_characterStats != null)
+        {
+            foreach (Stat stat in _characterStats.Stats.stats)
+            {
+                if (stat != null)
+                    stat.StatChanged += HandleStatChanged;
+            }
+            Debug.LogError("CharacterStats is Not null");
+        }
+        else
+        {
+            Debug.LogError("CharacterStats is null");
+        }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public void HandleStatChanged(Stat Stat)
+    {
+        if (PropertyChanged != null)
+        {
+            PropertyChanged.Invoke(Stat, new PropertyChangedEventArgs(nameof(Stat)));
+        }
     }
 
 }
