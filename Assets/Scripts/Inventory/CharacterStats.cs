@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using IdleHeaven;
 
 namespace IdleHeaven
 {
@@ -10,6 +11,8 @@ namespace IdleHeaven
 
 
         private Stats _stats = new Stats();
+
+        private Stats _effectBonusStats = new Stats();
         private Stats _equipmentBonusStats = new Stats();
 
         private Equipments equipments;
@@ -35,12 +38,30 @@ namespace IdleHeaven
                 _equipmentBonusStats.AddStat(equipment.GetStatBonus());
             }
         }
-
         private void OnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
         {
             RefreshEquipmentStats(equipments);
         }
-        private void UnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+        private void OnUnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+        {
+            RefreshEquipmentStats(equipments);
+        }
+
+        public void RefreshEffectStats(ICharacterEffector effector)
+        {
+            _effectBonusStats.Clear();
+            if (effector is StatChangeEffect statChangeEffect)
+            {
+                statChangeEffect
+                    .SetTarget(_effectBonusStats)
+                    .ApplyEffect();
+            }
+        }
+        private void OnEffectAffected(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+        {
+            RefreshEquipmentStats(equipments);
+        }
+        private void OnEffectUnaffected(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
         {
             RefreshEquipmentStats(equipments);
         }

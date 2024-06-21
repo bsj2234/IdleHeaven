@@ -4,37 +4,27 @@ namespace IdleHeaven
 {
     public interface ICharacterEffector
     {
-        void ApplyEffect(GameObject character);
+        void ApplyEffect();
     }
 
     [System.Serializable]
-    public class HpEffect : ScriptableObject, ICharacterEffector
+    public class StatChangeEffect : ScriptableObject, ICharacterEffector
     {
-        [SerializeField] private int _hpChange;
+        [SerializeField] private StatType _statType;
+        [SerializeField] private float _value;
 
-        public void ApplyEffect(GameObject character)
+        private Stats _target;
+
+        public StatChangeEffect SetTarget(Stats target)
         {
-            CharacterStats stats = character.GetComponent<CharacterStats>();
-            if (stats != null)
-            {
-                stats.ChangeHp(_hpChange);
-            }
+            _target = target;
+            return this;
+        }
+
+        public void ApplyEffect()
+        {
+            _target[_statType] += _value;
         }
     }
 
-    [System.Serializable]
-    public class StatEffect : ScriptableObject, ICharacterEffector
-    {
-        [SerializeField] private string _statName;
-        [SerializeField] private int _statChange;
-
-        public void ApplyEffect(GameObject character)
-        {
-            CharacterStats stats = character.GetComponent<CharacterStats>();
-            if (stats != null)
-            {
-                stats.ChangeStat(_statName, _statChange);
-            }
-        }
-    }
 }

@@ -46,7 +46,7 @@ namespace IdleHeaven
                     weaponData.AttackSpeed = attackSpeed;
                     weaponData.MinDamage = minDamage;
                     weaponData.MaxDamage = maxDamage;
-                    WeaponItem weaponItem = new WeaponItem(itemName, weaponData, (minDamage + maxDamage) / 2);
+                    EquipmentItem weaponItem = new EquipmentItem(itemName, weaponData);
                     items.Add(weaponItem);
                 }
                 else if (itemType == "Armor")
@@ -57,7 +57,7 @@ namespace IdleHeaven
                     armorData.Description = description;
                     armorData.PrefabPath = prefabPath;
                     armorData.DefenseValue = defenseValue;
-                    EquipmentItem armorItem = new EquipmentItem(itemName, armorData, defenseValue);
+                    EquipmentItem armorItem = new EquipmentItem(itemName, armorData);
                     items.Add(armorItem);
                 }
                 else if (itemType == "Usable")

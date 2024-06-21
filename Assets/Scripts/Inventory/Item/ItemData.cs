@@ -72,6 +72,7 @@ namespace IdleHeaven
         [SerializeField] ICharacterEffector[] _effects;
         [SerializeField] IRequirement _equipRequirement;
         [SerializeField] Stats _bonusStats;
+        [SerializeField] EquipmentSlot _equipmentSlot;
 
         public ICharacterEffector[] Effects
         {
@@ -89,6 +90,12 @@ namespace IdleHeaven
         {
             get { return _bonusStats; }
             set { _bonusStats = value; }
+        }
+
+        public EquipmentSlot EquipmentSlot
+        {
+            get { return _equipmentSlot; }
+            set { _equipmentSlot = value; }
         }
     }
 
