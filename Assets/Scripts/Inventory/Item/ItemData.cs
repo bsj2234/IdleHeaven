@@ -69,8 +69,9 @@ namespace IdleHeaven
     [System.Serializable]
     public abstract class EquipmentData : ItemData
     {
-        [SerializeField] private ICharacterEffector[] _effects;
-        [SerializeField] private IRequirement _equipRequirement;
+        [SerializeField] ICharacterEffector[] _effects;
+        [SerializeField] IRequirement _equipRequirement;
+        [SerializeField] Stats _bonusStats;
 
         public ICharacterEffector[] Effects
         {
@@ -82,6 +83,12 @@ namespace IdleHeaven
         {
             get { return _equipRequirement; }
             set { _equipRequirement = value; }
+        }
+
+        public Stats BonusStats
+        {
+            get { return _bonusStats; }
+            set { _bonusStats = value; }
         }
     }
 
