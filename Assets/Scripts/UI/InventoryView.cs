@@ -1,4 +1,5 @@
 using UnityEngine;
+using IdleHeaven;
 
 public class InventoryView : MonoBehaviour, IView
 {

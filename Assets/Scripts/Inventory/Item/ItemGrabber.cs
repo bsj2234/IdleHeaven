@@ -18,7 +18,6 @@ public class ItemGrabber : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log(_target != null);
         if (_target == null)
             return;
         //처음 위치에서 타겟 위치까지 이동시킴

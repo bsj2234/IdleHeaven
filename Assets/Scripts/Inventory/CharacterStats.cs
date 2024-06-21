@@ -6,18 +6,12 @@ namespace IdleHeaven
 {
     public class CharacterStats : MonoBehaviour
     {
-        [SerializeField] private int _level;
-        [SerializeField] private int _hp;
-
-
-        private Stats _stats = new Stats();
+        public Stats Stats;
 
         private Stats _effectBonusStats = new Stats();
         private Stats _equipmentBonusStats = new Stats();
 
         private Equipments equipments;
-
-        public int Level => _level;
 
         private void Awake()
         {
@@ -27,7 +21,7 @@ namespace IdleHeaven
 
         public float GetStatValue(StatType statType)
         {
-            return _stats[statType];
+            return Stats[statType];
         }
 
         public void RefreshEquipmentStats(Equipments equipments)
@@ -35,7 +29,7 @@ namespace IdleHeaven
             _equipmentBonusStats.Clear();
             foreach (EquipmentItem equipment in equipments.GetEquippedItems().Values)
             {
-                _equipmentBonusStats.AddStat(equipment.GetStatBonus());
+                _equipmentBonusStats.AddStats(equipment.GetStatBonus());
             }
         }
         private void OnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)

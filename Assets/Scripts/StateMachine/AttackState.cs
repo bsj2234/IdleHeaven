@@ -28,13 +28,11 @@ public class AttackState : BaseState
 
     public override void EnterState()
     {
-        Debug.Log($"Enter {this.GetType()}");
         
     }
 
     public override void ExitState()
     {
-        Debug.Log(message: $"Exit {this.GetType()}");
     }
     public override void UpdateState()
     {
@@ -64,7 +62,6 @@ public class AttackState : BaseState
         bool isAttackable = attackCooldown < 0f;
         if (isAttackable)
         {
-            Debug.Log($"{_controller} attacked {target}");
             Debug.Assert(targetCombat != null, $"Enemy is null while {_controller.transform.name} try attacking");
             _attack.DealDamage(target.GetComponent<Health>(), 30f);
             attackCooldown = 1f;

@@ -25,7 +25,6 @@ public class ChaseState : BaseState
 
     public override void EnterState()
     {
-        Debug.Log("Entering Chase State");
         if (target == null) return;
 
 
@@ -64,7 +63,6 @@ public class ChaseState : BaseState
 
     public override void ExitState()
     {
-        Debug.Log("Exiting Chase State");
     }
 
     public ChaseState SetTarget(Transform target)
@@ -73,7 +71,6 @@ public class ChaseState : BaseState
         if(stateMachine.CurrentState == this)
         {
             _navMeshAgent.destination = target.position;
-            Debug.Log("Update target");
         }
         return this;
     }

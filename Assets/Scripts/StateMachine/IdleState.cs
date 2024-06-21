@@ -12,14 +12,12 @@ public class IdleState : BaseState
     }
     public override void EnterState()
     {
-        Debug.Log("Entering Idle State");
     }
     public override void UpdateState()
     {
     }
     public override void ExitState()
     {
-        Debug.Log("Exiting Idle State");
     }
 
     void OnFoundEnemy(Transform enemy)
