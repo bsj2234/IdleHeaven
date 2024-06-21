@@ -33,6 +33,10 @@ namespace IdleHeaven
         public StatType StatType
         {
             get => _statType;
+            set
+            {
+                _statType = value;
+            }
         }
 
         public float Value
