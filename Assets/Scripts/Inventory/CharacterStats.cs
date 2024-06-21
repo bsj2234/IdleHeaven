@@ -1,44 +1,48 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class CharacterStats : MonoBehaviour
+namespace IdleHeaven
 {
-    [SerializeField] private int _level;
-    [SerializeField] private int _hp;
-    [SerializeField] private Dictionary<string, int> _stats;
-
-    public int Level => _level;
-
-    private void Awake()
+    public class CharacterStats : MonoBehaviour
     {
-        _stats = new Dictionary<string, int>();
-    }
+        [SerializeField] private int _level;
+        [SerializeField] private int _hp;
 
-    public int GetStatValue(string statName)
-    {
-        if (_stats.TryGetValue(statName, out int value))
+
+        private Stats _stats = new Stats();
+        private Stats _equipmentBonusStats = new Stats();
+
+        private Equipments equipments;
+
+        public int Level => _level;
+
+        private void Awake()
         {
-            return value;
+            equipments = GetComponent<Equipments>();
+            equipments.OnEquipped += OnEquipped;
         }
-        return 0;
-    }
 
-    public void ChangeHp(int amount)
-    {
-        _hp += amount;
-        Debug.Log($"HP changed by {amount}, new HP: {_hp}");
-    }
+        public float GetStatValue(StatType statType)
+        {
+            return _stats[statType];
+        }
 
-    public void ChangeStat(string statName, int amount)
-    {
-        if (_stats.ContainsKey(statName))
+        public void RefreshEquipmentStats(Equipments equipments)
         {
-            _stats[statName] += amount;
+            _equipmentBonusStats.Clear();
+            foreach (EquipmentItem equipment in equipments.GetEquippedItems().Values)
+            {
+                _equipmentBonusStats.AddStat(equipment.GetStatBonus());
+            }
         }
-        else
+
+        private void OnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
         {
-            _stats[statName] = amount;
+            RefreshEquipmentStats(equipments);
         }
-        Debug.Log($"{statName} changed by {amount}, new value: {_stats[statName]}");
+        private void UnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+        {
+            RefreshEquipmentStats(equipments);
+        }
     }
 }
