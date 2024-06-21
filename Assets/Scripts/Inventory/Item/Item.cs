@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace IdleHeaven
@@ -10,6 +11,9 @@ namespace IdleHeaven
 
         public string Name => _name;
         public ItemData ItemData => _itemData;
+
+
+        public event Action OnItemChanged;
 
         public Item(string name, ItemData data)
         {
