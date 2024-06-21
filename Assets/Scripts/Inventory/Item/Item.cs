@@ -18,29 +18,18 @@ namespace IdleHeaven
         }
     }
 
-    [System.Serializable]
-    public class WeaponItem : Item
-    {
-        [SerializeField] private int _damage;
-
-        public int Damage => _damage;
-
-        public WeaponItem(string name, ItemData data, int damage) : base(name, data)
-        {
-            _damage = damage;
-        }
-    }
-
-    [System.Serializable]
     public class EquipmentItem : Item
     {
-        [SerializeField] private int _defense;
-
-        public int Defense => _defense;
-
-        public EquipmentItem(string name, ItemData data, int defense) : base(name, data)
+        public EquipmentItem(string name, EquipmentData data) : base(name, data)
         {
-            _defense = defense;
+        }
+        public Stats GetStatBonus()
+        {
+            if (ItemData is EquipmentData equipmentData)
+            {
+                return equipmentData.BonusStats;
+            }
+            return null;
         }
     }
 }
