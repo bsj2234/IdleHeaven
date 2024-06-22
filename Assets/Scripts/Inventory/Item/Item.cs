@@ -6,6 +6,21 @@ namespace IdleHeaven
     [System.Serializable]
     public class Item
     {
+        private Inventory _owner;
+
+        public Inventory Owner
+        {
+
+            get
+            {
+                return _owner;
+            }
+            set
+            {
+                _owner = value;
+            }
+        }
+
         [SerializeField] private string _name;
         [SerializeField] private ItemData _itemData;
 
