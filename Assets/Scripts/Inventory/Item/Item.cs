@@ -22,10 +22,10 @@ namespace IdleHeaven
         }
 
         [SerializeField] private string _name;
-        [SerializeField] private ItemData _itemData;
+        [SerializeField] protected ItemData _itemData;
 
         public string Name => _name;
-        public ItemData ItemData => _itemData;
+        public virtual ItemData ItemData => _itemData;
 
 
         public event Action OnItemChanged;
@@ -39,6 +39,7 @@ namespace IdleHeaven
 
     public class EquipmentItem : Item
     {
+        public EquipmentData ItemData => _itemData as EquipmentData;
         public EquipmentItem(string name, EquipmentData data) : base(name, data)
         {
         }
