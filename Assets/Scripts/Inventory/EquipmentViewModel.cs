@@ -10,7 +10,7 @@ namespace IdleHeaven
         public ItemViewModel[] itemViewModels;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        int slotsCount = Enum.GetNames(typeof(EquipmentSlot)).Length;
+        public int slotsCount = Enum.GetNames(typeof(EquipmentSlot)).Length;
 
         public Equipments Equipments
         {
@@ -39,6 +39,11 @@ namespace IdleHeaven
 
         }
 
+        public Item GetItem(EquipmentSlot slot)
+        {
+            return _equipments.GetEquippedItem(slot);
+        }
+
         private void HandleEquipmentsChagned(EquipmentSlot slot, Item item)
         {
             itemViewModels[(int)slot].Item = item;
@@ -48,21 +53,5 @@ namespace IdleHeaven
                 PropertyChanged.Invoke(Equipments, new PropertyChangedEventArgs(nameof(Equipments)));
             }
         }
-
-        protected void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            if (args.PropertyName == nameof(Equipments))
-            {
-                for (int i = 0; i < slotsCount; i++)
-                {
-                    Item currentItem = _equipments.Items[i];
-                    if (currentItem != null)
-                    {
-                        itemViewModels[i].Item = currentItem;
-                    }
-                }
-            }
-        }
-
     }
 }

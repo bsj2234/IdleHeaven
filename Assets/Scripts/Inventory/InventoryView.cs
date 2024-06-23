@@ -22,6 +22,7 @@ namespace IdleHeaven
             for(int i = 0; i < _itemViews.Length; i++)
             {
                 _viewModel.itemViewModels[i] = _itemViews[i].ItemViewModel;
+                _itemViews[i].Init(HandleItemClicked);
             }
         }
         public void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
@@ -52,9 +53,16 @@ namespace IdleHeaven
 
         private void HandleItemClicked(Item item)
         {
+            Debug.Log("clicked");
             if(item is EquipmentItem equipment)
             {
+                if(_equipments == null)
+                {
+                    return;
+                }
                _equipments.Equip(equipment.ItemData.EquipmentSlot ,equipment);
+
+                Debug.Log("equiped");
             }
         }
 

@@ -37,6 +37,7 @@ namespace IdleHeaven
         }
     }
 
+    [Serializable]
     public class EquipmentItem : Item
     {
         public EquipmentData ItemData => _itemData as EquipmentData;

@@ -45,7 +45,17 @@ public class AttackState : BaseState
                 _detector.RemoveTarget(targetCombat.transform);
             }
 
-            Health nextEnemy = _detector.GetNearestTarget().GetComponent<Health>();
+            Transform nearTarget = _detector.GetNearestTarget();
+            Health nextEnemy = null;
+            if(nearTarget != null)
+            {
+                nextEnemy = _detector.GetNearestTarget().GetComponent<Health>();
+            }
+            else
+            {
+                stateMachine.ChangeState<IdleState>();
+            }
+
 
             if (nextEnemy!= null)
             {

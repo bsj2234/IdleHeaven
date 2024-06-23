@@ -10,8 +10,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] ItemSpawner spawner;
     
-    [SerializeField] GameObject item;
-
     private void Awake()
     {
         combat.OnDead += HandleDead;

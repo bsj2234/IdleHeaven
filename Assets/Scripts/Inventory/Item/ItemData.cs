@@ -66,38 +66,6 @@ namespace IdleHeaven
         }
     }
 
-    [System.Serializable]
-    public abstract class EquipmentData : ItemData
-    {
-        [SerializeField] ICharacterEffector[] _effects;
-        [SerializeField] IRequirement _equipRequirement;
-        [SerializeField] Stats _bonusStats;
-        [SerializeField] EquipmentSlot _equipmentSlot;
-
-        public ICharacterEffector[] Effects
-        {
-            get { return _effects; }
-            set { _effects = value; }
-        }
-
-        public IRequirement EquipRequirement
-        {
-            get { return _equipRequirement; }
-            set { _equipRequirement = value; }
-        }
-
-        public Stats BonusStats
-        {
-            get { return _bonusStats; }
-            set { _bonusStats = value; }
-        }
-
-        public EquipmentSlot EquipmentSlot
-        {
-            get { return _equipmentSlot; }
-            set { _equipmentSlot = value; }
-        }
-    }
 
     [System.Serializable]
     [CreateAssetMenu(fileName = "NewWeaponData", menuName = "Item/WeaponData")]
@@ -130,19 +98,6 @@ namespace IdleHeaven
         {
             get { return _maxDamage; }
             set { _maxDamage = value; }
-        }
-    }
-
-    [System.Serializable]
-    [CreateAssetMenu(fileName = "NewArmorData", menuName = "Item/ArmorData")]
-    public class ArmorData : EquipmentData
-    {
-        [SerializeField] private int _defenseValue;
-
-        public int DefenseValue
-        {
-            get { return _defenseValue; }
-            set { _defenseValue = value; }
         }
     }
 

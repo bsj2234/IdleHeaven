@@ -22,24 +22,32 @@ public class ItemView : MonoBehaviour
         if(TryGetComponent(out Button button))
         {
             _button = button;
-            _button.onClick.AddListener(HandleClick);
         }
     }
+
+    public ItemView Init(Action<Item> onClick)
+    {
+        if(_button == null)
+        {
+
+           Debug.LogError("Button is not found");
+            return this;
+        }
+        _button.onClick.AddListener(() => onClick(ItemViewModel.Item));
+        return this;
+    }
+
     private void OnDestroy()
     {
         if(_button != null)
         {
-            _button.onClick.RemoveListener(HandleClick);
         }
     }
 
     public void SetItem(Item item)
     {
        ItemViewModel.Item = item;
-    }
-
-    public virtual void HandleClick()
-    {
+        UpdateItemView(item);
     }
 
     public virtual void ItemViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -58,7 +66,12 @@ public class ItemView : MonoBehaviour
     {
         if(item == null)
         {
+            itemImage.gameObject.SetActive(false);
             return;
+        }
+        else
+        {
+            itemImage.gameObject.SetActive(true);
         }
         if(itemName != null)
         {

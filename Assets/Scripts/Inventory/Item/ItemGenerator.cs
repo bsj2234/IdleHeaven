@@ -71,22 +71,25 @@ namespace IdleHeaven
         {
             ItemType randomType = RandomKind<ItemType>();
             ItemData data;
+            Item item = null;
             switch (randomType)
             {
                 case ItemType.Weapon:
                     data = GetRandomWeapon();
+                    item = new EquipmentItem(data.name, data as EquipmentData);
                     break;
                 case ItemType.Equipment:
                     data = GetRandomEquipment();
+                    item = new EquipmentItem(data.name, data as EquipmentData);
                     break;
                 case ItemType.Accessory:
                     data = GetRandomAccessory();
+                    item = new EquipmentItem(data.name, data as EquipmentData);
                     break;
                 default:
                     Debug.Assert(false);
                     return null;
             }
-            Item item = new Item($"{data.ItemPrefab.name}",data);
             return item;
 
 

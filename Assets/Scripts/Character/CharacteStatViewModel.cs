@@ -16,11 +16,10 @@ public class CharacteStatsViewModel : INotifyPropertyChanged
                 if (stat != null)
                     stat.StatChanged += HandleStatChanged;
             }
-            Debug.LogError("CharacterStats is Not null");
         }
         else
         {
-            Debug.LogError("CharacterStats is null");
+            //Debug.LogError("CharacterStats is null");
         }
     }
 

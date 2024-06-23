@@ -11,8 +11,15 @@ namespace IdleHeaven
         [SerializeField] private EquipmentItem[] _slotVisualize;
         private Dictionary<EquipmentSlot, EquipmentItem> _equippedItems = new Dictionary<EquipmentSlot, EquipmentItem>();
 
+        public Action<EquipmentSlot, Item> OnEquipmentsChagned { get; set; }
+
         public event Action<Equipments, EquipmentSlot, EquipmentItem> OnEquipped;
         public event Action<Equipments, EquipmentSlot, EquipmentItem> OnUnEquipped;
+
+        private void Awake()
+        {
+            _slotVisualize = new EquipmentItem[Enum.GetValues(typeof(EquipmentSlot)).Length];
+        }
 
         public EquipmentItem Equip(EquipmentSlot slot, EquipmentItem item)
         {
@@ -28,6 +35,20 @@ namespace IdleHeaven
             }
 
             OnEquipped?.Invoke(this, slot, item);
+            OnEquipmentsChagned?.Invoke(slot, item);
+            var vals = Enum.GetValues(typeof(EquipmentSlot));
+            for(int i = 0; i < vals.Length; i ++ )
+            {
+                if (_equippedItems.ContainsKey((EquipmentSlot)i))
+                {
+                    _slotVisualize[i] = item;
+                }
+                else
+                {
+                    _slotVisualize[i] = null;
+                }
+            }
+
             return previousItem;
         }
 
@@ -40,6 +61,7 @@ namespace IdleHeaven
                 _equippedItems.Remove(slot);
                 OnUnEquipped?.Invoke(this, slot, previousItem);
             }
+            OnEquipmentsChagned?.Invoke(slot, previousItem);
             return previousItem;
         }
 
