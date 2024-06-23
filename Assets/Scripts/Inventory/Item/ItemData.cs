@@ -26,6 +26,13 @@ namespace IdleHeaven
 
         public string PrefabPath
         {
+            get
+            {                 
+                if (_itemPrefab == null)
+                    return string.Empty;
+
+                return _itemPrefab.name;
+            }
             set
             {
                 GameObject prefab = ResourceLoader.LoadPrefab(value);
@@ -45,74 +52,4 @@ namespace IdleHeaven
             set { _icon = value; }
         }
     }
-
-    [System.Serializable]
-    [CreateAssetMenu(fileName = "NewUsableItemData", menuName = "Item/UsableItemData")]
-    public class UsableItemData : ItemData
-    {
-        [SerializeField] private ICharacterEffector[] _effects;
-        [SerializeField] private IRequirement _useRequirement;
-
-        public ICharacterEffector[] Effects
-        {
-            get { return _effects; }
-            set { _effects = value; }
-        }
-
-        public IRequirement UseRequirement
-        {
-            get { return _useRequirement; }
-            set { _useRequirement = value; }
-        }
-    }
-
-
-    [System.Serializable]
-    [CreateAssetMenu(fileName = "NewWeaponData", menuName = "Item/WeaponData")]
-    public class WeaponData : EquipmentData
-    {
-        [SerializeField] private string _weaponType;
-        [SerializeField] private string _attackSpeed;
-        [SerializeField] private int _minDamage;
-        [SerializeField] private int _maxDamage;
-
-        public string WeaponType
-        {
-            get { return _weaponType; }
-            set { _weaponType = value; }
-        }
-
-        public string AttackSpeed
-        {
-            get { return _attackSpeed; }
-            set { _attackSpeed = value; }
-        }
-
-        public int MinDamage
-        {
-            get { return _minDamage; }
-            set { _minDamage = value; }
-        }
-
-        public int MaxDamage
-        {
-            get { return _maxDamage; }
-            set { _maxDamage = value; }
-        }
-    }
-
-    [System.Serializable]
-    [CreateAssetMenu(fileName = "NewAmuletData", menuName = "Item/AmuletData")]
-    public class AmuletData : EquipmentData
-    {
-        [SerializeField] private int _resistanceValue;
-
-        public int ResistanceValue
-        {
-            get { return _resistanceValue; }
-            set { _resistanceValue = value; }
-        }
-    }
 }
-
-

@@ -25,11 +25,23 @@ namespace IdleHeaven
         [SerializeField] protected ItemData _itemData;
 
         public string Name => _name;
-        public virtual ItemData ItemData => _itemData;
+        public virtual ItemData ItemData 
+        {
+            get { return _itemData; }
+            set
+            {
+                _itemData = value;
+                OnItemChanged?.Invoke();
+            }
+        }
 
 
         public event Action OnItemChanged;
 
+        public Item()
+        {
+
+        }
         public Item(string name, ItemData data)
         {
             _name = name;
@@ -40,9 +52,18 @@ namespace IdleHeaven
     [Serializable]
     public class EquipmentItem : Item
     {
+        private const int MAX_ITEMEFFECT = 3;
         public EquipmentData ItemData => _itemData as EquipmentData;
+        [SerializeField]
+
+        private ItemEffect[] _effects = new ItemEffect[MAX_ITEMEFFECT];
+        public ItemEffect[] Effects => _effects;
         public EquipmentItem(string name, EquipmentData data) : base(name, data)
         {
+            for (int i = 0; i < MAX_ITEMEFFECT; i++)
+            {
+                _effects[i] = ItemEffectRandomizer.Instance.GetRandomEffect();
+            }
         }
         public Stats GetStatBonus()
         {
@@ -51,6 +72,15 @@ namespace IdleHeaven
                 return equipmentData.BonusStats;
             }
             return null;
+        }
+        public Stats GetEffectStatBonus()
+        {
+            Stats stats = new Stats();
+            foreach (var effect in _effects)
+            {
+                stats[effect.Stat] += effect.Value;
+            }
+            return stats;
         }
     }
 }
