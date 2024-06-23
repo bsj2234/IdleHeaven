@@ -16,7 +16,6 @@ namespace IdleHeaven
         private void Awake()
         {
             equipments = GetComponent<Equipments>();
-            equipments.OnEquipped += OnEquipped;
         }
 
         public float GetStatValue(StatType statType)
@@ -32,15 +31,6 @@ namespace IdleHeaven
                 _equipmentBonusStats.AddStats(equipment.GetStatBonus());
             }
         }
-        private void OnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
-        {
-            RefreshEquipmentStats(equipments);
-        }
-        private void OnUnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
-        {
-            RefreshEquipmentStats(equipments);
-        }
-
         public void RefreshEffectStats(ICharacterEffector effector)
         {
             _effectBonusStats.Clear();
@@ -50,14 +40,6 @@ namespace IdleHeaven
                     .SetTarget(_effectBonusStats)
                     .ApplyEffect();
             }
-        }
-        private void OnEffectAffected(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
-        {
-            RefreshEquipmentStats(equipments);
-        }
-        private void OnEffectUnaffected(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
-        {
-            RefreshEquipmentStats(equipments);
         }
     }
 }

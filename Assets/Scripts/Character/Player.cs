@@ -10,22 +10,24 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _equipments.OnEquipped += OnEquipped;
-        _equipments.OnUnEquipped += OnUnEquipped;
+        _equipments.OnUnEquipped += OnUnequipped;
     }
 
     private void OnDestroy()
     {
         _equipments.OnEquipped -= OnEquipped;
-        _equipments.OnUnEquipped -= OnUnEquipped;
+        _equipments.OnUnEquipped -= OnUnequipped;
     }
 
-    void OnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+    private void OnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
     {
         _characterStats.Stats.AddStats(item.GetStatBonus());
+        _characterStats.Stats.AddStats(item.GetEffectStatBonus());
     }
 
-    void OnUnEquipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+    private void OnUnequipped(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
     {
         _characterStats.Stats.SubtractStats(item.GetStatBonus());
+        _characterStats.Stats.SubtractStats(item.GetEffectStatBonus());
     }
 }
