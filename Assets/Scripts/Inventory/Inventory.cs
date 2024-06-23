@@ -23,8 +23,9 @@ namespace IdleHeaven
             {
                 acquirer.OnItemAcquired += HandleItemAcquired;
             }
-
         }
+
+        
 
         private void HandleItemAcquired(Item item)
         {

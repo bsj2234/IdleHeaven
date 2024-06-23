@@ -10,6 +10,7 @@ namespace IdleHeaven
         private InventoryViewModel _viewModel;
 
         [SerializeField] Inventory _inventory;
+        [SerializeField] Equipments _equipments;
         [SerializeField] ItemView[] _itemViews;
 
 
@@ -22,15 +23,6 @@ namespace IdleHeaven
             {
                 _viewModel.itemViewModels[i] = _itemViews[i].ItemViewModel;
             }
-        }
-
-        private void OnEnable()
-        {
-
-        }
-
-        private void OnDisable()
-        {
         }
         public void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
         {
@@ -55,6 +47,14 @@ namespace IdleHeaven
                 {
                     _viewModel.itemViewModels[i].Item  = null;
                 }
+            }
+        }
+
+        private void HandleItemClicked(Item item)
+        {
+            if(item is EquipmentItem equipment)
+            {
+               _equipments.Equip(equipment.ItemData.EquipmentSlot ,equipment);
             }
         }
 
