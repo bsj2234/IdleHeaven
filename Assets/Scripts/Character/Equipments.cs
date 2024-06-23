@@ -21,9 +21,20 @@ namespace IdleHeaven
             _slotVisualize = new EquipmentItem[Enum.GetValues(typeof(EquipmentSlot)).Length];
         }
 
+
+
+        // Equip an item to a itemDatas slot
+        public EquipmentItem Equip(EquipmentItem item)
+        {
+            EquipmentSlot slot = item.ItemData.EquipmentSlot;
+            return Equip(slot, item);
+        }
+
         public EquipmentItem Equip(EquipmentSlot slot, EquipmentItem item)
         {
             EquipmentItem previousItem = null;
+
+            // If there is already an item equipped in the slot, remove it
             if (_equippedItems.ContainsKey(slot))
             {
                 previousItem = _equippedItems[slot];
@@ -33,11 +44,12 @@ namespace IdleHeaven
             {
                 _equippedItems.Add(slot, item);
             }
-
             OnEquipped?.Invoke(this, slot, item);
             OnEquipmentsChagned?.Invoke(slot, item);
+
+            // Update the visual representation of the equipment
             var vals = Enum.GetValues(typeof(EquipmentSlot));
-            for(int i = 0; i < vals.Length; i ++ )
+            for (int i = 0; i < vals.Length; i++)
             {
                 if (_equippedItems.ContainsKey((EquipmentSlot)i))
                 {

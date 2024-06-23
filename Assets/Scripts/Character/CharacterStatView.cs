@@ -18,8 +18,7 @@ public class CharacterStatView : MonoBehaviour
             _viewModel = new CharacteStatsViewModel();
 
         }
-        _viewModel.Init();
-        _viewModel.PropertyChanged += ViewModel_PropertyChanged;
+        _viewModel.Init(ViewModel_PropertyChanged);
     }
 
     private void OnDisable()

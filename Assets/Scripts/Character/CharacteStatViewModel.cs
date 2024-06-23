@@ -7,38 +7,21 @@ public class CharacteStatsViewModel : INotifyPropertyChanged
 {
     public CharacterStats _characterStats;
 
-    public CharacteStatsViewModel()
+    public void Init(PropertyChangedEventHandler OnPropertyChanged)
     {
-        if(_characterStats != null)
-        {
-            foreach (Stat stat in _characterStats.Stats.stats)
-            {
-                if (stat != null)
-                    stat.StatChanged += HandleStatChanged;
-            }
-        }
-        else
-        {
-            //Debug.LogError("CharacterStats is null");
-        }
-    }
-
-    public void Init()
-    {
+        PropertyChanged += OnPropertyChanged;
 
         if (_characterStats != null)
         {
             foreach (Stat stat in _characterStats.Stats.stats)
             {
                 if (stat != null)
-                    stat.StatChanged += HandleStatChanged;
+                {
+                    stat.RegisterStatChanged(HandleStatChanged);
+                }
             }
-            Debug.LogError("CharacterStats is Not null");
         }
-        else
-        {
-            Debug.LogError("CharacterStats is null");
-        }
+
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

@@ -1,12 +1,15 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEngine;
 
 namespace IdleHeaven
 {
-    public class InventoryViewModel : INotifyPropertyChanged
+    public class InventoryViewModel : MonoBehaviour, INotifyPropertyChanged
     {
-        private Inventory _inventory;
+        [SerializeField] Inventory _inventory;
 
-        public ItemViewModel[] itemViewModels;
+        [SerializeField] Equipments _equipments;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -23,40 +26,48 @@ namespace IdleHeaven
             }
         }
 
-        public InventoryViewModel(Inventory inventory)
+
+        private void Start()
         {
-            Inventory = inventory;
-            itemViewModels = new ItemViewModel[Inventory.INVENTORY_SIZE];
-
-            for (int i = 0; i < Inventory.INVENTORY_SIZE; i++)
-            {
-                itemViewModels[i] = new ItemViewModel();
-            }
-
             _inventory.OnInventoryChanged += HandleInventoryChanged;
-
         }
 
         private void HandleInventoryChanged(Item item)
         {
             if (PropertyChanged != null)
             {
-                PropertyChanged.Invoke(Inventory, new PropertyChangedEventArgs(nameof(Inventory)));
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(Inventory)));
             }
         }
 
-        protected void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
+        public void Equip(Item item)
         {
-            if (args.PropertyName == nameof(Inventory))
+            if (item is EquipmentItem)
             {
-                for (int i = 0; i < _inventory.INVENTORY_SIZE; i++)
+                EquipmentItem equipmentItem = item as EquipmentItem;
+                _equipments.Equip(equipmentItem);
+            }
+        }
+
+        public List<Item> GetFilteredItem(string filter)
+        {
+            List<Item> items = Inventory.GetItems();
+            List<Item> list = new List<Item>();
+
+            if(filter == "equipment")
+            {
+                foreach(Item item in items)
                 {
-                    Item currentItem = _inventory.Items[i];
-                    if (currentItem != null)
+                    if(item is EquipmentItem)
                     {
-                        itemViewModels[i].Item = currentItem;
+                        list.Add(item);
                     }
                 }
+                return list;
+            }
+            else
+            {
+                return _inventory.GetItems();
             }
         }
 

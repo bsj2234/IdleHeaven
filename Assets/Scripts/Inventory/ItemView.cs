@@ -17,7 +17,6 @@ public class ItemView : MonoBehaviour
 
     private void Awake()
     {
-        ItemViewModel = new ItemViewModel();
         ItemViewModel.PropertyChanged += ItemViewModel_PropertyChanged;
         if(TryGetComponent(out Button button))
         {
@@ -25,11 +24,10 @@ public class ItemView : MonoBehaviour
         }
     }
 
-    public ItemView Init(Action<Item> onClick)
+    public ItemView RegisterOnClick(Action<Item> onClick)
     {
         if(_button == null)
         {
-
            Debug.LogError("Button is not found");
             return this;
         }

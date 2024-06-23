@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -7,65 +8,59 @@ namespace IdleHeaven
 {
     public class InventoryView : MonoBehaviour
     {
-        private InventoryViewModel _viewModel;
-
-        [SerializeField] Inventory _inventory;
-        [SerializeField] Equipments _equipments;
+        [SerializeField] InventoryViewModel _inventoryViewModel;
         [SerializeField] ItemView[] _itemViews;
-
 
 
         private void Start()
         {
-            _viewModel = new InventoryViewModel(_inventory);
-            _viewModel.PropertyChanged += HandlePropertyChanged;
-            for(int i = 0; i < _itemViews.Length; i++)
+            for (int i = 0; i < _itemViews.Length; i++)
             {
-                _viewModel.itemViewModels[i] = _itemViews[i].ItemViewModel;
-                _itemViews[i].Init(HandleItemClicked);
+                _itemViews[i].RegisterOnClick(ItemClickCallback);
+            }
+            _inventoryViewModel.PropertyChanged += HandlePropertyChange;
+
+            UpdateInventoryView();
+        }
+
+        private void UpdateInventoryView()
+        {
+            List<Item> items = _inventoryViewModel.GetFilteredItem("");
+
+            for (int i = 0; i < _itemViews.Length; i++)
+            {
+                if (i >= items.Count)
+                {
+                    _itemViews[i].SetItem(null);
+                    continue;
+                }
+                Item currentItem = items[i];
+                if (currentItem != null)
+                {
+                    _itemViews[i].SetItem(currentItem);
+                }
             }
         }
-        public void HandlePropertyChanged(object sender, PropertyChangedEventArgs args)
+        private void HandlePropertyChange(object sender, PropertyChangedEventArgs e)
         {
-            switch (args.PropertyName)
+            switch (e.PropertyName)
             {
-                case nameof(Inventory):
-                    UpdateInventoryView(sender as Inventory);
+                case nameof(InventoryViewModel.Inventory):
+                    UpdateInventoryView();
+                    break;
+                default:
                     break;
             }
         }
 
-        private void UpdateInventoryView(Inventory inventory)
-        {
-            for (int i = 0; i < inventory.INVENTORY_SIZE; i++)
-            {
-                if(inventory.Items != null && i < inventory.Items.Count)
-                {
-                    Item currentItem = inventory.Items[i];
-                    _viewModel.itemViewModels[i].Item = currentItem;
-                }
-                else
-                {
-                    _viewModel.itemViewModels[i].Item  = null;
-                }
-            }
-        }
-
-        private void HandleItemClicked(Item item)
+        private void ItemClickCallback(Item item)
         {
             Debug.Log("clicked");
-            if(item is EquipmentItem equipment)
+            if (item is EquipmentItem equipment)
             {
-                if(_equipments == null)
-                {
-                    return;
-                }
-               _equipments.Equip(equipment.ItemData.EquipmentSlot ,equipment);
-
-                Debug.Log("equiped");
+                _inventoryViewModel.Equip(equipment);
             }
         }
-
     }
 }
 

@@ -5,50 +5,50 @@ using UnityEngine;
 
 public class EquipmentView : MonoBehaviour
 {
-    private EquipmentViewModel _equipmentViewModel;
-    [SerializeField] ItemView[] views;
+    [SerializeField] EquipmentViewModel _equipmentViewModel;
+    [SerializeField] ItemView[] _itemViews;
+    public int slotsCount = Enum.GetNames(typeof(EquipmentSlot)).Length;
 
     private void Start()
     {
-        Init(new EquipmentViewModel(FindAnyObjectByType<Equipments>()));
-    }
-
-    public EquipmentView Init(EquipmentViewModel equipmentViewModel)
-    {
-        _equipmentViewModel = equipmentViewModel;
-
-        foreach (var view in views)
-        {
-            view.Init(OnItemClick);
-        }
-
         _equipmentViewModel.PropertyChanged += HandlePropertyChanged;
 
-        return this;
+        foreach (var view in _itemViews)
+        {
+            view.RegisterOnClick(ItemClickCallback);
+        }
     }
 
-    private void OnItemClick(Item item)
+    private void UpdateEquipmentsView()
+    {
+        for (int i = 0; i < _itemViews.Length; i++)
+        {
+            Item equipedItem = _equipmentViewModel.GetItem((EquipmentSlot)i);
+            if (equipedItem == null)
+            {
+                _itemViews[i].SetItem(null);
+                continue;
+            }
+            _itemViews[i].SetItem(equipedItem);
+        }
+    }
+    private void ItemClickCallback(Item item)
     {
         Debug.Log("clicked");
         EquipmentItem equipmentItem = item as EquipmentItem;
-        _equipmentViewModel.Equipments.Unequip(equipmentItem.ItemData.EquipmentSlot);
+        _equipmentViewModel.Unequip(equipmentItem.ItemData.EquipmentSlot);
     }
+
 
     private void HandlePropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
             case nameof(EquipmentViewModel.Equipments):
-                UpdateEquipmentView();
+                UpdateEquipmentsView();
                 break;
-        }
-    }
-    private void UpdateEquipmentView()
-    {
-        for (int i = 0; i < _equipmentViewModel.slotsCount; i++)
-        {
-            Item item = _equipmentViewModel.GetItem((EquipmentSlot)i);
-            views[i].SetItem(item);
+            default:
+                break;
         }
     }
 }

@@ -2,9 +2,11 @@ using IdleHeaven;
 using System.ComponentModel;
 using UnityEngine;
 
-public class ItemViewModel : INotifyPropertyChanged
+public class ItemViewModel : MonoBehaviour,INotifyPropertyChanged
 {
     private Item _item;
+
+    public event PropertyChangedEventHandler PropertyChanged;
 
     public Item Item
     {
@@ -15,6 +17,8 @@ public class ItemViewModel : INotifyPropertyChanged
             {
                 return;
             }
+
+            // Unsubscribe from the old item
             if (_item != null)
             {
                 _item.OnItemChanged -= OnItemChanged;
@@ -24,6 +28,8 @@ public class ItemViewModel : INotifyPropertyChanged
             {
                 _item.OnItemChanged += OnItemChanged;
             }
+
+
             if (PropertyChanged != null)
             {
                 PropertyChanged(this.Item, new PropertyChangedEventArgs(nameof(Item)));
@@ -31,12 +37,6 @@ public class ItemViewModel : INotifyPropertyChanged
         }
     }
 
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    public ItemViewModel()
-    {
-    }
 
     private void OnItemChanged()
     {

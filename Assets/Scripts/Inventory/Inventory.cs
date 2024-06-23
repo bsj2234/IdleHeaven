@@ -53,7 +53,7 @@ namespace IdleHeaven
             return items.Find(other => itemName == other.Name);
         }
 
-        public IEnumerable<Item> GetItems()
+        public List<Item> GetItems()
         {
             return items;
         }
