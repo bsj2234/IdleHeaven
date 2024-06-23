@@ -15,7 +15,7 @@ namespace IdleHeaven
         public bool IsSatisfied(GameObject character)
         {
             CharacterStats stats = character.GetComponent<CharacterStats>();
-            return stats != null && stats.Level >= _requiredLevel;
+            return false;
         }
     }
 }
