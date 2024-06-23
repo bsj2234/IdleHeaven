@@ -38,6 +38,7 @@ namespace IdleHeaven
             if (_equippedItems.ContainsKey(slot))
             {
                 previousItem = _equippedItems[slot];
+                OnUnEquipped?.Invoke(this, slot, previousItem);
                 _equippedItems[slot] = item;
             }
             else
