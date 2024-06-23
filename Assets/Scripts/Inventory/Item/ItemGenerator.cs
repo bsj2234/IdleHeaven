@@ -21,14 +21,6 @@ namespace IdleHeaven
         [Range(0f, 1f)] public float Unique;
         [Range(0f, 1f)] public float Legendary;
     }
-    public enum Rairity
-    {
-        Common,
-        Epic,
-        Unique,
-        Legendary,
-        Error
-    }
     public enum ItemType
     {
         Weapon,
@@ -110,28 +102,24 @@ namespace IdleHeaven
             return weaponDatas[Random.Range(0, weaponDatas.Count)];
         }
 
-        private Rairity RandomRairity()
+        private Rarity RandomRairity()
         {
             Random.InitState((int)Time.time);
             float randVal = Random.Range(0f, 1f);
             if (randVal < _rarityTable.Legendary)
             {
-                return Rairity.Legendary;
-            }
-            if (randVal < _rarityTable.Unique)
-            {
-                return Rairity.Unique;
+                return Rarity.Legendary;
             }
             if (randVal < _rarityTable.Epic)
             {
-                return Rairity.Epic;
+                return Rarity.Epic;
             }
             if (randVal < _rarityTable.Common)
             {
-                return Rairity.Common;
+                return Rarity.Common;
             }
             Debug.Assert(false, "Error Not a possible situation");
-            return Rairity.Error;
+            return Rarity.Error;
         }
         private T RandomKind<T>() where T : System.Enum
         {
