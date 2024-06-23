@@ -1,31 +1,34 @@
 using TMPro;
 
-public class PlayerView : BaseView<PlayerViewModel>
+namespace IdleHeaven
 {
-    public TextMeshProUGUI playerNameText;
-    public TextMeshProUGUI playerHealthText;
-    public TextMeshProUGUI playerScoreText;
+    public class PlayerView : BaseView<PlayerViewModel>
+    {
+        public TextMeshProUGUI playerNameText;
+        public TextMeshProUGUI playerHealthText;
+        public TextMeshProUGUI playerScoreText;
 
-    protected override void OnViewModelPropertyChanged(string propertyName)
-    {
-        switch (propertyName)
+        protected override void OnViewModelPropertyChanged(string propertyName)
         {
-            case nameof(PlayerViewModel.Name):
-                playerNameText.text = ViewModel.Name;
-                break;
-            case nameof(PlayerViewModel.Health):
-                playerHealthText.text = ViewModel.Health.ToString();
-                break;
-            case nameof(PlayerViewModel.Score):
-                playerScoreText.text = ViewModel.Score.ToString();
-                break;
+            switch (propertyName)
+            {
+                case nameof(PlayerViewModel.Name):
+                    playerNameText.text = ViewModel.Name;
+                    break;
+                case nameof(PlayerViewModel.Health):
+                    playerHealthText.text = ViewModel.Health.ToString();
+                    break;
+                case nameof(PlayerViewModel.Score):
+                    playerScoreText.text = ViewModel.Score.ToString();
+                    break;
+            }
         }
-    }
-    public void OnHealthDecreased()
-    {
-        if (ViewModel.DecreaseHealthCommand.CanExecute())
+        public void OnHealthDecreased()
         {
-            ViewModel.DecreaseHealthCommand.Execute();
+            if (ViewModel.DecreaseHealthCommand.CanExecute())
+            {
+                ViewModel.DecreaseHealthCommand.Execute();
+            }
         }
     }
 }

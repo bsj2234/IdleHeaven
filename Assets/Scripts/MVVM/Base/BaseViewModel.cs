@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class BaseViewModel : MonoBehaviour
 {
+    public event Action<string> OnPropertyChanged;
     protected void RaisePropertyChanged(string propertyName)
     {
         OnPropertyChanged?.Invoke(propertyName);
     }
-
-    public event Action<string> OnPropertyChanged;
 }
