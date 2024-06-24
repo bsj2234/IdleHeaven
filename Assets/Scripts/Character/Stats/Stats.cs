@@ -112,7 +112,6 @@ namespace IdleHeaven
             }
         }
 
-
         public void Clear()
         {
             foreach (Stat stat in stats)
