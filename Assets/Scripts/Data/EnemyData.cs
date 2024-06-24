@@ -13,6 +13,7 @@ public class EnemyData : ScriptableObject
     [SerializeField] float _defense;
     [SerializeField] float _resistance;
     [SerializeField] Stats _stat;
+    [SerializeField] GameObject _prefab;
 
     public string Name { get => _name; set => _name = value;}
     public int Level { get => _level; set => _level = value; }
@@ -20,6 +21,7 @@ public class EnemyData : ScriptableObject
     public float Attack { get => _attack; set => _attack = value; }
     public float Defense { get => _defense; set => _defense = value; }
     public float Resistance { get => _resistance; set => _resistance = value; }
+    public GameObject Prefab { get => _prefab; set => _prefab = value; }
     public Stats Stat
     {
         get

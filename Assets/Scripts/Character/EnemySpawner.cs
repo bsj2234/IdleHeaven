@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] float _spawnInterval;
     [SerializeField] Transform[] _spawnPoint;
-    [SerializeField] GameObject[] _enemyPrefab;
+    [SerializeField] EnemyData[] _enemyToSpawn;
     [SerializeField] int _maxEnemies;
 
 
@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
                 continue;
             }
             Transform randomTrf = _spawnPoint[Random.Range(0, _spawnPoint.Length)];
-            GameObject randomEnemy = _enemyPrefab[Random.Range(0, _enemyPrefab.Length)];
+            GameObject randomEnemy = _enemyToSpawn[Random.Range(0, _enemyToSpawn.Length)].Prefab;
             GameObject enemy = Instantiate(randomEnemy, randomTrf.position, Quaternion.identity);
             AddEnemy(enemy);
             yield return new WaitForSeconds(_spawnInterval);

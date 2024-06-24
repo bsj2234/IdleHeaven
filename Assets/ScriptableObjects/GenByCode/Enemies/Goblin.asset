@@ -36,3 +36,4 @@ MonoBehaviour:
       _value: 0
     - _statType: 7
       _value: 0
+  _prefab: {fileID: 4460389183804368255, guid: 76855d4d1dbc3e44bbbe9133cb637646, type: 3}

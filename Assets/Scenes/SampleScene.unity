@@ -9629,7 +9629,10 @@ MonoBehaviour:
     _rarity: 4
     _minValue: 50
     _maxValue: 60
-  enemies: []
+  enemies:
+  - {fileID: 1681673566}
+  - {fileID: 591999795}
+  - {fileID: 1405160505}
   Launch: 0
 --- !u!1 &485767271
 GameObject:
@@ -11821,6 +11824,43 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 591844910}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &591999795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1133d062615bac44a9243f01921914b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Goblin
+  _level: 2
+  _health: 100
+  _attack: 20
+  _defense: 10
+  _resistance: 10
+  _stat:
+    stats:
+    - _statType: 0
+      _value: 0
+    - _statType: 1
+      _value: 0
+    - _statType: 2
+      _value: 0
+    - _statType: 3
+      _value: 0
+    - _statType: 4
+      _value: 0
+    - _statType: 5
+      _value: 0
+    - _statType: 6
+      _value: 0
+    - _statType: 7
+      _value: 0
+  _prefab: {fileID: 0}
 --- !u!1 &592747572
 GameObject:
   m_ObjectHideFlags: 0
@@ -32027,6 +32067,43 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404615853}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1405160505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1133d062615bac44a9243f01921914b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Dragon
+  _level: 5
+  _health: 500
+  _attack: 50
+  _defense: 25
+  _resistance: 25
+  _stat:
+    stats:
+    - _statType: 0
+      _value: 0
+    - _statType: 1
+      _value: 0
+    - _statType: 2
+      _value: 0
+    - _statType: 3
+      _value: 0
+    - _statType: 4
+      _value: 0
+    - _statType: 5
+      _value: 0
+    - _statType: 6
+      _value: 0
+    - _statType: 7
+      _value: 0
+  _prefab: {fileID: 0}
 --- !u!1 &1406024391 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8016939852195884867, guid: bcd1b4ea1058e8f4082c7228a6b82756,
@@ -38185,6 +38262,43 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679457764}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1681673566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1133d062615bac44a9243f01921914b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Slime
+  _level: 1
+  _health: 50
+  _attack: 10
+  _defense: 5
+  _resistance: 5
+  _stat:
+    stats:
+    - _statType: 0
+      _value: 0
+    - _statType: 1
+      _value: 0
+    - _statType: 2
+      _value: 0
+    - _statType: 3
+      _value: 0
+    - _statType: 4
+      _value: 0
+    - _statType: 5
+      _value: 0
+    - _statType: 6
+      _value: 0
+    - _statType: 7
+      _value: 0
+  _prefab: {fileID: 0}
 --- !u!1 &1686324520
 GameObject:
   m_ObjectHideFlags: 0
@@ -43201,8 +43315,9 @@ MonoBehaviour:
   - {fileID: 1137061721}
   - {fileID: 469525178}
   - {fileID: 1072667218}
-  _enemyPrefab:
-  - {fileID: 2855540130070105857, guid: 7e2cfc10d2ea3314080089ad8bd54c35, type: 3}
+  _enemyToSpawn:
+  - {fileID: 11400000, guid: e32d15cdcf0779a449c193b106886dd3, type: 2}
+  - {fileID: 11400000, guid: 8d4b66ddb208ec145b36a137c2fde405, type: 2}
   _maxEnemies: 10
   _playerAttack: {fileID: 5989931122748971648}
 --- !u!1001 &1892963385
@@ -47780,8 +47895,8 @@ MonoBehaviour:
   - {fileID: 1696338689}
   - {fileID: 680560867}
   - {fileID: 2131876590}
-  _enemyPrefab:
-  - {fileID: 2855540130070105857, guid: 7e2cfc10d2ea3314080089ad8bd54c35, type: 3}
+  _enemyToSpawn:
+  - {fileID: 11400000, guid: 8542911cd48b95d47b76faff18763932, type: 2}
   _maxEnemies: 10
   _playerAttack: {fileID: 5989931122748971648}
 --- !u!224 &2049193804 stripped

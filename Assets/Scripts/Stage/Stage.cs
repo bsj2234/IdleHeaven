@@ -22,6 +22,12 @@ public class Stage : MonoBehaviour
     {
         Waves[CurrentWaveIndex].gameObject.SetActive(false);
         CurrentWaveIndex++;
+        if(CurrentWaveIndex >= Waves.Count)
+        {
+            Debug.Log("Stage Completed");
+
+            return;
+        }
         Waves[CurrentWaveIndex].gameObject.SetActive(true);
     }
 
