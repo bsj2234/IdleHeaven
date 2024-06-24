@@ -10,6 +10,7 @@ namespace IdleHeaven
     {
         [SerializeField] InventoryViewModel _inventoryViewModel;
         [SerializeField] ItemView[] _itemViews;
+        [SerializeField] ItemDetailView _itemDetailUi;
 
 
         private void Start()
@@ -17,6 +18,7 @@ namespace IdleHeaven
             for (int i = 0; i < _itemViews.Length; i++)
             {
                 _itemViews[i].RegisterOnClick(ItemClickCallback);
+                _itemViews[i].RegisterOnHoldUp(ItemHoldCallback);
             }
             _inventoryViewModel.PropertyChanged += HandlePropertyChange;
 
@@ -60,6 +62,13 @@ namespace IdleHeaven
             {
                 _inventoryViewModel.Equip(equipment);
             }
+        }
+        private void ItemHoldCallback(Item item)
+        {
+            Debug.Log("holded");
+
+            _itemDetailUi.Window.Open();
+            _itemDetailUi.Init(item);
         }
     }
 }

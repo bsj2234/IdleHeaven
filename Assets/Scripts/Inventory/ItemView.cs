@@ -13,33 +13,35 @@ public class ItemView : MonoBehaviour
     public TMPro.TMP_Text itemDescription;
     public TMPro.TMP_Text itemPrice;
     public Image itemImage;
-    private Button _button;
+    private UIButtonHoldDetector _buttonHoldable;
 
     private void Awake()
     {
         ItemViewModel.PropertyChanged += ItemViewModel_PropertyChanged;
-        if(TryGetComponent(out Button button))
+        if(TryGetComponent(out UIButtonHoldDetector buttonHoldable))
         {
-            _button = button;
+            _buttonHoldable = buttonHoldable;
         }
     }
 
     public ItemView RegisterOnClick(Action<Item> onClick)
     {
-        if(_button == null)
+        if(_buttonHoldable == null)
         {
-           Debug.LogError("Button is not found");
+            Debug.LogError("Button holdable detector is not found");
             return this;
         }
-        _button.onClick.AddListener(() => onClick(ItemViewModel.Item));
+        _buttonHoldable.onClick.AddListener(() => onClick(ItemViewModel.Item));
         return this;
     }
-
-    private void OnDestroy()
+    public void RegisterOnHoldUp(Action<Item> itemHoldCallback)
     {
-        if(_button != null)
+        if(_buttonHoldable == null)
         {
+            Debug.LogError("Button holdable detector is not found");
+            return;
         }
+        _buttonHoldable.onHoldUp.AddListener(() => itemHoldCallback(ItemViewModel.Item));
     }
 
     public void SetItem(Item item)
@@ -84,4 +86,5 @@ public class ItemView : MonoBehaviour
             itemImage.sprite = item.ItemData.Icon;
         }
     }
+
 }
