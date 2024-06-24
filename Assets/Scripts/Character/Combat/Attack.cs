@@ -1,3 +1,4 @@
+using IdleHeaven;
 using System;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class Attack:MonoBehaviour
 {
     public Action OnAttackSucceeded;
     public Action OnKillEnemy;
+
     public bool DealDamage(Health target, float damage)
     {
         bool isAttackSucceeded = target.TakeDamage(this, damage);

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace IdleHeaven
@@ -77,6 +78,24 @@ namespace IdleHeaven
             Stats.AddStat(StatType.Attack,LevelSystem.Level * 10f);
             Stats.AddStat(StatType.Defense, LevelSystem.Level * 10f);
             Stats.AddStat(StatType.Resistance,LevelSystem.Level * 10f);
+        }
+
+        public float GetDamage()
+        {
+            float rand = UnityEngine.Random.Range(0f, 1f);
+
+            if(rand >= Stats[StatType.CritChance])
+            {
+                Debug.Log("Critical Hit");
+                Debug.Log(Stats[StatType.Attack] * Stats[StatType.CritDamage]);
+               return Stats[StatType.Attack] * Stats[StatType.CritChance];
+            }
+            else
+            {
+                Debug.Log("Normal Hit");
+                Debug.Log(Stats[StatType.Attack]);
+               return Stats[StatType.Attack];
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+using IdleHeaven;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,11 +12,18 @@ public class AttackState : BaseState
     CharacterAIController _controller;
     Attack _attack;
     Detector _detector;
+    CharacterStats _stats;
+
+    bool _hasStat = false;
+
+
     public AttackState(StateMachine stateMachine, CharacterAIController controller, Attack attack ,Detector detector) : base(stateMachine)
     {
         _controller = controller;
         _attack = attack;
         _detector = detector;
+        _hasStat = _stats.TryGetComponent(out CharacterStats stats); 
+        _stats = stats;
     }
 
     public AttackState SetTarget(Transform target)
@@ -73,7 +81,8 @@ public class AttackState : BaseState
         if (isAttackable)
         {
             Debug.Assert(targetCombat != null, $"Enemy is null while {_controller.transform.name} try attacking");
-            _attack.DealDamage(target.GetComponent<Health>(), 30f);
+            float damage = _hasStat ? _stats.GetDamage() : 5f;
+            _attack.DealDamage(target.GetComponent<Health>(),  damage);
             attackCooldown = 1f;
         }
         else
