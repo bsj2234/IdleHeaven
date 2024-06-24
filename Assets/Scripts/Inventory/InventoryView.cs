@@ -68,7 +68,7 @@ namespace IdleHeaven
             Debug.Log("holded");
 
             _itemDetailUi.Window.Open();
-            _itemDetailUi.Init(item);
+            _itemDetailUi.OnOpen(item);
         }
     }
 }

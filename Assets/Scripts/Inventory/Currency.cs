@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Currency : MonoBehaviour
+public abstract class Currency
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int Amount { get; set; }
+    public string Name { get; set; }
+}
 
-    // Update is called once per frame
-    void Update()
+public class Gold : Currency
+{
+    public Gold(int amount)
     {
-        
+        Name = "Gold";
+        Amount = amount;
     }
 }

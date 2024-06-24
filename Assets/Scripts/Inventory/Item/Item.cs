@@ -58,6 +58,10 @@ namespace IdleHeaven
 
         private ItemEffect[] _effects = new ItemEffect[MAX_ITEMEFFECT];
         public ItemEffect[] Effects => _effects;
+
+        public int Level { get; private set; } = 1;
+
+
         public EquipmentItem(string name, EquipmentData data) : base(name, data)
         {
             for (int i = 0; i < MAX_ITEMEFFECT; i++)
@@ -81,6 +85,21 @@ namespace IdleHeaven
                 stats[effect.Stat] += effect.Value;
             }
             return stats;
+        }
+        public bool TryEnhance(CurrencyInventory currencyInventory)
+        {
+            if (ItemData is EquipmentData equipmentData)
+            {
+                if (Level < 10)
+                {
+                    if (currencyInventory.TryUseGold(Level * 100))
+                    {
+                       Level++;
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
