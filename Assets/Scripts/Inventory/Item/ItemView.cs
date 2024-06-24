@@ -26,7 +26,7 @@ public class ItemView : MonoBehaviour
 
     public ItemView RegisterOnClick(Action<Item> onClick)
     {
-        if(_buttonHoldable == null)
+        if (_buttonHoldable == null)
         {
             Debug.LogError("Button holdable detector is not found");
             return this;

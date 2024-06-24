@@ -41,7 +41,7 @@ public class CharacterStatView : MonoBehaviour
     private void UpdateStatView(Stat stat)
     {
         values[(int)stat.StatType].Name.text = stat.StatType.ToString();
-        values[(int)stat.StatType].Value.text = stat.Value.ToString();
+        values[(int)stat.StatType].Value.text = stat.Value.ToString("F2");
     }
 
     public void TestMVVM()

@@ -57,7 +57,6 @@ namespace IdleHeaven
 
         private void ItemClickCallback(Item item)
         {
-            Debug.Log("clicked");
             if (item is EquipmentItem equipment)
             {
                 _inventoryViewModel.Equip(equipment);

@@ -22,7 +22,9 @@ public class AttackState : BaseState
         _controller = controller;
         _attack = attack;
         _detector = detector;
-        _hasStat = _stats.TryGetComponent(out CharacterStats stats); 
+
+
+        _hasStat = stateMachine.TryGetComponent(out CharacterStats stats); 
         _stats = stats;
     }
 

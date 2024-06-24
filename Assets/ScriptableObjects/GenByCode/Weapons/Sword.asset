@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f3eb81e55c1cf4ba49031b2d412b89, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  _itemName: 
+  _itemName: Sword
   _itemPrefab: {fileID: 5245051148673330148, guid: 0ab66efceef9be546b624fc80314393c,
     type: 3}
   _description: A powerful sword
@@ -35,7 +35,7 @@ MonoBehaviour:
       _value: 0
     - _statType: 7
       _value: 0
-  _equipmentSlot: 0
+  _equipmentSlot: 3
   _weaponType: Melee
   _attackSpeed: 1.5
   _minDamage: 15

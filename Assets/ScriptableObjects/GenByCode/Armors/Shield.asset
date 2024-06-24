@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2550dbc6f3eddd94eb197cb9de84ebe2, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: 
-  _itemName: 
+  _itemName: Shield
   _itemPrefab: {fileID: 5245051148673330148, guid: 12b97c1306032bf498eb5a49c5035e11,
     type: 3}
   _description: A sturdy shield
@@ -35,5 +35,5 @@ MonoBehaviour:
       _value: 0
     - _statType: 7
       _value: 0
-  _equipmentSlot: 0
+  _equipmentSlot: 4
   _defenseValue: 30

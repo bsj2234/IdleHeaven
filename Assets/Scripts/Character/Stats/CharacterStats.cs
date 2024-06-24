@@ -82,9 +82,9 @@ namespace IdleHeaven
 
         public float GetDamage()
         {
-            float rand = UnityEngine.Random.Range(0f, 1f);
+            float rand = UnityEngine.Random.Range(0f, 100f);
 
-            if(rand >= Stats[StatType.CritChance])
+            if(rand <= Stats[StatType.CritChance])
             {
                 Debug.Log("Critical Hit");
                 Debug.Log(Stats[StatType.Attack] * Stats[StatType.CritDamage]);

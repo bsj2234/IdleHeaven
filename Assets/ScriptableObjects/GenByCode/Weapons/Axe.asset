@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f3eb81e55c1cf4ba49031b2d412b89, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  _itemName: 
+  _itemName: Axe
   _itemPrefab: {fileID: 5245051148673330148, guid: a19705394a16ca14d8f664fb8664a9e8,
     type: 3}
   _description: A heavy axe
@@ -35,7 +35,7 @@ MonoBehaviour:
       _value: 0
     - _statType: 7
       _value: 0
-  _equipmentSlot: 0
+  _equipmentSlot: 3
   _weaponType: Melee
   _attackSpeed: 1.2
   _minDamage: 20
