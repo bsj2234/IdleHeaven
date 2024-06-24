@@ -1,6 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using IdleHeaven;
+using System;
 using UnityEngine;
+
 
 [RequireComponent(typeof(Attack))]
 public class Enemy : MonoBehaviour
@@ -9,7 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] Health health;
 
     [SerializeField] ItemSpawner spawner;
-    
+
     private void Awake()
     {
         health.OnDead += HandleDead;
@@ -20,7 +21,7 @@ public class Enemy : MonoBehaviour
     }
     private void OnValidate()
     {
-        if(autoSet)
+        if (autoSet)
         {
             health = GetComponent<Health>();
             autoSet = false;

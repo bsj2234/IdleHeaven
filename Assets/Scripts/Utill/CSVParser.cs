@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace IdleHeaven
 {
@@ -10,14 +11,16 @@ namespace IdleHeaven
     {
         public string csvItemFilePath;
         public string csvEffectFilePath;
+        public string csvEnemiesFilePath;
         public List<Item> items;
         public List<ItemEffectData> effects;
+        public List<EnemyData> enemies;
 
-        [SerializeField] bool Launch=false;
+        [SerializeField] bool Launch = false;
 
         private void OnValidate()
         {
-            if(Launch)
+            if (Launch)
             {
                 Launch = false;
                 items = ParseCSV<Item>(csvItemFilePath);
@@ -29,6 +32,11 @@ namespace IdleHeaven
                 foreach (var effect in effects)
                 {
                     Debug.Log($"Parsed effect: {effect.Stat} with Rarity: {effect.Rarity}");
+                }
+                enemies = ParseCSV<EnemyData>(csvEnemiesFilePath);
+                foreach (var enemy in enemies)
+                {
+                    Debug.Log($"Parsed enemy: {enemy.Name}");
                 }
             }
         }
@@ -58,6 +66,10 @@ namespace IdleHeaven
                     {
                         PopulateItemEffectRecord(record as ItemEffectData, header, field);
                     }
+                    else if (typeof(T) == typeof(EnemyData))
+                    {
+                        PopulateEnemyRecord(record as EnemyData, header, field);
+                    }
                 }
 
                 records.Add(record);
@@ -84,7 +96,7 @@ namespace IdleHeaven
                 weaponData.MinDamage = int.Parse(fields[Array.IndexOf(headers, "MinDamage")]);
                 weaponData.MaxDamage = int.Parse(fields[Array.IndexOf(headers, "MaxDamage")]);
                 item.ItemData = weaponData;
-                SaveScriptableObject(weaponData, $"Assets/Resources/Weapons/{itemName}.asset");
+                SaveScriptableObject(weaponData, $"Assets/ScriptableObjects/GenByCode/Weapons/{itemName}.asset");
             }
             else if (itemType == "Armor")
             {
@@ -94,7 +106,7 @@ namespace IdleHeaven
                 armorData.PrefabPath = prefabPath;
                 armorData.DefenseValue = int.Parse(fields[Array.IndexOf(headers, "DefenseValue")]);
                 item.ItemData = armorData;
-                SaveScriptableObject(armorData, $"Assets/Resources/Armors/{itemName}.asset");
+                SaveScriptableObject(armorData, $"Assets/ScriptableObjects/GenByCode/Armors/{itemName}.asset");
             }
             else if (itemType == "Usable")
             {
@@ -104,8 +116,8 @@ namespace IdleHeaven
                 usableItemData.PrefabPath = prefabPath;
                 //usableItemData.EffectType = fields[Array.IndexOf(headers, "EffectType")];
                 //usableItemData.EffectValue = int.Parse(fields[Array.IndexOf(headers, "EffectValue")]);
-                item.ItemData = usableItemData; 
-                SaveScriptableObject(usableItemData, $"Assets/Resources/Usables/{itemName}.asset");
+                item.ItemData = usableItemData;
+                SaveScriptableObject(usableItemData, $"Assets/ScriptableObjects/GenByCode/Usables/{itemName}.asset");
             }
         }
 
@@ -129,6 +141,43 @@ namespace IdleHeaven
                     effect.MaxValue = int.Parse(field);
                     break;
             }
+        }
+
+        private void PopulateEnemyRecord(EnemyData enemy, string header, string field)
+        {
+            switch (header)
+            {
+                case "Name":
+                    enemy.Name = field;
+                    break;
+                case "Level":
+                    enemy.Level = int.Parse(field);
+                    break;
+                case "Health":
+                    enemy.Health = float.Parse(field);
+                    break;
+                case "Attack":
+                    enemy.Attack = float.Parse(field);
+                    break;
+                case "Defense":
+                    enemy.Defense = float.Parse(field);
+                    break;
+                case "Resistance":
+                    enemy.Resistance = float.Parse(field);
+                    break;
+                default:
+                    Assert.IsTrue(false, $"Unknown field: {header}");
+                    break;
+            }
+
+            EnemyData enemyData = ScriptableObject.CreateInstance<EnemyData>();
+            enemyData.Name = enemy.Name;
+            enemyData.Level = enemy.Level;
+            enemyData.Health = enemy.Health;
+            enemyData.Attack = enemy.Attack;
+            enemyData.Defense = enemy.Defense;
+            enemyData.Resistance = enemy.Resistance;
+            SaveScriptableObject(enemyData, $"Assets/ScriptableObjects/GenByCode/Enemies/{enemy.Name}.asset");
         }
 
 
