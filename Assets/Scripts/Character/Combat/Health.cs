@@ -5,22 +5,35 @@ public class Health : MonoBehaviour
 {
     [SerializeField] float initalMaxHp = 100f;
     [SerializeField] float _maxHp = 100f;
+
     [SerializeField] float _hp = 100f;
+
     [SerializeField] bool _dead = false;
+
     [SerializeField] float _invincibleTimeOnHit = .1f;
     [SerializeField] float _prevHitTime = 0f;
+
     [SerializeField] Attack _attackComponentOfSelf;
 
+    public Func<bool> OnDamageableCheck { get; set; }
     public Action OnDamaged { get; set; }
     public Action<Attack> OnDamagedWAttacker { get; set; }
-    public Action OnDead { get; set; }
-    public Action<Attack> OnDeadWAttacker { get; set; }
-    public Func<bool> OnDamageableCheck { get; set; }
     public Action OnHeal { get; set; }
+    public Action<Health> OnDead { get; set; }
+    public Action<Attack> OnDeadWAttacker { get; set; }
+
+
+
     private void Awake()
     {
         Init();
     }
+    private void OnDestroy()
+    {
+        
+    }
+
+
     public void Init()
     {
         _hp = _maxHp;
@@ -46,6 +59,8 @@ public class Health : MonoBehaviour
         _hp = _maxHp * ratio;
         _dead = false;
     }
+
+
     private bool IsDamageable()
     {
         if (Time.time < _prevHitTime + _invincibleTimeOnHit)
@@ -77,8 +92,8 @@ public class Health : MonoBehaviour
         if (_hp <= 0f)
         {
             _dead = true;
-            OnDead?.Invoke();
-            OnDeadWAttacker(attacker);
+            OnDead?.Invoke(this);
+            OnDeadWAttacker?.Invoke(attacker);
         }
         return true;
     }
@@ -88,6 +103,8 @@ public class Health : MonoBehaviour
         _hp -= damage;
         OnDamaged?.Invoke();
     }
+
+
     public void Heal(int v)
     {
         if (_hp < _maxHp)
@@ -107,6 +124,8 @@ public class Health : MonoBehaviour
         }
         TakeDamage(null,_hp);
     }
+
+
     public bool IsDead()
     {
         return _dead;

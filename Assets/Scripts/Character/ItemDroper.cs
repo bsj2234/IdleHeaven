@@ -12,6 +12,7 @@ public class ItemDroper : MonoBehaviour
         CharacterAIController characterController = GetComponent<CharacterAIController>();
         Health health = GetComponent<Health>();
         health.OnDeadWAttacker += DropItem;
+        spawner = FindObjectOfType<ItemSpawner>();
     }
 
     public void DropItem(Attack attacker)

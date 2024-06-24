@@ -6,28 +6,28 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] bool autoSet = false;
-    [SerializeField] Health combat;
+    [SerializeField] Health health;
 
     [SerializeField] ItemSpawner spawner;
     
     private void Awake()
     {
-        combat.OnDead += HandleDead;
+        health.OnDead += HandleDead;
     }
     private void OnDestroy()
     {
-        combat.OnDead -= HandleDead;
+        health.OnDead -= HandleDead;
     }
     private void OnValidate()
     {
         if(autoSet)
         {
-            combat = GetComponent<Health>();
+            health = GetComponent<Health>();
             autoSet = false;
         }
     }
 
-    private void HandleDead()
+    private void HandleDead(Health self)
     {
         Destroy(gameObject);
     }

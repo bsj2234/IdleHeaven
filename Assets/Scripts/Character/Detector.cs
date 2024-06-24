@@ -39,8 +39,6 @@ public class Detector : MonoBehaviour
             }
         }
     }
-
-
     public Transform GetNearestTarget()
     {
         if (_targetsInDetector.Count == 0)
@@ -53,12 +51,8 @@ public class Detector : MonoBehaviour
         {
             return null;
         }
-
-
         int i = _targetsInDetector.Count - 1;
         var result = _targetsInDetector[i];
-
-
         if (additionalConditionForDelete != null)
         {
             while (additionalConditionForDelete.Invoke())
@@ -69,7 +63,6 @@ public class Detector : MonoBehaviour
         }
         return result;
     }
-
     private void DebugTarget()
     {
         string targetArray = "";
@@ -78,8 +71,6 @@ public class Detector : MonoBehaviour
             targetArray = $"{targetArray} ,{enemy.transform.name}";
         }
     }
-
-
     private int SortTarget(Transform lhs, Transform rhs)
     {
         if (lhs == null)
@@ -94,9 +85,6 @@ public class Detector : MonoBehaviour
         float DistanceToRhs = Vector3.Distance(rhs.position, transform.position);
         return DistanceToRhs.CompareTo(DistanceToLhs);
     }
-
-
-
     public void RemoveTarget(Transform target)
     {
         if (_targetsInDetector.Count == 0)

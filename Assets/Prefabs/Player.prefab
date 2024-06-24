@@ -90,8 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259a29bca17e62f42b399bec9fb37c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterStats: {fileID: 6016437529314624338}
-  _equipments: {fileID: 5767510916512670893}
 --- !u!114 &5807584352472901866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,6 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slotVisualize: []
+  _characterStats: {fileID: 0}
 --- !u!114 &6828630629245917689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,10 +269,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 30
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
