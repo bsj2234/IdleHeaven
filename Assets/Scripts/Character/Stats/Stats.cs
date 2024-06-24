@@ -121,12 +121,19 @@ namespace IdleHeaven
             }
         }
 
-        public void AddStats(Stats other)
+        public Stats AddStat(StatType statType, float amount)
+        {
+            this[statType] += amount;
+            return this;
+        }
+
+        public Stats AddStats(Stats other)
         {
             foreach (Stat stat in other.stats)
             {
                 this[stat.StatType] += stat.Value;
             }
+            return this;
         }
 
         internal void SubtractStats(Stats other)

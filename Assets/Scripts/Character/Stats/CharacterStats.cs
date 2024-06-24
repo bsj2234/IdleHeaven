@@ -1,12 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
-using IdleHeaven;
 
 namespace IdleHeaven
 {
     public class CharacterStats : MonoBehaviour
     {
         public Stats Stats;
+        public LevelSystem LevelSystem;
 
 
         private Stats _effectBonusStats = new Stats();
@@ -34,9 +33,6 @@ namespace IdleHeaven
                 _equipments.OnUnEquipped -= OnUnequippedHandler;
             }
         }
-
-
-
         public float GetStatValue(StatType statType)
         {
             return Stats[statType];
@@ -74,6 +70,13 @@ namespace IdleHeaven
         {
             Stats.SubtractStats(item.GetStatBonus());
             Stats.SubtractStats(item.GetEffectStatBonus());
+        }
+        private void OnLevelUpHandler(Stats stats)
+        {
+            Stats.AddStat(StatType.Hp,LevelSystem.Level * 100f);
+            Stats.AddStat(StatType.Attack,LevelSystem.Level * 10f);
+            Stats.AddStat(StatType.Defense, LevelSystem.Level * 10f);
+            Stats.AddStat(StatType.Resistance,LevelSystem.Level * 10f);
         }
     }
 }

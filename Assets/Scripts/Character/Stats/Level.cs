@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class LevelSystem : MonoBehaviour
+[Serializable]
+public class LevelSystem
 {
     public int Level;
     public int MaxLevel;
