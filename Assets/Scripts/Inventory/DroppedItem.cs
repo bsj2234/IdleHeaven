@@ -7,6 +7,7 @@ using UnityEngine;
 public class DroppedItem : MonoBehaviour
 {
     [SerializeField] Transform _acquirer;
+    public bool Acquirable = false;
     private Item _item;
     private void OnEnable()
     {
@@ -35,5 +36,10 @@ public class DroppedItem : MonoBehaviour
     public void Init(Item item)
     {
         _item = item;
+    }
+
+    public void TriggerAcquirable()
+    {
+        Acquirable = true;
     }
 }

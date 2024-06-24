@@ -15,7 +15,7 @@ public class ItemAcquirer : MonoBehaviour
 
     private void Acquire(DroppedItem droppedItem)
     {
-        if (droppedItem.GetAcquirer() == transform.parent)
+        if (droppedItem.GetAcquirer() == transform.parent && droppedItem.Acquirable)
         {
             if (OnItemAcquired != null)
             {

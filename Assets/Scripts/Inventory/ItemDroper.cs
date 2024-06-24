@@ -19,6 +19,8 @@ public class ItemDroper : MonoBehaviour
         Item generatedItem = spawner.generator.GenerateItem(new GenerateInfo(10));
         DroppedItem item = spawner.SpawnItem(transform, generatedItem);
         item.SetAcquirer(attacker.transform);
-        item.GetComponent<ItemGrabber>().GrabToTarget(attacker.transform);
+        ItemGrabber grabber = item.GetComponent<ItemGrabber>();
+        grabber.GrabToTarget(attacker.transform);
+        grabber.OnHalfway += item.TriggerAcquirable;
     }
 }

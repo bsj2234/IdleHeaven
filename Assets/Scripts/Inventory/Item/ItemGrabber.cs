@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class ItemGrabber : MonoBehaviour
     [SerializeField] float _duration;
     private Vector3 _initialPos;
     private float _time;
+    private bool _overHalfway = false;
+
+    public Action OnHalfway { get; internal set; }
 
     public void GrabToTarget(Transform target)
     {
@@ -20,6 +24,11 @@ public class ItemGrabber : MonoBehaviour
     {
         if (_target == null)
             return;
+        if(_time >= _duration * .5f && !_overHalfway)
+        {
+            _overHalfway = true;
+            OnHalfway?.Invoke();
+        }
         //처음 위치에서 타겟 위치까지 이동시킴
         Vector3 tempPos = Vector3.Lerp(_initialPos, _target.position, _time / _duration);
         float nomyTime = _time / _duration;
