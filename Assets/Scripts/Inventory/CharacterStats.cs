@@ -8,15 +8,34 @@ namespace IdleHeaven
     {
         public Stats Stats;
 
+
         private Stats _effectBonusStats = new Stats();
         private Stats _equipmentBonusStats = new Stats();
 
-        private Equipments equipments;
+
+        private Equipments _equipments;
+
+
 
         private void Awake()
         {
-            equipments = GetComponent<Equipments>();
+            if (TryGetComponent(out Equipments equipments))
+            {
+                _equipments = equipments;
+                _equipments.OnEquipped += OnEquippedHandler;
+                _equipments.OnUnEquipped += OnUnequippedHandler;
+            }
         }
+        private void OnDestroy()
+        {
+            if(_equipments != null)
+            {
+                _equipments.OnEquipped -= OnEquippedHandler;
+                _equipments.OnUnEquipped -= OnUnequippedHandler;
+            }
+        }
+
+
 
         public float GetStatValue(StatType statType)
         {
@@ -40,6 +59,21 @@ namespace IdleHeaven
                     .SetTarget(_effectBonusStats)
                     .ApplyEffect();
             }
+        }
+
+
+
+        //========장착, 해제이벤트 핸들러
+        private void OnEquippedHandler(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+        {
+            Stats.AddStats(item.GetStatBonus());
+            Stats.AddStats(item.GetEffectStatBonus());
+        }
+
+        private void OnUnequippedHandler(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+        {
+            Stats.SubtractStats(item.GetStatBonus());
+            Stats.SubtractStats(item.GetEffectStatBonus());
         }
     }
 }

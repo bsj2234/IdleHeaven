@@ -9,6 +9,7 @@ namespace IdleHeaven
     public class Equipments : MonoBehaviour
     {
         [SerializeField] private EquipmentItem[] _slotVisualize;
+        [SerializeField] private CharacterStats _characterStats;
         private Dictionary<EquipmentSlot, EquipmentItem> _equippedItems = new Dictionary<EquipmentSlot, EquipmentItem>();
 
         public Action<EquipmentSlot, Item> OnEquipmentsChagned { get; set; }
