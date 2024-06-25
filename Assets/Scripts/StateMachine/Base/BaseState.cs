@@ -11,7 +11,7 @@ public abstract class BaseState
         this.stateMachine = stateMachine;
     }
     public abstract void EnterState();
-    public abstract void ExitState();
+    public abstract void ExitState(BaseState nextState);
     public abstract void UpdateState();
     public virtual void ChangeStateTo<T>() where T : BaseState
     {

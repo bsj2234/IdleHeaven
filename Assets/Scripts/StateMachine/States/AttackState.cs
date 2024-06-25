@@ -8,6 +8,7 @@ public class AttackState : BaseState
     float attackCooldown = 0f;
 
     Transform target;
+    Transform _transform;
     Health targetCombat;
     CharacterAIController _controller;
     Attack _attack;
@@ -22,6 +23,7 @@ public class AttackState : BaseState
         _controller = controller;
         _attack = attack;
         _detector = detector;
+        _transform = stateMachine.transform;
 
 
         _hasStat = stateMachine.TryGetComponent(out CharacterStats stats); 
@@ -38,26 +40,33 @@ public class AttackState : BaseState
 
     public override void EnterState()
     {
-        
+        Debug.Log("Enter Attack State");
     }
 
-    public override void ExitState()
+    public override void ExitState(BaseState nextState)
     {
+        Debug.Log("Exit Attack State");
     }
     public override void UpdateState()
     {
+
+
         bool isDestroyedOrDead = targetCombat == null || targetCombat.IsDead();
+        Transform nearTarget = null;
+
+        Vector3 selftToTarget = target.position - _transform.position;
+        bool isInAttackRange = Mathf.Abs(selftToTarget.y) < .5f && new Vector2(selftToTarget.x, selftToTarget.z).magnitude < 2f;
+
         if (isDestroyedOrDead)
         {
-            bool isDestroyedAndDead = targetCombat != null && targetCombat.IsDead();
-            if (isDestroyedAndDead)
-            {
-                _detector.RemoveTarget(targetCombat.transform);
-            }
+            _detector.RemoveTarget(targetCombat.transform);
+        }
 
-            Transform nearTarget = _detector.GetNearestTarget();
+        if(isDestroyedOrDead || !isInAttackRange)
+        {
+            nearTarget = _detector.GetNearestTarget();
             Health nextEnemy = null;
-            if(nearTarget != null)
+            if (nearTarget != null)
             {
                 nextEnemy = _detector.GetNearestTarget().GetComponent<Health>();
             }
@@ -67,7 +76,7 @@ public class AttackState : BaseState
             }
 
 
-            if (nextEnemy!= null)
+            if (nextEnemy != null)
             {
                 stateMachine
                     .GetState<ChaseState>()
@@ -78,7 +87,11 @@ public class AttackState : BaseState
             {
                 stateMachine.ChangeState<IdleState>();
             }
+            return;
         }
+
+
+
         bool isAttackable = attackCooldown < 0f;
         if (isAttackable)
         {

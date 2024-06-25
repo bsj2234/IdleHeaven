@@ -16,7 +16,7 @@ public class IdleState : BaseState
     public override void UpdateState()
     {
     }
-    public override void ExitState()
+    public override void ExitState(BaseState nextState)
     {
     }
 

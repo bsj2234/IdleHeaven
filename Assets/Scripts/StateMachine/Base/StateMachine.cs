@@ -30,7 +30,7 @@ public class StateMachine : MonoBehaviour
         var type = typeof(MT);
         if (states.ContainsKey(type))
         {
-            CurrentState?.ExitState();
+            CurrentState?.ExitState(states[type]);
             CurrentState = states[type];
             CurrentState.EnterState();
             return (MT)CurrentState;

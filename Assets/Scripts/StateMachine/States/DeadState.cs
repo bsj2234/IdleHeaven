@@ -16,7 +16,7 @@ public class DeadState : BaseState
     {
         // Idle behavior
     }
-    public override void ExitState()
+    public override void ExitState(BaseState nextState)
     {
         Debug.Log("Exiting Idle State");
     }

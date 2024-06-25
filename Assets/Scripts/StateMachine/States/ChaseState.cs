@@ -61,7 +61,7 @@ public class ChaseState : BaseState
         }
     }
 
-    public override void ExitState()
+    public override void ExitState(BaseState nextState)
     {
     }
 
