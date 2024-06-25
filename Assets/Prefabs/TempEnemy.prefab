@@ -174,8 +174,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 92029772342272206}
         m_TargetAssemblyTypeName: ShakeVFX, Assembly-CSharp
-        m_MethodName: Play
-        m_Mode: 1
+        m_MethodName: HandleOnDamage
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

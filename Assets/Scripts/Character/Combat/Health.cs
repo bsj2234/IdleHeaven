@@ -1,3 +1,4 @@
+using IdleHeaven;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,7 +18,7 @@ public class Health : MonoBehaviour
     [SerializeField] Attack _attackComponentOfSelf;
 
     public Func<bool> OnDamageableCheck { get; set; }
-    public UnityEvent<Attack> OnDamaged;
+    public UnityEvent<Attack, AttackType> OnDamaged;
     public Action OnHeal { get; set; }
     public Action<Health> OnDead { get; set; }
     public Action<Attack> OnDeadWAttacker { get; set; }
@@ -82,12 +83,12 @@ public class Health : MonoBehaviour
         }
         return true;
     }
-    public bool TakeDamage(Attack attacker, float damage)
+    public bool TakeDamage(Attack attacker, float damage, AttackType attackType = AttackType.None)
     {
         if (!IsDamageable())
             return false;
         CalcTakeDamage(damage);
-        OnDamaged?.Invoke(attacker);
+        OnDamaged?.Invoke(attacker, attackType);
 
         if (_hp <= 0f)
         {

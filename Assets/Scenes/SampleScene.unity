@@ -42858,7 +42858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8a172f0da154dd4bb2d4d1545f77c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnInterval: 1
+  _spawnInterval: 0.2
   _spawnPoint:
   - {fileID: 977132798}
   - {fileID: 1110214572}
@@ -47354,7 +47354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8a172f0da154dd4bb2d4d1545f77c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnInterval: 1
+  _spawnInterval: 0.2
   _spawnPoint:
   - {fileID: 312547421}
   - {fileID: 1399371808}

@@ -1,8 +1,13 @@
-using System;
 using UnityEngine;
 
 namespace IdleHeaven
 {
+    public struct DamageInfo
+    {
+        public AttackType AttackType;
+        public float Damage;
+    }
+
     public class CharacterStats : MonoBehaviour
     {
         public Stats Stats;
@@ -28,7 +33,7 @@ namespace IdleHeaven
         }
         private void OnDestroy()
         {
-            if(_equipments != null)
+            if (_equipments != null)
             {
                 _equipments.OnEquipped -= OnEquippedHandler;
                 _equipments.OnUnEquipped -= OnUnequippedHandler;
@@ -58,6 +63,32 @@ namespace IdleHeaven
             }
         }
 
+        public DamageInfo GetDamage()
+        {
+            float rand = UnityEngine.Random.Range(0f, 100f);
+            if (rand <= Stats[StatType.CritChance])
+            {
+                Debug.Log("Critical Hit");
+                Debug.Log(Stats[StatType.Attack] * Stats[StatType.CritDamage]);
+                return new DamageInfo
+                {
+                    Damage = Stats[StatType.Attack] * Stats[StatType.CritDamage],
+                    AttackType = AttackType.ChargedMelee
+                };
+                    
+            }
+            else
+            {
+                Debug.Log("Normal Hit");
+                Debug.Log(Stats[StatType.Attack]);
+                return new DamageInfo
+                {
+                    Damage = Stats[StatType.Attack] * Stats[StatType.CritDamage],
+                    AttackType = AttackType.Melee
+                };
+            }
+        }
+
 
 
         //========장착, 해제이벤트 핸들러
@@ -74,28 +105,10 @@ namespace IdleHeaven
         }
         private void OnLevelUpHandler(Stats stats)
         {
-            Stats.AddStat(StatType.Hp,LevelSystem.Level * 100f);
-            Stats.AddStat(StatType.Attack,LevelSystem.Level * 10f);
+            Stats.AddStat(StatType.Hp, LevelSystem.Level * 100f);
+            Stats.AddStat(StatType.Attack, LevelSystem.Level * 10f);
             Stats.AddStat(StatType.Defense, LevelSystem.Level * 10f);
-            Stats.AddStat(StatType.Resistance,LevelSystem.Level * 10f);
-        }
-
-        public float GetDamage()
-        {
-            float rand = UnityEngine.Random.Range(0f, 100f);
-
-            if(rand <= Stats[StatType.CritChance])
-            {
-                Debug.Log("Critical Hit");
-                Debug.Log(Stats[StatType.Attack] * Stats[StatType.CritDamage]);
-               return Stats[StatType.Attack] * Stats[StatType.CritChance];
-            }
-            else
-            {
-                Debug.Log("Normal Hit");
-                Debug.Log(Stats[StatType.Attack]);
-               return Stats[StatType.Attack];
-            }
+            Stats.AddStat(StatType.Resistance, LevelSystem.Level * 10f);
         }
     }
 }

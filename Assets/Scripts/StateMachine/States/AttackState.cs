@@ -1,6 +1,5 @@
 using IdleHeaven;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class AttackState : BaseState
@@ -18,7 +17,7 @@ public class AttackState : BaseState
     bool _hasStat = false;
 
 
-    public AttackState(StateMachine stateMachine, CharacterAIController controller, Attack attack ,Detector detector) : base(stateMachine)
+    public AttackState(StateMachine stateMachine, CharacterAIController controller, Attack attack, Detector detector) : base(stateMachine)
     {
         _controller = controller;
         _attack = attack;
@@ -26,7 +25,7 @@ public class AttackState : BaseState
         _transform = stateMachine.transform;
 
 
-        _hasStat = stateMachine.TryGetComponent(out CharacterStats stats); 
+        _hasStat = stateMachine.TryGetComponent(out CharacterStats stats);
         _stats = stats;
     }
 
@@ -50,54 +49,36 @@ public class AttackState : BaseState
     public override void UpdateState()
     {
 
-
-        bool isDestroyedOrDead = targetCombat == null || targetCombat.IsDead();
-        Transform nearTarget = null;
-
-
-        if (isDestroyedOrDead)
+        //check is daed or destroyed
+        bool isDestroyed = target == null;
+        if (isDestroyed)
         {
-            _detector.RemoveTarget(targetCombat.transform);
-            nearTarget = _detector.GetNearestTarget();
+            SetTarget(_detector.GetNearestTarget());
+        }
+        else
+        {
+            bool isDead = targetCombat.IsDead();
+            if (isDead)
+            {
+                _detector.RemoveTarget(targetCombat.transform);
+                SetTarget(_detector.GetNearestTarget());
+            }
         }
 
         Vector3 selftToTarget = target.position - _transform.position;
         bool isInAttackRange = Mathf.Abs(selftToTarget.y) < .5f && new Vector2(selftToTarget.x, selftToTarget.z).magnitude < 2f;
-        if (isDestroyedOrDead || !isInAttackRange)
+        if(!isInAttackRange)
         {
-            Health nextEnemy = null;
-            if (nearTarget != null)
-            {
-                nextEnemy = _detector.GetNearestTarget().GetComponent<Health>();
-            }
-            else
-            {
-                stateMachine.ChangeState<IdleState>();
-            }
-
-
-            if (nextEnemy != null)
-            {
-                stateMachine
-                    .GetState<ChaseState>()
-                    .SetTarget(nextEnemy.transform)
-                    .ChangeStateTo<ChaseState>();
-            }
-            else
-            {
-                stateMachine.ChangeState<IdleState>();
-            }
+            stateMachine.ChangeState<ChaseState>().SetTarget(target);
             return;
         }
-
-
 
         bool isAttackable = attackCooldown < 0f;
         if (isAttackable)
         {
             Debug.Assert(targetCombat != null, $"Enemy is null while {_controller.transform.name} try attacking");
-            float damage = _hasStat ? _stats.GetDamage() : 5f;
-            _attack.DealDamage(target.GetComponent<Health>(),  damage);
+            DamageInfo damage = _hasStat ? _stats.GetDamage() : new DamageInfo();
+            _attack.DealDamage(targetCombat, damage.Damage, damage.AttackType);
             attackCooldown = 1f;
         }
         else
