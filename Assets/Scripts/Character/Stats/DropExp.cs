@@ -1,3 +1,4 @@
+using IdleHeaven;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,8 @@ public class DropExp : MonoBehaviour
 {
     [SerializeField] int expAmount = 10;
 
-    public void Drop(Attack attacker, )
+    public void Drop(Attack attacker, Health health)
     {
-        // Drop exp
-        Debug.Log("Dropped " + expAmount + " exp");
+        attacker.GetComponent<CharacterStats>().LevelSystem.AddExp(expAmount);
     }
 }

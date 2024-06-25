@@ -32,7 +32,7 @@ public class LevelSystem
     {
         Level++;
         Exp = 0;
-        MaxExp = MaxExp * 2;
+        MaxExp = MaxExp * 1.2f;
         OnLevelUp?.Invoke();
     }
 }

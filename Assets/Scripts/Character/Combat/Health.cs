@@ -17,7 +17,7 @@ public class Health : MonoBehaviour
 
     [SerializeField] Attack _attackComponentOfSelf;
 
-    public Func<bool> OnDamageableCheck { get; set; }
+    public Func<bool> AdditionalDamageableCheck { get; set; }
     public UnityEvent<Attack, AttackType> OnDamaged;
     public UnityEvent OnHeal;
     public UnityEvent<Attack, Health> OnDead;
@@ -72,9 +72,9 @@ public class Health : MonoBehaviour
             return false;
         }
         bool result = true;
-        if (OnDamageableCheck != null)
+        if (AdditionalDamageableCheck != null)
         {
-            result = result && OnDamageableCheck.Invoke();
+            result = result && AdditionalDamageableCheck.Invoke();
         }
         if (!result)
         {
