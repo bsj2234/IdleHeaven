@@ -43,13 +43,13 @@ public class EnemySpawner : MonoBehaviour
     private void AddEnemy(GameObject enemy)
     {
         _enemies.Add(enemy.GetComponent<Enemy>());
-        enemy.GetComponent<Health>().OnDead += HandleOnEnemyDead;
+        enemy.GetComponent<Health>().OnDead.AddListener(HandleOnEnemyDead);
     }
 
-    private void HandleOnEnemyDead(Health health)
+    private void HandleOnEnemyDead(Attack attacker , Health health)
     {
         _enemies.Remove(health.GetComponent<Enemy>());
-        health.OnDead -= HandleOnEnemyDead;
+        health.OnDead.RemoveListener(HandleOnEnemyDead);
     }
 
 

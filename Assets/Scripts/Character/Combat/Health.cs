@@ -19,9 +19,8 @@ public class Health : MonoBehaviour
 
     public Func<bool> OnDamageableCheck { get; set; }
     public UnityEvent<Attack, AttackType> OnDamaged;
-    public Action OnHeal { get; set; }
-    public Action<Health> OnDead { get; set; }
-    public Action<Attack> OnDeadWAttacker { get; set; }
+    public UnityEvent OnHeal;
+    public UnityEvent<Attack, Health> OnDead;
 
 
 
@@ -93,8 +92,7 @@ public class Health : MonoBehaviour
         if (_hp <= 0f)
         {
             _dead = true;
-            OnDead?.Invoke(this);
-            OnDeadWAttacker?.Invoke(attacker);
+            OnDead?.Invoke(attacker,this);
         }
         return true;
     }

@@ -13,11 +13,11 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        health.OnDead += HandleDead;
+        health.OnDead.AddListener(HandleDead);
     }
     private void OnDestroy()
     {
-        health.OnDead -= HandleDead;
+        health.OnDead.RemoveListener(HandleDead);
     }
     private void OnValidate()
     {
@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void HandleDead(Health self)
+    private void HandleDead(Attack attacker ,Health self)
     {
         Destroy(gameObject);
     }
