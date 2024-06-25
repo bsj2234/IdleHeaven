@@ -9,7 +9,7 @@ public class LevelSystem
     public float MaxExp = 100f;
 
     public Action OnLevelUp {get; set;}
-
+    public Action OnLevelSystemChanged { get; internal set; }
 
     public void AddExp(int exp)
     {
@@ -18,6 +18,7 @@ public class LevelSystem
         {
             LevelUp();
         }
+        OnLevelSystemChanged?.Invoke();
     }
 
     public void RemoveExp(int exp) 
@@ -26,6 +27,7 @@ public class LevelSystem
         if (this.Exp < 0) {
             this.Exp = 0;
         }
+        OnLevelSystemChanged?.Invoke();
     }
 
     public void LevelUp()
