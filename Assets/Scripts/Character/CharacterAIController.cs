@@ -51,6 +51,8 @@ public class CharacterAIController : MonoBehaviour
         stateMachine.AddState(deadState);
 
         stateMachine.ChangeState<IdleState>();
+
+        _health.OnDead.AddListener((attack, helth) => stateMachine.ChangeState<DeadState>());
     }
     public void ChangeToAuto()
     {

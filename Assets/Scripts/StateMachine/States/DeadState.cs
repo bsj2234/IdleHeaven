@@ -10,7 +10,7 @@ public class DeadState : BaseState
 
     public override void EnterState()
     {
-        Debug.Log("Entering Idle State");
+        Transform.Destroy(stateMachine.transform.gameObject);
     }
     public override void UpdateState()
     {

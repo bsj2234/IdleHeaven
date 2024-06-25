@@ -58,14 +58,14 @@ namespace IdleHeaven
         public void RegisterStatChanged(Action<Stat> action)
         {
             StatChanged += action;
-            StatChanged.Invoke(this);
+            StatChanged?.Invoke(this);
         }
 
         public void OnPropertyChanged(string propertyName)
         {
             if(StatChanged != null)
             {
-                StatChanged(this);
+                StatChanged?.Invoke(this);
             }
         }
     }
