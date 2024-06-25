@@ -2,7 +2,7 @@ using IdleHeaven;
 using System.ComponentModel;
 using UnityEngine;
 
-public class ItemViewModel : MonoBehaviour,INotifyPropertyChanged
+public class ItemViewModel : MonoBehaviour, INotifyPropertyChanged
 {
     private Item _item;
 
