@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2756936498101751877}
   - component: {fileID: 8626104006469648626}
   - component: {fileID: 4547397525002165866}
-  - component: {fileID: 8489446904000461218}
+  - component: {fileID: 92029772342272206}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -84,29 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &8489446904000461218
-CapsuleCollider:
+--- !u!114 &92029772342272206
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1245084950422780803}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a070f6180b153419208bb11e3cd092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  magnitude: 0.1
 --- !u!1 &2855540130070105857
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,6 +169,21 @@ MonoBehaviour:
   _invincibleTimeOnHit: 0.1
   _prevHitTime: 0
   _attackComponentOfSelf: {fileID: 549787858096021318}
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 92029772342272206}
+        m_TargetAssemblyTypeName: ShakeVFX, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &549787858096021318
 MonoBehaviour:
   m_ObjectHideFlags: 0

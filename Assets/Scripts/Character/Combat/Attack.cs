@@ -2,7 +2,6 @@ using IdleHeaven;
 using System;
 using UnityEngine;
 
-[System.Serializable]
 public class Attack:MonoBehaviour
 {
     public Action OnAttackSucceeded;

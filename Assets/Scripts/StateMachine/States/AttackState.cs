@@ -54,17 +54,17 @@ public class AttackState : BaseState
         bool isDestroyedOrDead = targetCombat == null || targetCombat.IsDead();
         Transform nearTarget = null;
 
-        Vector3 selftToTarget = target.position - _transform.position;
-        bool isInAttackRange = Mathf.Abs(selftToTarget.y) < .5f && new Vector2(selftToTarget.x, selftToTarget.z).magnitude < 2f;
 
         if (isDestroyedOrDead)
         {
             _detector.RemoveTarget(targetCombat.transform);
+            nearTarget = _detector.GetNearestTarget();
         }
 
-        if(isDestroyedOrDead || !isInAttackRange)
+        Vector3 selftToTarget = target.position - _transform.position;
+        bool isInAttackRange = Mathf.Abs(selftToTarget.y) < .5f && new Vector2(selftToTarget.x, selftToTarget.z).magnitude < 2f;
+        if (isDestroyedOrDead || !isInAttackRange)
         {
-            nearTarget = _detector.GetNearestTarget();
             Health nextEnemy = null;
             if (nearTarget != null)
             {

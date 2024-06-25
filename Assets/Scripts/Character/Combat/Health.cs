@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
@@ -16,8 +17,7 @@ public class Health : MonoBehaviour
     [SerializeField] Attack _attackComponentOfSelf;
 
     public Func<bool> OnDamageableCheck { get; set; }
-    public Action OnDamaged { get; set; }
-    public Action<Attack> OnDamagedWAttacker { get; set; }
+    public UnityEvent<Attack> OnDamaged;
     public Action OnHeal { get; set; }
     public Action<Health> OnDead { get; set; }
     public Action<Attack> OnDeadWAttacker { get; set; }
@@ -87,7 +87,7 @@ public class Health : MonoBehaviour
         if (!IsDamageable())
             return false;
         CalcTakeDamage(damage);
-        OnDamagedWAttacker?.Invoke(attacker);
+        OnDamaged?.Invoke(attacker);
 
         if (_hp <= 0f)
         {
@@ -101,7 +101,6 @@ public class Health : MonoBehaviour
     {
         _prevHitTime = Time.time;
         _hp -= damage;
-        OnDamaged?.Invoke();
     }
 
 
