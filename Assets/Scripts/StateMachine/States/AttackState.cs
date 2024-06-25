@@ -8,7 +8,6 @@ public class AttackState : BaseState
     Transform target;
     Transform _transform;
     Health targetCombat;
-    CharacterAIController _controller;
     Attack _attack;
     Detector _detector;
     CharacterStats _stats;
@@ -16,9 +15,8 @@ public class AttackState : BaseState
     bool _hasStat = false;
 
 
-    public AttackState(StateMachine stateMachine, CharacterAIController controller, Attack attack, Detector detector) : base(stateMachine)
+    public AttackState(StateMachine stateMachine, Attack attack, Detector detector) : base(stateMachine)
     {
-        _controller = controller;
         _attack = attack;
         _detector = detector;
         _transform = stateMachine.transform;
@@ -36,7 +34,6 @@ public class AttackState : BaseState
             return this;
         }
         targetCombat = target.GetComponent<Health>();
-        Debug.Assert(targetCombat != null, $"{_controller.name} is Not Attackable Object");
         return this;
     }
 
@@ -88,8 +85,8 @@ public class AttackState : BaseState
         bool isAttackable = attackCooldown < 0f;
         if (isAttackable)
         {
-            Debug.Assert(targetCombat != null, $"Enemy is null while {_controller.transform.name} try attacking");
-            DamageInfo damage = _hasStat ? _stats.GetDamage() : new DamageInfo();
+            Debug.Assert(targetCombat != null, $"Enemy is null while {stateMachine.transform.name} try attacking");
+            DamageInfo damage = _hasStat ? _stats.GetDamage() : new DamageInfo { AttackType = AttackType.None, Damage = 10f };
             _attack.DealDamage(targetCombat, damage.Damage, damage.AttackType);
             attackCooldown = 1f;
         }

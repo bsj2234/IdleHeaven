@@ -13,8 +13,8 @@ public class StateMachine : MonoBehaviour
         this.Owner = owner;
     }
 
-    public BaseState CurrentState { get; private set; }
-    protected BaseState queuedState;
+    [SerializeField] BaseState _currentState;
+    public BaseState CurrentState { get => _currentState; set => _currentState = value;}
 
     public void AddState(BaseState state)
     {

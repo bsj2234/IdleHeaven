@@ -38,10 +38,10 @@ public class CharacterAIController : MonoBehaviour
         stateMachine = GetComponent<StateMachine>();
         stateMachine.Init(transform);
 
-        var idleState = new IdleState(stateMachine, this, _detector);
+        var idleState = new IdleState(stateMachine, _detector);
         var patrolState = new PatrolState(stateMachine, patrolWaypoints);
         var chaseState = new ChaseState(stateMachine, chaseTarget, _detector);
-        var attackState = new AttackState(stateMachine, this, _attack, _detector);
+        var attackState = new AttackState(stateMachine, _attack, _detector);
         var deadState = new DeadState(stateMachine);
 
         stateMachine.AddState(idleState);

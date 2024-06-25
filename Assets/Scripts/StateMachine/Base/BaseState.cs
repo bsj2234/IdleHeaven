@@ -1,18 +1,26 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class BaseState
+[Serializable]
+public class BaseState
 {
+    [SerializeField] string _name;
     protected StateMachine stateMachine;
 
     public BaseState(StateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
+        _name = this.GetType().Name;
     }
-    public abstract void EnterState();
-    public abstract void ExitState(BaseState nextState);
-    public abstract void UpdateState();
+    public virtual void EnterState()
+    {
+    }
+    public virtual void ExitState(BaseState nextState)
+    {
+    }
+    public virtual void UpdateState()
+    {
+    }
     public virtual void ChangeStateTo<T>() where T : BaseState
     {
         Type type = this.GetType();
