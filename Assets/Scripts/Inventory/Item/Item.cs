@@ -36,7 +36,7 @@ namespace IdleHeaven
         }
 
 
-        public event Action OnItemChanged;
+        public Action OnItemChanged;
 
         public Item()
         {
@@ -53,11 +53,25 @@ namespace IdleHeaven
     public class EquipmentItem : Item
     {
         private const int MAX_ITEMEFFECT = 3;
+        private bool _equiped = false;
         public EquipmentData ItemData => _itemData as EquipmentData;
-        [SerializeField]
 
+        [SerializeField]
         private ItemEffect[] _effects = new ItemEffect[MAX_ITEMEFFECT];
+
         public ItemEffect[] Effects => _effects;
+
+        public bool Equiped
+        {
+            get { return _equiped; }
+            set 
+            {
+                _equiped = value;
+                OnItemChanged?.Invoke();
+            }
+        }
+
+       
 
         public int Level { get; private set; } = 1;
 
@@ -82,7 +96,7 @@ namespace IdleHeaven
             Stats stats = new Stats();
             foreach (var effect in _effects)
             {
-                stats[effect.Stat] += effect.Value;
+                stats[effect.Stat] += effect.Value * Level * 1.1f;
             }
             return stats;
         }

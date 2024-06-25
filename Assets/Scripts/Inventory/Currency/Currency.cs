@@ -1,13 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public abstract class Currency
+[System.Serializable]
+public class Currency
 {
-    public int Amount { get; set; }
-    public string Name { get; set; }
+    [SerializeField]
+    private int _amount;
+    [SerializeField]
+    private string _name;
+    public int Amount { get => _amount; set => _amount = value; }
+    public string Name { get => _name; set => _name = value; }
 }
 
+[System.Serializable]
 public class Gold : Currency
 {
     public Gold(int amount)

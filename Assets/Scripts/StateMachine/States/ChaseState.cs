@@ -9,6 +9,8 @@ public class ChaseState : BaseState
     private CharacterAIController _owner;
     private Detector _detector;
 
+    private float destinationCoolDown = 0f;
+
     public ChaseState(StateMachine stateMachine, Transform target, Detector detector) : base(stateMachine)
     {
         this.target = target;
@@ -49,6 +51,22 @@ public class ChaseState : BaseState
                 return;
             }
         }
+
+        if(_navMeshAgent.destination != target.position)
+        {
+            if(destinationCoolDown <= 0)
+            {
+
+               _navMeshAgent.destination = target.position;
+                destinationCoolDown = .5f;
+            }
+
+        }
+        if(destinationCoolDown > 0)
+        {
+            destinationCoolDown -= Time.deltaTime;
+        }
+
         Vector3 selftToTarget = target.position - _transform.position;
 
         bool isInAttackRange = Mathf.Abs(selftToTarget.y) < .5f && new Vector2(selftToTarget.x, selftToTarget.z).magnitude < 2f;

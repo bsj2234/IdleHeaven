@@ -1,5 +1,4 @@
 using IdleHeaven;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class AttackState : BaseState
@@ -32,6 +31,10 @@ public class AttackState : BaseState
     public AttackState SetTarget(Transform target)
     {
         this.target = target;
+        if (target == null)
+        {
+            return this;
+        }
         targetCombat = target.GetComponent<Health>();
         Debug.Assert(targetCombat != null, $"{_controller.name} is Not Attackable Object");
         return this;
@@ -44,6 +47,7 @@ public class AttackState : BaseState
 
     public override void ExitState(BaseState nextState)
     {
+        attackCooldown = 0f;
         Debug.Log("Exit Attack State");
     }
     public override void UpdateState()
@@ -65,14 +69,22 @@ public class AttackState : BaseState
             }
         }
 
-        Vector3 selftToTarget = target.position - _transform.position;
-        bool isInAttackRange = Mathf.Abs(selftToTarget.y) < .5f && new Vector2(selftToTarget.x, selftToTarget.z).magnitude < 2f;
-        if(!isInAttackRange)
+        if (target == null)
         {
-            stateMachine.ChangeState<ChaseState>().SetTarget(target);
+            stateMachine.ChangeState<IdleState>();
             return;
         }
 
+        Vector3 selftToTarget = target.position - _transform.position;
+        bool isInAttackRange = Mathf.Abs(selftToTarget.y) < .5f && new Vector2(selftToTarget.x, selftToTarget.z).magnitude < 2f;
+        if (!isInAttackRange)
+        {
+            stateMachine.GetState<ChaseState>()
+                .SetTarget(target)
+                .ChangeStateTo<ChaseState>();
+            return;
+        }
+        
         bool isAttackable = attackCooldown < 0f;
         if (isAttackable)
         {

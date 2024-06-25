@@ -38,14 +38,14 @@ namespace IdleHeaven
             // If there is already an item equipped in the slot, remove it
             if (_equippedItems.ContainsKey(slot))
             {
-                previousItem = _equippedItems[slot];
-                OnUnEquipped?.Invoke(this, slot, previousItem);
+                previousItem = Unequip(slot);
                 _equippedItems[slot] = item;
             }
             else
             {
                 _equippedItems.Add(slot, item);
             }
+            _equippedItems[slot].Equiped = true;
             OnEquipped?.Invoke(this, slot, item);
             OnEquipmentsChagned?.Invoke(slot, item);
 
@@ -72,6 +72,7 @@ namespace IdleHeaven
             if (_equippedItems.ContainsKey(slot))
             {
                 previousItem = _equippedItems[slot];
+                _equippedItems[slot].Equiped = false;
                 _equippedItems.Remove(slot);
                 OnUnEquipped?.Invoke(this, slot, previousItem);
             }

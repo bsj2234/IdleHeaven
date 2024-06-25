@@ -25,6 +25,6 @@ public class CurrencyInventory : MonoBehaviour
 
     private void Start()
     {
-        currencies.Add(new Gold(100));
+        currencies.Add(new Gold(100000));
     }
 }

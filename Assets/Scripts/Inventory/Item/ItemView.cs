@@ -9,10 +9,11 @@ public class ItemView : MonoBehaviour
 {
     public ItemViewModel ItemViewModel;
 
-    public TMPro.TMP_Text itemName;
-    public TMPro.TMP_Text itemDescription;
-    public TMPro.TMP_Text itemPrice;
-    public Image itemImage;
+    [SerializeField] TMPro.TMP_Text itemName;
+    [SerializeField] TMPro.TMP_Text itemDescription;
+    [SerializeField] TMPro.TMP_Text itemPrice;
+    [SerializeField] Image itemImage;
+    [SerializeField] Image _equipedIcon;
     private UIButtonHoldDetector _buttonHoldable;
 
     private void Awake()
@@ -84,6 +85,10 @@ public class ItemView : MonoBehaviour
         if(itemImage != null)
         {
             itemImage.sprite = item.ItemData.Icon;
+        }
+        if(_equipedIcon != null && item is EquipmentItem equipment)
+        {
+            _equipedIcon.gameObject.SetActive(equipment.Equiped);
         }
     }
 
