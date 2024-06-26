@@ -110,7 +110,6 @@ namespace IdleHeaven
             Stats.AddStat(StatType.Hp, LevelSystem.Level * 100f);
             Stats.AddStat(StatType.Attack, LevelSystem.Level * 10f);
             Stats.AddStat(StatType.Defense, LevelSystem.Level * 10f);
-            Stats.AddStat(StatType.Resistance, LevelSystem.Level * 10f);
         }
     }
 }

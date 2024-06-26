@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,9 @@ public class HudView : MonoBehaviour
 {
     [SerializeField] private HudViewModel _viewModel;
     
-    [SerializeField] private Slider Slider_Hp;
+    [SerializeField] Slider Slider_hp;
+    [SerializeField] TMP_Text Text_hp;
+    [SerializeField] TMP_Text Text_maxHp;
 
     private void Start()
     {
@@ -24,13 +27,19 @@ public class HudView : MonoBehaviour
         switch (e.PropertyName)
         {
             case nameof(HudViewModel.Hp):
-                Slider_Hp.value = _viewModel.HpPercentage;
+                Slider_hp.value = _viewModel.HpPercentage;
+                Text_hp.text = _viewModel.Hp.ToString();
+                Text_maxHp.text = _viewModel.MaxHp.ToString();
                 break;
             case nameof(HudViewModel.MaxHp):
-                Slider_Hp.value = _viewModel.HpPercentage;
+                Slider_hp.value = _viewModel.HpPercentage;
+                Text_hp.text = _viewModel.Hp.ToString();
+                Text_maxHp.text = _viewModel.MaxHp.ToString();
                 break;
             case nameof(HudViewModel.HpPercentage):
-                Slider_Hp.value = _viewModel.HpPercentage;
+                Slider_hp.value = _viewModel.HpPercentage;
+                Text_hp.text = _viewModel.Hp.ToString();
+                Text_maxHp.text = _viewModel.MaxHp.ToString();
                 break;
             default:
                 break;

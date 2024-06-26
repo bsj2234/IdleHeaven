@@ -162,9 +162,6 @@ namespace IdleHeaven
                 case "Defense":
                     enemy.Defense = float.Parse(field);
                     break;
-                case "Resistance":
-                    enemy.Resistance = float.Parse(field);
-                    break;
                 default:
                     Assert.IsTrue(false, $"Unknown field: {header}");
                     break;
@@ -176,7 +173,6 @@ namespace IdleHeaven
             enemyData.Health = enemy.Health;
             enemyData.Attack = enemy.Attack;
             enemyData.Defense = enemy.Defense;
-            enemyData.Resistance = enemy.Resistance;
             SaveScriptableObject(enemyData, $"Assets/ScriptableObjects/GenByCode/Enemies/{enemy.Name}.asset");
         }
 

@@ -20,7 +20,6 @@ public class EnemyData : ScriptableObject
     public float Health { get => _health; set => _health = value; }
     public float Attack { get => _attack; set => _attack = value; }
     public float Defense { get => _defense; set => _defense = value; }
-    public float Resistance { get => _resistance; set => _resistance = value; }
     public GameObject Prefab { get => _prefab; set => _prefab = value; }
     public Stats Stat
     {
@@ -31,8 +30,7 @@ public class EnemyData : ScriptableObject
                 _stat = new Stats()
                     .AddStat(StatType.Hp, Health)
                     .AddStat(StatType.Attack, Attack)
-                    .AddStat(StatType.Defense, Defense)
-                    .AddStat(StatType.Resistance, _resistance);
+                    .AddStat(StatType.Defense, Defense);
             }
             return _stat;
         }

@@ -11,7 +11,6 @@ namespace IdleHeaven
         Hp,
         Attack,
         Defense,
-        Resistance,
         Speed,
         AttackSpeed,
         CritChance,
