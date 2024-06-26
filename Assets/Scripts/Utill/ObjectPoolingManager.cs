@@ -45,7 +45,6 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
                 {
                     Assert.IsTrue(false,$"Prefab {pool.prefab.name} doesn't have a component that implements IPooledObject interface.");
                 }
-                objectPool.Enqueue(pooledObject);
             }
 
             poolDictionary.Add(pool.prefab, objectPool);
@@ -66,6 +65,13 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
             return null;
         }
         IPooledObject objectToSpawn = poolDictionary[prefab].Dequeue();
+
+        if(objectToSpawn.transform.gameObject.activeSelf == true)
+        {
+            Debug.Assert(false,$"Object {objectToSpawn.transform.gameObject.name} is already active. Returning to pool.");
+            ReturnToPool(prefab, objectToSpawn);
+            return null;
+        }
 
         objectToSpawn.transform.gameObject.SetActive(true);
         objectToSpawn.transform.position = position;
