@@ -1,10 +1,12 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 [ExecuteAlways]
-public class BendingManager : MonoBehaviour
+public class BendingManager : MonoSingleton<BendingManager>
 {
     private const string BENDING_FEATURE = "ENABLE_BENDING";
+    public Material material;
     private void Awake()
     {
         if (Application.isPlaying)
@@ -35,5 +37,23 @@ public class BendingManager : MonoBehaviour
     private static void OnEndCameraRendering(ScriptableRenderContext ctx, Camera cam)
     {
         cam.ResetCullingMatrix();
+    }
+
+    public Vector3 ModifiedPosition(Vector3 position)
+    {
+        Vector3 modifiedPosition = position;
+        
+        float offset = material.GetFloat("_CameraOffset");
+        float amount = material.GetFloat("_Amount");
+
+        Transform camTrf = Camera.main.transform;
+
+        float dist = Vector3.Distance(camTrf.position + camTrf.forward * offset , position);
+
+        float modifY = Mathf.Pow(dist, 2f) * -amount;
+
+        modifiedPosition.y += modifY;
+
+        return modifiedPosition;
     }
 }
