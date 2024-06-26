@@ -1,10 +1,14 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public interface IPooledObject
 {
+    GameObject Prefab { get; }
     Transform transform { get; }
+
+    void Init(GameObject prefab);
     void OnObjectReuse();
     void OnObjectRelease();
 }
@@ -33,7 +37,7 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
             {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
-                if(TryGetComponent(out IPooledObject pooledObject))
+                if(obj.TryGetComponent(out IPooledObject pooledObject))
                 {
                     objectPool.Enqueue(pooledObject);
                 }
@@ -74,6 +78,11 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
         return objectToSpawn;
     }
 
+    public void ReturnToPool(GameObject prefab, IPooledObject objectToReturn, float lifeTime)
+    {
+        StartCoroutine(ReleaseTimer(prefab, objectToReturn, lifeTime));
+    }
+
     public void ReturnToPool(GameObject prefab, IPooledObject objectToReturn)
     {
         objectToReturn.transform.gameObject.SetActive(false);
@@ -88,5 +97,12 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
         {
             Assert.IsTrue(false, $"Pool for prefab {prefab.name} doesn't exist.");
         }
+    }
+
+
+    private IEnumerator ReleaseTimer(GameObject prefab, IPooledObject objectToReturn, float lifeTime)
+    {
+        yield return new WaitForSeconds(lifeTime);
+        ReturnToPool(prefab, objectToReturn);
     }
 }

@@ -1,30 +1,30 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DamageUIManager : MonoBehaviour
+public class DamageUIManager : MonoSingleton<DamageUIManager>
 {
-    private GameObject damageUIPrefab;
+    [SerializeField] GameObject damageUIPrefab;
+    [SerializeField] Canvas canvas_parent;
     private Canvas canvas;
+    [SerializeField] float _lifeTime = 2f;
 
     private void Start()
     {
         canvas = new GameObject("Canvas_DamageUi").AddComponent<Canvas>();
+        canvas.transform.SetParent(canvas_parent.transform);
     }
 
-    public void ShowDamage(Vector3 worldPosition, int damageAmount)
+    public void ShowDamage(Transform targetTrf, float damageAmount, Color color)
     {
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetTrf.position);
 
-        GameObject damageUIInstance = Instantiate(damageUIPrefab, canvas.transform);
+        IPooledObject damageUIInstance = ObjectPoolingManager.Instance.SpawnFromPool(damageUIPrefab, screenPosition, Quaternion.identity);
+        PooledDamageUi setTarget = damageUIInstance as PooledDamageUi;
+        damageUIInstance.Init(damageUIPrefab);
+        damageUIInstance.transform.SetParent(canvas.transform);
+        setTarget.Init(damageAmount, color, targetTrf);
 
-        damageUIInstance.transform.position = screenPosition;
-
-        Text damageText = damageUIInstance.GetComponent<Text>();
-        if (damageText != null)
-        {
-            damageText.text = damageAmount.ToString();
-        }
-
-        Destroy(damageUIInstance, 2f);
+        ObjectPoolingManager.Instance.ReturnToPool(damageUIPrefab, damageUIInstance, _lifeTime);
     }
 }

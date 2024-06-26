@@ -12,7 +12,8 @@ public class Attack:MonoBehaviour
         bool isAttackSucceeded = target.TakeDamage(this, damage, attackType);
         if (isAttackSucceeded)
         {
-            if(OnAttackSucceeded != null)
+            SpawnDamageUi(target.transform, damage);
+            if (OnAttackSucceeded != null)
             {
                 OnAttackSucceeded.Invoke();
             }
@@ -26,5 +27,17 @@ public class Attack:MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    private void SpawnDamageUi(Transform target, float damage)
+    {
+        if (target.CompareTag("Player"))
+        {
+            DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.black);
+        }
+        else
+        {
+            DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.red);
+        }
     }
 }

@@ -21,6 +21,7 @@ public class Scailer : MonoBehaviour
 
     private void OnDisable()
     {
+        transform.localScale = startScale;
         StopAllCoroutines();
     }
     private IEnumerator Scale(float time, Vector3 startScale, Vector3 targetScale)
