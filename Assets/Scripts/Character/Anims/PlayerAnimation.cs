@@ -1,3 +1,4 @@
+using IdleHeaven;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,12 +9,34 @@ public class PlayerAnimation : MonoBehaviour
     private float speed = 0.0f;
     private float direction = 0.0f;
     private NavMeshAgent agent;
+    private Attack attack;
+
+
+    //cache
+    Health health;
+    float damage;
+    AttackType type;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        attack = GetComponent<Attack>();
     }
+
+    //애미네션 실행하고 공격 성공시 딜 넣기
+    public void HandleOnAttack(Health health, float damage, AttackType type)
+    {
+        anim.SetTrigger("Attack");
+        this.health = health;
+        this.damage = damage;
+        this.type = type;
+    }
+    public void HandleAnimationAttack()
+    {
+        attack.DealDamage(health, damage, type);
+    }
+
 
     Vector3 prevDir = Vector3.zero;
     void Update()
@@ -27,18 +50,22 @@ public class PlayerAnimation : MonoBehaviour
             float DeltaDir = dirDiff.x;
             anim.SetFloat("MovingDirection", DeltaDir);
 
-            anim.SetBool("isMoving", true);
+            anim.SetBool("IsMoving", true);
             anim.SetBool("IsRunning", false);
+            Debug.Log("Moving");
         }
         else
         {
-            anim.SetBool("isMoving", false);
+            anim.SetBool("IsMoving", false);
             anim.SetBool("IsRunning", false);
+            Debug.Log("Not Moving");
         }
         if (curSpeed > 15f)
         {
-            anim.SetBool("isMoving", false);
+            anim.SetBool("IsMoving" +
+                "", false);
             anim.SetBool("IsRunning", true);
+            Debug.Log("Running");
         }
         prevDir = transform.forward;
     }

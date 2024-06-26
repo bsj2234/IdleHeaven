@@ -1,5 +1,6 @@
 namespace IdleHeaven
 {
+    [System.Serializable]
     public enum AttackType
     {
         None,

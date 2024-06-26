@@ -1,13 +1,15 @@
 using IdleHeaven;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Attack:MonoBehaviour
 {
     public Action OnAttackSucceeded;
     public Action OnKillEnemy;
+    public UnityEvent<Health, float, AttackType> OnAttack;
 
-    public bool DealDamage(Health target, float damage, AttackType attackType = AttackType.None)
+    public void DealDamage(Health target, float damage, AttackType attackType = AttackType.None)
     {
         bool isAttackSucceeded = target.TakeDamage(this, damage, attackType);
         if (isAttackSucceeded)
@@ -24,9 +26,14 @@ public class Attack:MonoBehaviour
                     OnKillEnemy.Invoke();
                 }
             }
-            return false;
+            //return false;
         }
-        return true;
+        //return true;
+    }
+
+    public void TriggerAttack(Health targetCombat, float damage, AttackType attackType)
+    {
+        OnAttack?.Invoke(targetCombat, damage, attackType);
     }
 
     private void SpawnDamageUi(Transform target, float damage)

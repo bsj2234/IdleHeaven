@@ -87,7 +87,7 @@ public class AttackState : BaseState
         {
             Debug.Assert(targetCombat != null, $"Enemy is null while {stateMachine.transform.name} try attacking");
             DamageInfo damage = _hasStat ? _stats.GetDamage() : new DamageInfo { AttackType = AttackType.None, Damage = 1f };
-            _attack.DealDamage(targetCombat, damage.Damage, damage.AttackType);
+            _attack.TriggerAttack(targetCombat, damage.Damage, damage.AttackType);
             attackCooldown = 1f;
         }
         else
