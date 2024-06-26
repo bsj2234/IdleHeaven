@@ -181,15 +181,17 @@ namespace IdleHeaven
         }
 
 
-
         private void SaveScriptableObject(ScriptableObject scriptableObject, string path)
         {
+            //unity editor only script
+#if UNITY_EDITOR
             // Create the asset
             AssetDatabase.CreateAsset(scriptableObject, path);
             // Save the asset
             AssetDatabase.SaveAssets();
             // Refresh the AssetDatabase
             AssetDatabase.Refresh();
+#endif
         }
     }
 }

@@ -1,11 +1,13 @@
 using UnityEngine;
-
-public class GameManager: MonoSingleton<GameManager>
+namespace IdleHeaven
 {
-    [SerializeField] Player _player;
-
-    public Player GetPlayer()
+    public class GameManager : MonoSingleton<GameManager>
     {
-        return _player;
+        [SerializeField] Player _player;
+
+        public Player GetPlayer()
+        {
+            return _player;
+        }
     }
 }
