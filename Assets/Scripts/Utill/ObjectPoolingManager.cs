@@ -79,8 +79,6 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
 
         objectToSpawn.OnObjectReuse();
 
-        poolDictionary[prefab].Enqueue(objectToSpawn);
-
         return objectToSpawn;
     }
 
