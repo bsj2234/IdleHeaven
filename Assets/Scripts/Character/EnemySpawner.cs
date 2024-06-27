@@ -1,3 +1,4 @@
+using IdleHeaven;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] Transform[] _spawnPoint;
 
-    [SerializeField] EnemyData[] _enemyToSpawn;
+    [SerializeField] string[] _enemyToSpawn;
     [SerializeField] int _maxEnemies;
 
 
@@ -32,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
                 continue;
             }
             Transform randomTrf = _spawnPoint[Random.Range(0, _spawnPoint.Length)];
-            GameObject randomEnemy = _enemyToSpawn[Random.Range(0, _enemyToSpawn.Length)].Prefab;
+            GameObject randomEnemy = CSVParser.Instance.enemies[_enemyToSpawn[Random.Range(0, _enemyToSpawn.Length)]].Prefab;
             Vector3 relativeToPlayerLocal = _playerAttack.transform.position + randomTrf.localPosition;
             GameObject enemy = Instantiate(randomEnemy, relativeToPlayerLocal, Quaternion.identity);
             AddEnemy(enemy);

@@ -2,6 +2,7 @@ using IdleHeaven;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class ItemEffectRandomizer : MonoSingleton<ItemEffectRandomizer>
@@ -20,7 +21,7 @@ public class ItemEffectRandomizer : MonoSingleton<ItemEffectRandomizer>
 
     void Start()
     {
-        itemEffects = CSVParser.Instance.effects;
+        itemEffects = CSVParser.Instance.effects.Values.ToList();
     }
 
     public ItemEffect GetRandomEffect()

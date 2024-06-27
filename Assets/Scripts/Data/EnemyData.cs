@@ -1,10 +1,9 @@
+using IdleHeaven;
 using System;
 using UnityEngine;
-using IdleHeaven;
 
 [Serializable]
-[CreateAssetMenu(fileName = "EnemyData", menuName = "Enemy/EnemyData")]
-public class EnemyData : ScriptableObject
+public class EnemyData : IKeyProvider
 {
     [SerializeField] string _name;
     [SerializeField] int _level;
@@ -15,24 +14,23 @@ public class EnemyData : ScriptableObject
     [SerializeField] Stats _stat;
     [SerializeField] GameObject _prefab;
 
-    public string Name { get => _name; set => _name = value;}
-    public int Level { get => _level; set => _level = value; }
-    public float Health { get => _health; set => _health = value; }
-    public float Attack { get => _attack; set => _attack = value; }
-    public float Defense { get => _defense; set => _defense = value; }
-    public GameObject Prefab { get => _prefab; set => _prefab = value; }
-    public Stats Stat
+    public string Name { get => _name; set => _name = value; }
+    public string EnemyType { get; set; }
+    public float BaseHealth { get; set; }
+    public float BaseAttack { get; set; }
+    public float BaseDefense { get; set; }
+    public float BaseSpeed { get; set; }
+    public string PrefabPath
     {
-        get
+        set
         {
-            if (_stat == null)
-            {
-                _stat = new Stats()
-                    .AddStat(StatType.Hp, Health)
-                    .AddStat(StatType.Attack, Attack)
-                    .AddStat(StatType.Defense, Defense);
-            }
-            return _stat;
+            Prefab = Resources.Load<GameObject>(value);
         }
+    }
+    public GameObject Prefab { get => _prefab; set => _prefab = value; }
+
+    public string GetKey()
+    {
+        return Name;
     }
 }

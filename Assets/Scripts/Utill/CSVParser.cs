@@ -1,55 +1,128 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace IdleHeaven
 {
+
+    public interface IKeyProvider
+    {
+        string GetKey();
+    }
+
     public class CSVParser : MonoSingleton<CSVParser>
     {
         public string csvItemFilePath;
         public string csvEffectFilePath;
         public string csvEnemiesFilePath;
-        public List<Item> items;
-        public List<ItemEffectData> effects;
-        public List<EnemyData> enemies;
+        private Dictionary<string, ItemData> WeaponDatas = new Dictionary<string, ItemData>();
+        public Dictionary<string, ItemData> EquipmentDatas = new Dictionary<string, ItemData>();
+        public Dictionary<string, ItemData> UsableDatas = new Dictionary<string, ItemData>();
+        public Dictionary<string, ItemEffectData> effects = new Dictionary<string, ItemEffectData>();
+        public Dictionary<string, EnemyData> enemies = new Dictionary<string, EnemyData>();
 
         [SerializeField] bool Launch = false;
 
-        private void OnValidate()
+        private void Awake()
         {
-            if (Launch)
+            ParseItemToDictionaryCSV(csvItemFilePath);
+            foreach (var item in WeaponDatas)
             {
-                Launch = false;
-                items = ParseCSV<Item>(csvItemFilePath);
-                foreach (var item in items)
-                {
-                    Debug.Log($"Parsed item: {item.Name}");
-                }
-                effects = ParseCSV<ItemEffectData>(csvEffectFilePath);
-                foreach (var effect in effects)
-                {
-                    Debug.Log($"Parsed effect: {effect.Stat} with Rarity: {effect.Rarity}");
-                }
-                enemies = ParseCSV<EnemyData>(csvEnemiesFilePath);
-                foreach (var enemy in enemies)
-                {
-                    Debug.Log($"Parsed enemy: {enemy.Name}");
-                }
+                Debug.Log($"Parsed item: {item.Value.ItemName}");
+            }
+            foreach (var item in EquipmentDatas)
+            {
+                Debug.Log($"Parsed item: {item.Value.ItemName}");
+            }
+            foreach (var item in UsableDatas)
+            {
+                Debug.Log($"Parsed item: {item.Value.ItemName}");
+            }
+            foreach (var item in WeaponDatas)
+            {
+                Debug.Log($"Parsed item: {item.Value.ItemName}");
+            }
+            effects = ParseCSV<ItemEffectData>(csvEffectFilePath);
+            foreach (var effect in effects)
+            {
+                Debug.Log($"Parsed effect: {effect.Value.Stat} with Rarity: {effect.Value.Rarity}");
+            }
+            enemies = ParseCSV<EnemyData>(csvEnemiesFilePath);
+            foreach (var enemy in enemies)
+            {
+                Debug.Log($"Parsed enemy: {enemy.Value.Name}");
             }
         }
 
-        public List<T> ParseCSV<T>(string filePath) where T : new()
+        private void ParseItemToDictionaryCSV(string filePath)
         {
-            List<T> records = new List<T>();
+            Dictionary<string, Item> recordes = new Dictionary<string, Item>();
+            TextAsset file = Resources.Load<TextAsset>(filePath);
+            string[] lines = file.text.Split("\r\n");
+            string[] header = lines[0].Split(',');
 
-            string[] lines = File.ReadAllLines(filePath);
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                if (lines[i] == string.Empty)
+                {
+                    continue;
+                }
+                string[] fields = lines[i].Split(',');
+
+                ItemType itemType = (ItemType)Enum.Parse(typeof(ItemType), fields[Array.IndexOf(header, "Type")]);
+
+                switch (itemType)
+                {
+                    case ItemType.Weapon:
+                        WeaponData weaponData = new WeaponData();
+                        weaponData.ItemName = fields[Array.IndexOf(header, "Name")];
+                        weaponData.Description = fields[Array.IndexOf(header, "Description")];
+                        weaponData.PrefabPath = fields[Array.IndexOf(header, "PrefabPath")];
+                        weaponData.WeaponType = fields[Array.IndexOf(header, "SpecificType")];
+                        weaponData.AttackSpeed = fields[Array.IndexOf(header, "AttackSpeed")];
+                        weaponData.MinDamage = int.Parse(fields[Array.IndexOf(header, "MinDamage")]);
+                        weaponData.MaxDamage = int.Parse(fields[Array.IndexOf(header, "MaxDamage")]);
+                        WeaponDatas.Add(weaponData.ItemName, weaponData);
+                        break;
+                    case ItemType.Equipment:
+                        EquipmentData equipmentData = new EquipmentData();
+                        equipmentData.ItemName = fields[Array.IndexOf(header, "Name")];
+                        equipmentData.Description = fields[Array.IndexOf(header, "Description")];
+                        equipmentData.PrefabPath = fields[Array.IndexOf(header, "PrefabPath")];
+                        equipmentData.DefenseValue = int.Parse(fields[Array.IndexOf(header, "DefenseValue")]);
+                        EquipmentDatas.Add(equipmentData.ItemName, equipmentData);
+                        break;
+                    case ItemType.Usable:
+                        UsableItemData usableItemData = new UsableItemData();
+                        usableItemData.ItemName = fields[Array.IndexOf(header, "Name")];
+                        usableItemData.Description = fields[Array.IndexOf(header, "Description")];
+                        usableItemData.PrefabPath = fields[Array.IndexOf(header, "PrefabPath")];
+                        usableItemData.EffectType = (EffectType)Enum.Parse(typeof(EffectType), fields[Array.IndexOf(header, "EffectType")]);
+                        usableItemData.EffectValue = int.Parse(fields[Array.IndexOf(header, "EffectValue")]);
+                        UsableDatas.Add(usableItemData.ItemName, usableItemData);
+                        break;
+                }
+            }
+
+        }
+
+        public Dictionary<string, T> ParseCSV<T>(string filePath) where T : IKeyProvider, new()
+        {
+            Dictionary<string, T> records = new Dictionary<string, T>();
+
+            TextAsset file = Resources.Load<TextAsset>(filePath);
+            string[] lines = file.text.Split("\r\n");
             string[] headers = lines[0].Split(',');
 
             for (int i = 1; i < lines.Length; i++) // Skip header
             {
+                if (lines[i] == string.Empty)
+                {
+                    continue;
+                }
                 string[] fields = lines[i].Split(',');
                 T record = new T();
 
@@ -58,11 +131,7 @@ namespace IdleHeaven
                     string header = headers[j];
                     string field = fields[j];
 
-                    if (typeof(T) == typeof(Item))
-                    {
-                        PopulateItemRecord(record as Item, headers, fields);
-                    }
-                    else if (typeof(T) == typeof(ItemEffectData))
+                    if (typeof(T) == typeof(ItemEffectData))
                     {
                         PopulateItemEffectRecord(record as ItemEffectData, header, field);
                     }
@@ -72,53 +141,10 @@ namespace IdleHeaven
                     }
                 }
 
-                records.Add(record);
+                records.Add(record.GetKey(), record);
             }
 
             return records;
-        }
-
-        private void PopulateItemRecord(Item item, string[] headers, string[] fields)
-        {
-            string itemType = fields[Array.IndexOf(headers, "Type")];
-            string itemName = fields[Array.IndexOf(headers, "Name")];
-            string description = fields[Array.IndexOf(headers, "Description")];
-            string prefabPath = fields[Array.IndexOf(headers, "PrefabPath")];
-
-            if (itemType == "Weapon")
-            {
-                WeaponData weaponData = ScriptableObject.CreateInstance<WeaponData>();
-                weaponData.name = itemName;
-                weaponData.Description = description;
-                weaponData.PrefabPath = prefabPath;
-                weaponData.WeaponType = fields[Array.IndexOf(headers, "WeaponType")];
-                weaponData.AttackSpeed = fields[Array.IndexOf(headers, "AttackSpeed")];
-                weaponData.MinDamage = int.Parse(fields[Array.IndexOf(headers, "MinDamage")]);
-                weaponData.MaxDamage = int.Parse(fields[Array.IndexOf(headers, "MaxDamage")]);
-                item.ItemData = weaponData;
-                SaveScriptableObject(weaponData, $"Assets/ScriptableObjects/GenByCode/Weapons/{itemName}.asset");
-            }
-            else if (itemType == "Armor")
-            {
-                ArmorData armorData = ScriptableObject.CreateInstance<ArmorData>();
-                armorData.name = itemName;
-                armorData.Description = description;
-                armorData.PrefabPath = prefabPath;
-                armorData.DefenseValue = int.Parse(fields[Array.IndexOf(headers, "DefenseValue")]);
-                item.ItemData = armorData;
-                SaveScriptableObject(armorData, $"Assets/ScriptableObjects/GenByCode/Armors/{itemName}.asset");
-            }
-            else if (itemType == "Usable")
-            {
-                UsableItemData usableItemData = ScriptableObject.CreateInstance<UsableItemData>();
-                usableItemData.name = itemName;
-                usableItemData.Description = description;
-                usableItemData.PrefabPath = prefabPath;
-                //usableItemData.EffectType = fields[Array.IndexOf(headers, "EffectType")];
-                //usableItemData.EffectValue = int.Parse(fields[Array.IndexOf(headers, "EffectValue")]);
-                item.ItemData = usableItemData;
-                SaveScriptableObject(usableItemData, $"Assets/ScriptableObjects/GenByCode/Usables/{itemName}.asset");
-            }
         }
 
         private void PopulateItemEffectRecord(ItemEffectData effect, string header, string field)
@@ -140,6 +166,12 @@ namespace IdleHeaven
                 case "MaxValue":
                     effect.MaxValue = int.Parse(field);
                     break;
+                case "LevelMultiplier":
+                    effect.LevelMultiplier = float.Parse(field);
+                    break;
+                case "MaxLevelMultiplier":
+                    effect.MaxLevelMultiplier = float.Parse(field);
+                    break;
             }
         }
 
@@ -147,40 +179,41 @@ namespace IdleHeaven
         {
             switch (header)
             {
-                case "Name":
+                case "EnemyID":
+                    break;
+                case "EnemyType":
+                    enemy.EnemyType = field;
+                    break;
+                case "EnemyName":
                     enemy.Name = field;
                     break;
-                case "Level":
-                    enemy.Level = int.Parse(field);
+                case "BaseHealth":
+                    enemy.BaseHealth = float.Parse(field);
                     break;
-                case "Health":
-                    enemy.Health = float.Parse(field);
+                case "BaseAttack":
+                    enemy.BaseAttack = float.Parse(field);
                     break;
-                case "Attack":
-                    enemy.Attack = float.Parse(field);
+                case "BaseSpeed":
+                    enemy.BaseSpeed = float.Parse(field);
                     break;
-                case "Defense":
-                    enemy.Defense = float.Parse(field);
+                case "BaseDefense":
+                    enemy.BaseDefense = float.Parse(field);
+                    break;
+                case "PrefabPath":
+                    enemy.PrefabPath = field;
                     break;
                 default:
                     Assert.IsTrue(false, $"Unknown field: {header}");
                     break;
             }
-
-            EnemyData enemyData = ScriptableObject.CreateInstance<EnemyData>();
-            enemyData.Name = enemy.Name;
-            enemyData.Level = enemy.Level;
-            enemyData.Health = enemy.Health;
-            enemyData.Attack = enemy.Attack;
-            enemyData.Defense = enemy.Defense;
-            SaveScriptableObject(enemyData, $"Assets/ScriptableObjects/GenByCode/Enemies/{enemy.Name}.asset");
         }
+
 
 
         private void SaveScriptableObject(ScriptableObject scriptableObject, string path)
         {
             //unity editor only script
-#if UNITY_EDITOR
+#if false
             // Create the asset
             AssetDatabase.CreateAsset(scriptableObject, path);
             // Save the asset
@@ -188,6 +221,21 @@ namespace IdleHeaven
             // Refresh the AssetDatabase
             AssetDatabase.Refresh();
 #endif
+        }
+
+        public Dictionary<string, ItemData> GetItems(ItemType itemType)
+        {
+            switch (itemType)
+            {
+                case ItemType.Weapon:
+                    return WeaponDatas;
+                case ItemType.Equipment:
+                    return EquipmentDatas;
+                case ItemType.Usable:
+                    return UsableDatas;
+                default:
+                    return null;
+            }
         }
     }
 }

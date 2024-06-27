@@ -29,18 +29,18 @@ namespace IdleHeaven
             _equipments.OnEquipmentsChagned += HandleEquipmentsChagned;
         }
 
-        public Item GetItem(EquipmentSlot slot)
+        public Item GetItem(EquipmentType slot)
         {
             return _equipments.GetEquippedItem(slot);
         }
 
-        public void Unequip(EquipmentSlot slot)
+        public void Unequip(EquipmentType slot)
         {
             _equipments.Unequip(slot);
         }
 
 
-        private void HandleEquipmentsChagned(EquipmentSlot slot, Item item)
+        private void HandleEquipmentsChagned(EquipmentType slot, Item item)
         {
             if (PropertyChanged != null)
             {

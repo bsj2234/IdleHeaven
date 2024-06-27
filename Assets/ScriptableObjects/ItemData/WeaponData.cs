@@ -1,13 +1,14 @@
+using IdleHeaven;
 using UnityEngine;
 
+
 [System.Serializable]
-[CreateAssetMenu(fileName = "NewWeaponData", menuName = "Item/WeaponData")]
-public class WeaponData : EquipmentData
+public class WeaponData : ItemData
 {
-    [SerializeField] private string _weaponType;
-    [SerializeField] private string _attackSpeed;
-    [SerializeField] private int _minDamage;
-    [SerializeField] private int _maxDamage;
+    [SerializeField] string _weaponType;
+    [SerializeField] string _attackSpeed;
+    [SerializeField] int _minDamage;
+    [SerializeField] int _maxDamage;
 
     public string WeaponType
     {
@@ -31,5 +32,12 @@ public class WeaponData : EquipmentData
     {
         get { return _maxDamage; }
         set { _maxDamage = value; }
+    }
+
+    public override Item GetRandomItemInstance(string name)
+    {
+        EquipmentItem item = new EquipmentItem(name, this);
+        item.Damage = Random.Range(MinDamage, MaxDamage);
+        return item;
     }
 }

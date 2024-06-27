@@ -1,22 +1,30 @@
 using IdleHeaven;
 using UnityEngine;
 
+
+public enum EffectType
+{
+    Speed,
+    Heal,
+    Damage,
+    Defense
+}
+
 [System.Serializable]
-[CreateAssetMenu(fileName = "NewUsableItemData", menuName = "Item/UsableItemData")]
 public class UsableItemData : ItemData
 {
-    [SerializeField] private ICharacterEffector[] _effects;
-    [SerializeField] private IRequirement _useRequirement;
+    [SerializeField] private EffectType _effectType;
+    [SerializeField] private float _effectValue;
 
-    public ICharacterEffector[] Effects
+    public EffectType EffectType
     {
-        get { return _effects; }
-        set { _effects = value; }
+        get { return _effectType; }
+        set { _effectType = value; }
+    }
+    public float EffectValue
+    {
+        get { return _effectValue; }
+        set { _effectValue = value; }
     }
 
-    public IRequirement UseRequirement
-    {
-        get { return _useRequirement; }
-        set { _useRequirement = value; }
-    }
 }

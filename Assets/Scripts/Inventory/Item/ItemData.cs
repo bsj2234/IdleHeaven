@@ -2,14 +2,15 @@ using UnityEngine;
 
 namespace IdleHeaven
 {
+    //SpecificType	AttackSpeed	MinDamage	MaxDamage	DefenseValue
     [System.Serializable]
-    [CreateAssetMenu(fileName = "NewItemData", menuName = "Item/ItemData")]
-    public class ItemData : ScriptableObject
+    public class ItemData : IRandomItemInstance
     {
-        [SerializeField] private string _itemName;
-        [SerializeField] private GameObject _itemPrefab;
-        [SerializeField] private string _description;
-        [SerializeField] private Sprite _icon;
+        [SerializeField] string _itemName;
+        [SerializeField] ItemType _itemType;
+        [SerializeField] GameObject _itemPrefab;
+        [SerializeField] string _description;
+        [SerializeField] Sprite _icon;
 
 
         public string ItemName
@@ -18,25 +19,39 @@ namespace IdleHeaven
             set { _itemName = value; }
         }
 
+        public ItemType ItemType
+        {
+            get { return _itemType; }
+            set { _itemType = value; }
+        }
+
         public GameObject ItemPrefab
         {
-            get { return _itemPrefab; }
+            get
+            {
+                if (_itemPrefab == null)
+                    Debug.LogError($"{_itemName}ItemPrefab is null");
+                return _itemPrefab;
+            }
             set { _itemPrefab = value; }
         }
 
         public string PrefabPath
         {
             get
-            {                 
+            {
                 if (_itemPrefab == null)
+                {
                     return string.Empty;
+                }
 
                 return _itemPrefab.name;
             }
             set
             {
-                GameObject prefab = ResourceLoader.LoadPrefab(value);
-                _itemPrefab = prefab;
+                _itemPrefab = Resources.Load<GameObject>(value);
+                if (_itemPrefab == null)
+                    Debug.LogError($"{_itemName}cannot Find Prefab In Path {value}");
             }
         }
 
@@ -48,8 +63,22 @@ namespace IdleHeaven
 
         public Sprite Icon
         {
-            get { return _icon; }
-            set { _icon = value; }
+            get
+            {
+                return _icon;
+            }
+        }
+        public string IconPath
+        {
+            set
+            {
+                _icon = Resources.Load<Sprite>(value);
+            }
+        }
+
+        public virtual Item GetRandomItemInstance(string name)
+        {
+            return new Item(name, this);
         }
     }
 }

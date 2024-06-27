@@ -4,22 +4,22 @@ using UnityEngine;
 
 namespace IdleHeaven
 {
-    public enum EquipmentSlot { Head, Chest, Legs, Weapon, Shield }
+    public enum EquipmentType { Head, Chest, Legs, Weapon, Shield }
 
     public class Equipments : MonoBehaviour
     {
         [SerializeField] private EquipmentItem[] _slotVisualize;
         [SerializeField] private CharacterStats _characterStats;
-        private Dictionary<EquipmentSlot, EquipmentItem> _equippedItems = new Dictionary<EquipmentSlot, EquipmentItem>();
+        private Dictionary<EquipmentType, EquipmentItem> _equippedItems = new Dictionary<EquipmentType, EquipmentItem>();
 
-        public Action<EquipmentSlot, Item> OnEquipmentsChagned { get; set; }
+        public Action<EquipmentType, Item> OnEquipmentsChagned { get; set; }
 
-        public event Action<Equipments, EquipmentSlot, EquipmentItem> OnEquipped;
-        public event Action<Equipments, EquipmentSlot, EquipmentItem> OnUnEquipped;
+        public event Action<Equipments, EquipmentType, EquipmentItem> OnEquipped;
+        public event Action<Equipments, EquipmentType, EquipmentItem> OnUnEquipped;
 
         private void Awake()
         {
-            _slotVisualize = new EquipmentItem[Enum.GetValues(typeof(EquipmentSlot)).Length];
+            _slotVisualize = new EquipmentItem[Enum.GetValues(typeof(EquipmentType)).Length];
         }
 
 
@@ -27,11 +27,11 @@ namespace IdleHeaven
         // Equip an item to a itemDatas slot
         public EquipmentItem Equip(EquipmentItem item)
         {
-            EquipmentSlot slot = item.ItemData.EquipmentSlot;
+            EquipmentType slot = item.EquipmentData.EquipmentSlot;
             return Equip(slot, item);
         }
 
-        public EquipmentItem Equip(EquipmentSlot slot, EquipmentItem item)
+        public EquipmentItem Equip(EquipmentType slot, EquipmentItem item)
         {
             EquipmentItem previousItem = null;
 
@@ -50,10 +50,10 @@ namespace IdleHeaven
             OnEquipmentsChagned?.Invoke(slot, item);
 
             // Update the visual representation of the equipment
-            var vals = Enum.GetValues(typeof(EquipmentSlot));
+            var vals = Enum.GetValues(typeof(EquipmentType));
             for (int i = 0; i < vals.Length; i++)
             {
-                if (_equippedItems.ContainsKey((EquipmentSlot)i))
+                if (_equippedItems.ContainsKey((EquipmentType)i))
                 {
                     _slotVisualize[i] = item;
                 }
@@ -66,7 +66,7 @@ namespace IdleHeaven
             return previousItem;
         }
 
-        public EquipmentItem Unequip(EquipmentSlot slot)
+        public EquipmentItem Unequip(EquipmentType slot)
         {
             EquipmentItem previousItem = null;
             if (_equippedItems.ContainsKey(slot))
@@ -80,18 +80,18 @@ namespace IdleHeaven
             return previousItem;
         }
 
-        public EquipmentItem GetEquippedItem(EquipmentSlot slot)
+        public EquipmentItem GetEquippedItem(EquipmentType slot)
         {
             _equippedItems.TryGetValue(slot, out var item);
             return item;
         }
 
-        public Dictionary<EquipmentSlot, EquipmentItem> GetEquippedItems()
+        public Dictionary<EquipmentType, EquipmentItem> GetEquippedItems()
         {
-            return new Dictionary<EquipmentSlot, EquipmentItem>(_equippedItems);
+            return new Dictionary<EquipmentType, EquipmentItem>(_equippedItems);
         }
 
-        public bool CanEquip(EquipmentSlot slot, EquipmentItem item)
+        public bool CanEquip(EquipmentType slot, EquipmentItem item)
         {
             // Add your own validation logic here
             return true;
@@ -99,7 +99,7 @@ namespace IdleHeaven
 
         public void ClearAllEquipment()
         {
-            var equippedItemsCopy = new Dictionary<EquipmentSlot, EquipmentItem>(_equippedItems);
+            var equippedItemsCopy = new Dictionary<EquipmentType, EquipmentItem>(_equippedItems);
             _equippedItems.Clear();
             foreach (var kvp in equippedItemsCopy)
             {

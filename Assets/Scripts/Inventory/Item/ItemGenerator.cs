@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace IdleHeaven
 {
+    public interface IRandomItemInstance
+    {
+        Item GetRandomItemInstance(string name);
+    }
 
     public struct GenerateInfo
     {
@@ -25,27 +29,7 @@ namespace IdleHeaven
     {
         Weapon,
         Equipment,
-        Accessory
-    }
-    public enum WeaponType
-    {
-        Sword,
-        Axe,
-        Spear
-    }
-    public enum EquipmentType
-    {
-        Helmet,
-        Chestplate,
-        Gauntlets,
-        Greaves,
-        Shield
-    }
-    public enum AccessoryType
-    {
-        Ring,
-        Amulet,
-        Belt
+        Usable
     }
 
 
@@ -54,74 +38,26 @@ namespace IdleHeaven
     {
         [SerializeField] RarityTable _rarityTable;
 
-        private Dictionary<string, ItemData> itemDatas = new Dictionary<string, ItemData>();
-        [SerializeField] List<ItemData> weaponDatas = new List<ItemData>();
-        [SerializeField] List<ItemData> accessoryDatas = new List<ItemData>();
-        [SerializeField] List<ItemData> equipmentDatas = new List<ItemData>();
+        [SerializeField] List<string> weaponDatas = new List<string>();
+        [SerializeField] List<string> accessoryDatas = new List<string>();
+        [SerializeField] List<string> equipmentDatas = new List<string>();
 
-        public Item GenerateItem(GenerateInfo info)
+        public Item GenerateItem(GenerateInfo info, string name = "")
         {
-            ItemType randomType = RandomKind<ItemType>();
-            ItemData data;
-            Item item = null;
-            switch (randomType)
-            {
-                case ItemType.Weapon:
-                    data = GetRandomWeapon();
-                    item = new EquipmentItem(data.name, data as EquipmentData);
-                    break;
-                case ItemType.Equipment:
-                    data = GetRandomEquipment();
-                    item = new EquipmentItem(data.name, data as EquipmentData);
-                    break;
-                case ItemType.Accessory:
-                    data = GetRandomAccessory();
-                    item = new EquipmentItem(data.name, data as EquipmentData);
-                    break;
-                default:
-                    Debug.Assert(false);
-                    return null;
-            }
-            return item;
+            ItemType itemType = GetRandomKind<ItemType>();
+            Dictionary<string, ItemData> randomItemDatas = CSVParser.Instance.GetItems(itemType);
+            ItemData randomItemdata = GetRandomFromDictionary(randomItemDatas);
 
+            if(string.IsNullOrEmpty(name))
+                name = randomItemdata.ItemName;
 
+            Item randomItem = RandomItem(name, randomItemdata);
+            return randomItem;
         }
 
-        private ItemData GetRandomAccessory()
-        {
-            return accessoryDatas[Random.Range(0, accessoryDatas.Count)];
-        }
 
-        private ItemData GetRandomEquipment()
-        {
-            return equipmentDatas[Random.Range(0, equipmentDatas.Count)];
-        }
 
-        private ItemData GetRandomWeapon()
-        {
-            return weaponDatas[Random.Range(0, weaponDatas.Count)];
-        }
-
-        private Rarity RandomRairity()
-        {
-            Random.InitState((int)Time.time);
-            float randVal = Random.Range(0f, 1f);
-            if (randVal < _rarityTable.Legendary)
-            {
-                return Rarity.Legendary;
-            }
-            if (randVal < _rarityTable.Epic)
-            {
-                return Rarity.Epic;
-            }
-            if (randVal < _rarityTable.Common)
-            {
-                return Rarity.Common;
-            }
-            Debug.Assert(false, "Error Not a possible situation");
-            return Rarity.Error;
-        }
-        private T RandomKind<T>() where T : System.Enum
+        private T GetRandomKind<T>() where T : System.Enum
         {
             Random.InitState((int)(Time.realtimeSinceStartup * 1000f));
             System.Array values = System.Enum.GetValues(typeof(T));
@@ -129,6 +65,43 @@ namespace IdleHeaven
             return (T)values.GetValue(itemType);
 
         }
+        private Rarity GetRandomRairity(RarityTable rarityTable)
+        {
+            Random.InitState((int)Time.time);
+            float randVal = Random.Range(0f, 1f);
+            if (randVal < rarityTable.Legendary)
+            {
+                return Rarity.Legendary;
+            }
+            if (randVal < rarityTable.Epic)
+            {
+                return Rarity.Epic;
+            }
+            if (randVal < rarityTable.Common)
+            {
+                return Rarity.Common;
+            }
+            Debug.Assert(false, "Error Not a possible situation");
+            return Rarity.Error;
+        }
+        private Item RandomItem(string itemName, IRandomItemInstance itemData)
+        {
+            return itemData.GetRandomItemInstance(itemName);
+        }
+        private T GetRandomFromDictionary<T>(Dictionary<string, T> dictionary)
+        {
+            Random.InitState((int)Time.time);
+            var item = dictionary.Values.GetEnumerator();
 
+
+            int randomIndex = Random.Range(0, dictionary.Count);
+
+            for (int i = 0; i < randomIndex + 1; i++)
+            {
+                item.MoveNext();
+            }
+
+            return item.Current;
+        }
     }
 }

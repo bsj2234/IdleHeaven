@@ -7,7 +7,7 @@ public class EquipmentView : MonoBehaviour
 {
     [SerializeField] EquipmentViewModel _equipmentViewModel;
     [SerializeField] ItemView[] _itemViews;
-    public int slotsCount = Enum.GetNames(typeof(EquipmentSlot)).Length;
+    public int slotsCount = Enum.GetNames(typeof(EquipmentType)).Length;
 
     private void Start()
     {
@@ -23,7 +23,7 @@ public class EquipmentView : MonoBehaviour
     {
         for (int i = 0; i < _itemViews.Length; i++)
         {
-            Item equipedItem = _equipmentViewModel.GetItem((EquipmentSlot)i);
+            Item equipedItem = _equipmentViewModel.GetItem((EquipmentType)i);
             if (equipedItem == null)
             {
                 _itemViews[i].SetItem(null);
@@ -35,7 +35,7 @@ public class EquipmentView : MonoBehaviour
     private void ItemClickCallback(Item item)
     {
         EquipmentItem equipmentItem = item as EquipmentItem;
-        _equipmentViewModel.Unequip(equipmentItem.ItemData.EquipmentSlot);
+        _equipmentViewModel.Unequip(equipmentItem.EquipmentData.EquipmentSlot);
     }
 
 
