@@ -61,10 +61,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6768924322614815927}
-    - targetCorrespondingSourceObject: {fileID: 100102, guid: ff3dd417bb566b849b752ce57810bbf5,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5544820376545216494}
   m_SourcePrefab: {fileID: 100100000, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
 --- !u!4 &5366775281402009441 stripped
 Transform:
@@ -92,27 +88,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.5
   magnitude: 0.1
---- !u!95 &5544820376545216494
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5366775281402497665}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 48ab79fad523d6c45abaf0470080f51b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &6639898316858258529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179,7 +154,7 @@ PrefabInstance:
     - target: {fileID: 2855540130070105857, guid: 7e2cfc10d2ea3314080089ad8bd54c35,
         type: 3}
       propertyPath: m_Name
-      value: Dragon Variant
+      value: Dragon
       objectReference: {fileID: 0}
     - target: {fileID: 4547397525002165866, guid: 7e2cfc10d2ea3314080089ad8bd54c35,
         type: 3}

@@ -1,3 +1,4 @@
+using IdleHeaven;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,6 @@ public class CharacterAIController : MonoBehaviour
     [SerializeField] Health _health;
     [SerializeField] Attack _attack;
     [SerializeField] Detector _detector;
-    private Weapon weapon;
 
     [SerializeField] NavMeshAgent Agent_movement;
 

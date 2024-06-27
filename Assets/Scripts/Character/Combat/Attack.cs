@@ -1,50 +1,52 @@
-using IdleHeaven;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Attack:MonoBehaviour
+namespace IdleHeaven
 {
-    public Action OnAttackSucceeded;
-    public Action OnKillEnemy;
-    public UnityEvent<Health, float, AttackType> OnAttack;
-
-    public void DealDamage(Health target, float damage, AttackType attackType = AttackType.None)
+    public class Attack : MonoBehaviour
     {
-        bool isAttackSucceeded = target.TakeDamage(this, damage, attackType);
-        if (isAttackSucceeded)
+        public Action OnAttackSucceeded;
+        public Action OnKillEnemy;
+        public UnityEvent<Health, float, AttackType> OnAttack;
+
+        public void DealDamage(Health target, float damage, AttackType attackType = AttackType.None)
         {
-            SpawnDamageUi(target.transform, damage);
-            if (OnAttackSucceeded != null)
+            bool isAttackSucceeded = target.TakeDamage(this, damage, attackType);
+            if (isAttackSucceeded)
             {
-                OnAttackSucceeded.Invoke();
-            }
-            if(target.IsDead())
-            {
-                if(OnKillEnemy != null)
+                SpawnDamageUi(target.transform, damage);
+                if (OnAttackSucceeded != null)
                 {
-                    OnKillEnemy.Invoke();
+                    OnAttackSucceeded.Invoke();
                 }
+                if (target.IsDead())
+                {
+                    if (OnKillEnemy != null)
+                    {
+                        OnKillEnemy.Invoke();
+                    }
+                }
+                //return false;
             }
-            //return false;
+            //return true;
         }
-        //return true;
-    }
 
-    public void TriggerAttack(Health targetCombat, float damage, AttackType attackType)
-    {
-        OnAttack?.Invoke(targetCombat, damage, attackType);
-    }
-
-    private void SpawnDamageUi(Transform target, float damage)
-    {
-        if (target.CompareTag("Player"))
+        public void TriggerAttack(Health targetCombat, float damage, AttackType attackType)
         {
-            DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.black);
+            OnAttack?.Invoke(targetCombat, damage, attackType);
         }
-        else
+
+        private void SpawnDamageUi(Transform target, float damage)
         {
-            DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.red);
+            if (target.CompareTag("Player"))
+            {
+                DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.black);
+            }
+            else
+            {
+                DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.red);
+            }
         }
     }
 }

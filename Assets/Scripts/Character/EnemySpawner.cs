@@ -33,9 +33,15 @@ public class EnemySpawner : MonoBehaviour
                 continue;
             }
             Transform randomTrf = _spawnPoint[Random.Range(0, _spawnPoint.Length)];
-            GameObject randomEnemy = CSVParser.Instance.enemies[_enemyToSpawn[Random.Range(0, _enemyToSpawn.Length)]].Prefab;
+
+            EnemyData randomEnemyData = CSVParser.Instance.enemies[_enemyToSpawn[Random.Range(0, _enemyToSpawn.Length)]];
+
+            GameObject randomEnemyPrf = randomEnemyData.Prefab;
             Vector3 relativeToPlayerLocal = _playerAttack.transform.position + randomTrf.localPosition;
-            GameObject enemy = Instantiate(randomEnemy, relativeToPlayerLocal, Quaternion.identity);
+
+            GameObject enemy = Instantiate(randomEnemyPrf, relativeToPlayerLocal, Quaternion.identity);
+
+            enemy.GetComponent<Enemy>().Init(randomEnemyData);
             AddEnemy(enemy);
             yield return new WaitForSeconds(_spawnInterval);
         }

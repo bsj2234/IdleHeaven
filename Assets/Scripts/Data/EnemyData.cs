@@ -6,12 +6,9 @@ using UnityEngine;
 public class EnemyData : IKeyProvider
 {
     [SerializeField] string _name;
-    [SerializeField] int _level;
     [SerializeField] float _health;
     [SerializeField] float _attack;
     [SerializeField] float _defense;
-    [SerializeField] float _resistance;
-    [SerializeField] Stats _stat;
     [SerializeField] GameObject _prefab;
 
     public string Name { get => _name; set => _name = value; }

@@ -1,8 +1,10 @@
-
-public class Weapon
+namespace IdleHeaven
 {
-    public void OnCollide()
+    public class Weapon
     {
+        public void OnCollision()
+        {
 
+        }
     }
 }

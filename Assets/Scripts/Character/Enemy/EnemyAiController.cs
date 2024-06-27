@@ -1,3 +1,4 @@
+using IdleHeaven;
 using UnityEngine;
 
 [RequireComponent(typeof(StateMachine))]
@@ -9,7 +10,6 @@ public class EnemyAiController : MonoBehaviour
     [SerializeField] Health _health;
     [SerializeField] Attack _attack;
     [SerializeField] Detector _detector;
-    private Weapon weapon;
 
     [SerializeField] UnityEngine.AI.NavMeshAgent Agent_movement;
 
