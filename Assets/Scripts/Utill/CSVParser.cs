@@ -93,6 +93,7 @@ namespace IdleHeaven
                         equipmentData.Description = fields[Array.IndexOf(header, "Description")];
                         equipmentData.PrefabPath = fields[Array.IndexOf(header, "PrefabPath")];
                         equipmentData.DefenseValue = int.Parse(fields[Array.IndexOf(header, "DefenseValue")]);
+                        equipmentData.EquipmentSlot = (EquipmentType)Enum.Parse(typeof(EquipmentType), fields[Array.IndexOf(header, "SpecificType")]);
                         EquipmentDatas.Add(equipmentData.ItemName, equipmentData);
                         break;
                     case ItemType.Usable:
