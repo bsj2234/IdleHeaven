@@ -112,9 +112,10 @@ GameObject:
   - component: {fileID: 549787858096021318}
   - component: {fileID: 5381912472165687061}
   - component: {fileID: 2716438110794715463}
-  - component: {fileID: 304400646431480866}
   - component: {fileID: 7268930832981669950}
   - component: {fileID: 7551891438284628015}
+  - component: {fileID: 3673060493132733898}
+  - component: {fileID: 304400646431480866}
   - component: {fileID: 2563121716358505987}
   m_Layer: 0
   m_Name: TempEnemy
@@ -260,29 +261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   expAmount: 30
---- !u!136 &304400646431480866
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2855540130070105857}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &7268930832981669950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +294,62 @@ MonoBehaviour:
   Agent_movement: {fileID: 2563121716358505987}
   patrolWaypoints: []
   chaseTarget: {fileID: 0}
+--- !u!114 &3673060493132733898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2855540130070105857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e9c0bb4c73ecc42af4af2c308d81cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Stats:
+    stats:
+    - _statType: 0
+      _value: 30
+    - _statType: 1
+      _value: 15
+    - _statType: 2
+      _value: 10
+    - _statType: 3
+      _value: 1
+    - _statType: 4
+      _value: 1
+    - _statType: 5
+      _value: 0
+    - _statType: 6
+      _value: 0
+  LevelSystem:
+    Level: 10
+    MaxLevel: 10
+    Exp: 0
+    MaxExp: 100
+--- !u!136 &304400646431480866
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2855540130070105857}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &2563121716358505987
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -355,7 +389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6675691040783557574
 Transform:
   m_ObjectHideFlags: 0

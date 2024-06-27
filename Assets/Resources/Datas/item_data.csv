@@ -1,0 +1,18 @@
+Name,Type,Description,PrefabPath,SpecificType,AttackSpeed,MinDamage,MaxDamage,DefenseValue,EffectType,EffectValue
+Sword,Weapon,A powerful sword,Prefabs/Sword,Melee,1.5,15,25,,,
+Axe,Weapon,A heavy axe,Prefabs/Axe,Melee,1.2,20,30,,,
+Shield,Equipment,A sturdy shield,Prefabs/Shield,Shield,,,,30,,
+Helmet,Equipment,A strong helmet,Prefabs/Helmet,Head,,,,20,,
+Chest Armor,Equipment,A strong chest,Prefabs/ChestArmor,Chest,,,,30,,
+Legs Armor,Equipment,A strong legs,Prefabs/LegsArmor,Legs,,,,20,,
+Bow,Weapon,A long-range bow,Prefabs/Bow,Ranged,1.8,10,20,,,
+Dagger,Weapon,A quick and sharp dagger,Prefabs/Dagger,Melee,2,8,15,,,
+Magic Wand,Weapon,A wand infused with magic,Prefabs/MagicWand,Magic,1,12,18,,,
+Greatsword,Weapon,A massive and powerful sword,Prefabs/Greatsword,Melee,1,25,35,,,
+Fire Shield,Equipment,A shield with fire resistance,Prefabs/FireShield,Shield,,,,40,,
+Iron Helmet,Equipment,A helmet made of iron,Prefabs/IronHelmet,Head,,,,25,,
+Steel Chestplate,Equipment,A chestplate made of steel,Prefabs/SteelChestplate,Chest,,,,40,,
+Leather Boots,Equipment,A pair of sturdy leather boots,Prefabs/LeatherBoots,Legs,,,,15,,
+Speed Elixir,Usable,Increases speed,Prefabs/SpeedElixir,,,,,,Speed,15
+Health Potion,Usable,Restores health,Prefabs/HealthPotion,,,,,,Heal,50
+Strength Elixir,Usable,Increases strength,Prefabs/StrengthElixir,,,,,,Damage,10

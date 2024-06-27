@@ -1,7 +1,0 @@
-Name,Type,Description,PrefabPath,WeaponType,AttackSpeed,MinDamage,MaxDamage,DefenseValue,EffectType,EffectValue,SpritePath
-Sword,Weapon,A powerful sword,Prefabs/Sword,Melee,1.5,15,25,,,,
-Axe,Weapon,A heavy axe,Prefabs/Axe,Melee,1.2,20,30,,,,
-Shield,Armor,A sturdy shield,Prefabs/Shield,,,,,30,,,
-Helmet,Armor,A strong helmet,Prefabs/Helmet,,,,,20,,,
-Health Potion,Usable,Restores health,Prefabs/HealthPotion,,,,,,Heal,50,
-Strength Elixir,Usable,Increases strength,Prefabs/StrengthElixir,,,,,,Strength,10,
