@@ -14,7 +14,6 @@ public class Detector : MonoBehaviour
     public Func<bool> additionalConditionForDelete;
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log($"{name} Trigger Enter");
         if (other.CompareTag(_targetTag))
         {
             if(OnFoundTarget != null)
@@ -62,14 +61,6 @@ public class Detector : MonoBehaviour
             }
         }
         return result;
-    }
-    private void DebugTarget()
-    {
-        string targetArray = "";
-        foreach (var enemy in _targetsInDetector)
-        {
-            targetArray = $"{targetArray} ,{enemy.transform.name}";
-        }
     }
     private int SortTarget(Transform lhs, Transform rhs)
     {

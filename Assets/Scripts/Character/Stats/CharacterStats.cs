@@ -51,7 +51,7 @@ namespace IdleHeaven
             _equipmentBonusStats.Clear();
             foreach (EquipmentItem equipment in equipments.GetEquippedItems().Values)
             {
-                _equipmentBonusStats.AddStats(equipment.GetStatBonus());
+                _equipmentBonusStats.AddStats(equipment.Stats);
             }
         }
         public void RefreshEffectStats(ICharacterEffector effector)
@@ -94,16 +94,14 @@ namespace IdleHeaven
 
 
         //========장착, 해제이벤트 핸들러
-        private void OnEquippedHandler(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+        private void OnEquippedHandler(Equipments equipments, EquipmentType slot, EquipmentItem item)
         {
-            Stats.AddStats(item.GetStatBonus());
-            Stats.AddStats(item.GetEffectStatBonus());
+            Stats.AddStats(item.Stats);
         }
 
-        private void OnUnequippedHandler(Equipments equipments, EquipmentSlot slot, EquipmentItem item)
+        private void OnUnequippedHandler(Equipments equipments, EquipmentType slot, EquipmentItem item)
         {
-            Stats.SubtractStats(item.GetStatBonus());
-            Stats.SubtractStats(item.GetEffectStatBonus());
+            Stats.SubtractStats(item.Stats);
         }
         private void OnLevelUpHandler()
         {

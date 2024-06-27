@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(StateMachine))]
@@ -54,5 +52,7 @@ public class EnemyAiController : MonoBehaviour
 
         stateMachine.ChangeState<IdleState>();
         _health.OnDead.AddListener((attack, helth) => stateMachine.ChangeState<DeadState>());
+
+        _detector.transform.gameObject.SetActive(true);
     }
 }
