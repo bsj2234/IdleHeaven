@@ -25,18 +25,28 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
     public List<Pool> pools;
     private Dictionary<GameObject, Queue<IPooledObject>> poolDictionary;
 
+    private GameObject poolParent;
+
     private void Awake()
     {
         poolDictionary = new Dictionary<GameObject, Queue<IPooledObject>>();
+        poolParent = new GameObject("=======ObjectPool=======");
 
         foreach (Pool pool in pools)
         {
             Queue<IPooledObject> objectPool = new Queue<IPooledObject>();
 
+            GameObject currentPoolParent = new GameObject($"======={pool.prefab.name}=======");
+            currentPoolParent.transform.SetParent(poolParent.transform);
+
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
+
+                obj.transform.SetParent(currentPoolParent.transform);
+
+
                 if(obj.TryGetComponent(out IPooledObject pooledObject))
                 {
                     objectPool.Enqueue(pooledObject);
