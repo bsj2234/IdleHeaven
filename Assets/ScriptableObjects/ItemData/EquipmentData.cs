@@ -19,4 +19,11 @@ public class EquipmentData: ItemData
         get { return _defanseValue; }
         set { _defanseValue = value; }
     }
+
+    public override Item GetRandomItemInstance(string name)
+    {
+        EquipmentItem equipment = new EquipmentItem(name, this);
+        equipment.BaseStats[StatType.Defense] = this.DefenseValue;
+        return equipment;
+    }
 }
