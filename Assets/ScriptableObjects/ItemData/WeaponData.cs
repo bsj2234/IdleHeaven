@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class WeaponData : ItemData
+public class WeaponData : EquipmentData
 {
     [SerializeField] string _weaponType;
     [SerializeField] string _attackSpeed;
