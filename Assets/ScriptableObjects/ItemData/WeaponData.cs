@@ -34,6 +34,12 @@ public class WeaponData : EquipmentData
         set { _maxDamage = value; }
     }
 
+
+    public WeaponData()
+    {
+       EquipmentSlot = EquipmentType.Weapon;
+    }
+
     public override Item GetRandomItemInstance(string name)
     {
         EquipmentItem item = new EquipmentItem(name, this);
