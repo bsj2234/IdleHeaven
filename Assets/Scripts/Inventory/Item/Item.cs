@@ -134,6 +134,14 @@ namespace IdleHeaven
             }
             OnItemChanged += RecalcResultStats;
             OnItemChanged.Invoke();
+            foreach ( Stat stat in _baseStats.stats)
+            {
+                stat.RegisterStatChanged(HandleStatChange);
+            }
+        }
+        public void HandleStatChange(Stat stat)
+        {
+            RecalcResultStats();
         }
         public void RecalcResultStats()
         {
