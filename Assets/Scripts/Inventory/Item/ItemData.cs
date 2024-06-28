@@ -8,9 +8,9 @@ namespace IdleHeaven
     {
         [SerializeField] string _itemName;
         [SerializeField] ItemType _itemType;
-        [SerializeField] GameObject _itemPrefab;
         [SerializeField] string _description;
         [SerializeField] Sprite _icon;
+        [SerializeField] Rarity _rarity;
 
 
         public string ItemName
@@ -23,36 +23,6 @@ namespace IdleHeaven
         {
             get { return _itemType; }
             set { _itemType = value; }
-        }
-
-        public GameObject ItemPrefab
-        {
-            get
-            {
-                if (_itemPrefab == null)
-                    Debug.LogError($"{_itemName}ItemPrefab is null");
-                return _itemPrefab;
-            }
-            set { _itemPrefab = value; }
-        }
-
-        public string PrefabPath
-        {
-            get
-            {
-                if (_itemPrefab == null)
-                {
-                    return string.Empty;
-                }
-
-                return _itemPrefab.name;
-            }
-            set
-            {
-                _itemPrefab = Resources.Load<GameObject>(value);
-                if (_itemPrefab == null)
-                    Debug.LogError($"{_itemName}cannot Find Prefab In Path {value}");
-            }
         }
 
         public string Description
@@ -76,7 +46,7 @@ namespace IdleHeaven
             }
         }
 
-        public virtual Item GetRandomItemInstance(string name)
+        public virtual Item GetRandomItemInstance(string name, GenerateInfo generateInfo)
         {
             return new Item(name, this);
         }

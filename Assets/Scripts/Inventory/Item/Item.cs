@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace IdleHeaven
 {
@@ -48,6 +49,7 @@ namespace IdleHeaven
 
 
         public Action OnItemChanged;
+
         public Item()
         {
             _quantity = 1;
@@ -70,14 +72,13 @@ namespace IdleHeaven
     {
         private const int MAX_ITEMEFFECT = 3;
         [SerializeField] bool _equiped = false;
-        [SerializeField] float _damage;
-        [SerializeField] float _defense;
-        [SerializeField] int _level;
-        [SerializeField] int _enhancedLevel;
+        [SerializeField] int _level = 1;
+        [SerializeField] int _enhancedLevel = 1;
         [SerializeField] ItemEffect[] _effects = new ItemEffect[MAX_ITEMEFFECT];
         [SerializeField] Stats _baseStats = new Stats();
         [SerializeField] Stats _resultStats = new Stats();
         public Rarity Rarity;
+
         public ItemEffect[] Effects => _effects;
         public bool Equiped
         {
@@ -91,10 +92,6 @@ namespace IdleHeaven
         public int Level
         {
             get { return _level; }
-            set
-            {
-                _level = value;
-            }
         }
         public int EnhancedLevel
         {
@@ -105,44 +102,44 @@ namespace IdleHeaven
                 OnItemChanged?.Invoke();
             }
         }
-        public float Damage
+        public Stats ResultStats
         {
-            get { return _damage; }
-            set
+            get
             {
-                _damage = value;
-                _resultStats[StatType.Attack] = _damage;
+                return _resultStats;
             }
         }
-        public float Defense
-        {
-            get { return _defense; }
-            set
-            {
-                _defense = value;
-                _resultStats[StatType.Defense] = _defense;
-            }
-        }
-        public Stats Stats => _resultStats;
         public Stats BaseStats => _baseStats;
-        public EquipmentData EquipmentData => ItemData as EquipmentData;
-
-
-
-        public EquipmentItem(string name, ItemData data) : base(name, data, 1)
+        public EquipmentData EquipmentData
         {
+            set
+            {
+                _itemData = value as EquipmentData;
+                Assert.IsNotNull(_itemData);
+            }
+            get
+            {
+                Assert.IsNotNull(_itemData);
+                return _itemData as EquipmentData;
+            }
+
+        }
+
+        public EquipmentItem(string name, ItemData data, int level) : base(name, data, 1)
+        {
+            _level = level;
             for (int i = 0; i < MAX_ITEMEFFECT; i++)
             {
                 _effects[i] = ItemEffectRandomizer.Instance.GetRandomEffect();
             }
-            RecalcResultStats();
             OnItemChanged += RecalcResultStats;
+            OnItemChanged.Invoke();
         }
         public void RecalcResultStats()
         {
             _resultStats.Clear();
             _resultStats.AddStats(_baseStats);
-            foreach (var effect in _effects)
+            foreach (ItemEffect effect in _effects)
             {
                 _resultStats[effect.Stat] += effect.Value * EnhancedLevel * 1.1f * Level * 0.02f;
             }

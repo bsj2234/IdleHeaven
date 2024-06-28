@@ -667,11 +667,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemViewModel: {fileID: 1486283296902813647}
-  itemName: {fileID: 3767271149213021055}
-  itemDescription: {fileID: 0}
-  itemPrice: {fileID: 0}
-  itemImage: {fileID: 1106700105381261643}
-  _equipedIcon: {fileID: 6482419807161481938}
+  Image_item: {fileID: 1106700105381261643}
+  Image_equipedIcon: {fileID: 6482419807161481938}
+  TEXT_itemName: {fileID: 3767271149213021055}
+  TEXT_itemDescription: {fileID: 0}
+  TEXT_itemQuantity: {fileID: 8814293465994482049}
+  Text_stats: []
+  Text_effects: []
 --- !u!114 &1486283296902813647
 MonoBehaviour:
   m_ObjectHideFlags: 0

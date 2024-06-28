@@ -1,7 +1,8 @@
 using IdleHeaven;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,35 +10,54 @@ public class ItemView : MonoBehaviour
 {
     public ItemViewModel ItemViewModel;
 
-    [SerializeField] TMPro.TMP_Text itemName;
-    [SerializeField] TMPro.TMP_Text itemDescription;
-    [SerializeField] TMPro.TMP_Text itemPrice;
-    [SerializeField] Image itemImage;
-    [SerializeField] Image _equipedIcon;
+    [SerializeField] private Image Image_item;
+    [SerializeField] private Image Image_equipedIcon;
+
+    [SerializeField] private TMP_Text TEXT_itemName;
+    [SerializeField] private TMP_Text TEXT_itemDescription;
+    [SerializeField] private TMP_Text TEXT_itemQuantity;
+
+    [SerializeField] private TMP_Text[] Text_stats;
+
+    [SerializeField] private TMP_Text[] Text_effects;
+
     private UIButtonHoldDetector _buttonHoldable;
+
+    public UIWindow Window;
 
     private void Awake()
     {
         ItemViewModel.PropertyChanged += ItemViewModel_PropertyChanged;
-        if(TryGetComponent(out UIButtonHoldDetector buttonHoldable))
+        if (TryGetComponent(out UIButtonHoldDetector buttonHoldable))
         {
             _buttonHoldable = buttonHoldable;
         }
     }
+    private void OnEnable()
+    {
+        UpdateItemView(ItemViewModel.Item);
+    }
 
-    public ItemView RegisterOnClick(Action<Item> onClick)
+
+    public void Init(ItemView itemView)
+    {
+        ItemViewModel = itemView.ItemViewModel;
+        UpdateItemView(ItemViewModel.Item);
+    }
+
+    public ItemView RegisterOnClick(Action<ItemView> onClick)
     {
         if (_buttonHoldable == null)
         {
-            Debug.LogError("Button holdable detector is not found");
+            Debug.LogError($"Button holdable detector is not found {gameObject.name}, {transform.parent.name}");
             return this;
         }
-        _buttonHoldable.onClick.AddListener(() => onClick(ItemViewModel.Item));
+        _buttonHoldable.onClick.AddListener(() => onClick(this));
         return this;
     }
     public void RegisterOnHoldUp(Action<Item> itemHoldCallback)
     {
-        if(_buttonHoldable == null)
+        if (_buttonHoldable == null)
         {
             Debug.LogError("Button holdable detector is not found");
             return;
@@ -47,7 +67,7 @@ public class ItemView : MonoBehaviour
 
     public void SetItem(Item item)
     {
-       ItemViewModel.Item = item;
+        ItemViewModel.Item = item;
         UpdateItemView(item);
     }
 
@@ -65,30 +85,72 @@ public class ItemView : MonoBehaviour
 
     private void UpdateItemView(Item item)
     {
-        if(item == null)
+        ClearFields();
+        if (item == null)
         {
-            itemImage.gameObject.SetActive(false);
+            Image_item.gameObject.SetActive(false);
             return;
         }
         else
         {
-            itemImage.gameObject.SetActive(true);
+            Image_item.gameObject.SetActive(true);
         }
-        if(itemName != null)
+
+
+        TrySetText(TEXT_itemName, item.Name);
+        //TrySetText(TEXT_itemDescription, item.Description);
+        TrySetText(TEXT_itemQuantity, item.Quantity.ToString());
+
+        TrySetImage(Image_item, item.ItemData.Icon);
+        //TrySetImage(Image_equipedIcon, item.Owner != null ? item.Owner.Icon : null);
+
+
+        if(item is EquipmentItem equipmentItem)
         {
-            itemName.text = item.Name;
+            for (int i = 0; i < Text_effects.Length; i++)
+            {
+                TrySetText(Text_effects[i], equipmentItem.Effects[i].ToString());
+            }
+            for (int i = 0; i < Text_stats.Length; i++)
+            {
+                TrySetText(Text_stats[i], equipmentItem.ResultStats[(StatType)i].ToString());
+            }
         }
-        if(itemDescription != null)
+
+    }
+
+    private void ClearFields()
+    {
+        TrySetText(TEXT_itemName, "");
+        TrySetText(TEXT_itemDescription, "");
+        TrySetText(TEXT_itemQuantity, "");
+
+        TrySetImage(Image_item, null);
+        TrySetImage(Image_equipedIcon, null);
+
+        foreach (var text in Text_effects)
         {
-            itemDescription.text = item.ItemData.Description;
+            TrySetText(text, "");
         }
-        if(itemImage != null)
+        foreach (var text in Text_stats)
         {
-            itemImage.sprite = item.ItemData.Icon;
+            TrySetText(text, "");
         }
-        if(_equipedIcon != null && item is EquipmentItem equipment)
+    }
+
+    private void TrySetText(TMP_Text text, string contentText)
+    {
+        if (text != null)
         {
-            _equipedIcon.gameObject.SetActive(equipment.Equiped);
+            text.text = contentText;
+        }
+    }
+
+    private void TrySetImage(Image image, Sprite sprite)
+    {
+        if (image != null)
+        {
+            image.sprite = sprite;
         }
     }
 

@@ -80,27 +80,26 @@ namespace IdleHeaven
                         WeaponData weaponData = new WeaponData();
                         weaponData.ItemName = fields[Array.IndexOf(header, "Name")];
                         weaponData.Description = fields[Array.IndexOf(header, "Description")];
-                        weaponData.PrefabPath = fields[Array.IndexOf(header, "PrefabPath")];
                         weaponData.WeaponType = fields[Array.IndexOf(header, "SpecificType")];
                         weaponData.AttackSpeed = fields[Array.IndexOf(header, "AttackSpeed")];
                         weaponData.MinDamage = int.Parse(fields[Array.IndexOf(header, "MinDamage")]);
                         weaponData.MaxDamage = int.Parse(fields[Array.IndexOf(header, "MaxDamage")]);
+                        weaponData.IconPath = fields[Array.IndexOf(header, "IconPath")];
                         WeaponDatas.Add(weaponData.ItemName, weaponData);
                         break;
                     case ItemType.Equipment:
                         EquipmentData equipmentData = new EquipmentData();
                         equipmentData.ItemName = fields[Array.IndexOf(header, "Name")];
                         equipmentData.Description = fields[Array.IndexOf(header, "Description")];
-                        equipmentData.PrefabPath = fields[Array.IndexOf(header, "PrefabPath")];
                         equipmentData.DefenseValue = int.Parse(fields[Array.IndexOf(header, "DefenseValue")]);
                         equipmentData.EquipmentSlot = (EquipmentType)Enum.Parse(typeof(EquipmentType), fields[Array.IndexOf(header, "SpecificType")]);
+                        equipmentData.IconPath = fields[Array.IndexOf(header, "IconPath")];
                         EquipmentDatas.Add(equipmentData.ItemName, equipmentData);
                         break;
                     case ItemType.Usable:
                         UsableItemData usableItemData = new UsableItemData();
                         usableItemData.ItemName = fields[Array.IndexOf(header, "Name")];
                         usableItemData.Description = fields[Array.IndexOf(header, "Description")];
-                        usableItemData.PrefabPath = fields[Array.IndexOf(header, "PrefabPath")];
                         usableItemData.EffectType = (EffectType)Enum.Parse(typeof(EffectType), fields[Array.IndexOf(header, "EffectType")]);
                         usableItemData.EffectValue = int.Parse(fields[Array.IndexOf(header, "EffectValue")]);
                         UsableDatas.Add(usableItemData.ItemName, usableItemData);

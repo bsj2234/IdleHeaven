@@ -32,9 +32,9 @@ public class EquipmentView : MonoBehaviour
             _itemViews[i].SetItem(equipedItem);
         }
     }
-    private void ItemClickCallback(Item item)
+    private void ItemClickCallback(ItemView itemView)
     {
-        EquipmentItem equipmentItem = item as EquipmentItem;
+        EquipmentItem equipmentItem = itemView.ItemViewModel.Item as EquipmentItem;
         _equipmentViewModel.Unequip(equipmentItem.EquipmentData.EquipmentSlot);
     }
 

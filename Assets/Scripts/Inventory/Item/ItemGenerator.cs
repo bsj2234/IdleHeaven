@@ -5,7 +5,7 @@ namespace IdleHeaven
 {
     public interface IRandomItemInstance
     {
-        Item GetRandomItemInstance(string name);
+        Item GetRandomItemInstance(string name, GenerateInfo generateInfo);
     }
 
     public struct GenerateInfo
@@ -44,27 +44,27 @@ namespace IdleHeaven
 
         public Item GenerateItem(GenerateInfo info, string name = "")
         {
-            ItemType itemType = GetRandomKind<ItemType>();
+            ItemType itemType = GetRandomEnum<ItemType>();
             Dictionary<string, ItemData> randomItemDatas = CSVParser.Instance.GetItems(itemType);
             ItemData randomItemdata = GetRandomFromDictionary(randomItemDatas);
 
             if(string.IsNullOrEmpty(name))
                 name = randomItemdata.ItemName;
 
-            Item randomItem = RandomItem(name, randomItemdata);
+            Item randomItem = RandomItem(name, info, randomItemdata);
             return randomItem;
         }
 
 
 
-        private T GetRandomKind<T>() where T : System.Enum
-        {
-            Random.InitState((int)(Time.realtimeSinceStartup * 1000f));
-            System.Array values = System.Enum.GetValues(typeof(T));
-            int itemType = Random.Range(0, values.Length);
-            return (T)values.GetValue(itemType);
 
+
+        private Item RandomItem(string itemName, GenerateInfo generateInfo, IRandomItemInstance itemData)
+        {
+            return itemData.GetRandomItemInstance(itemName, generateInfo);
         }
+
+
         private Rarity GetRandomRairity(RarityTable rarityTable)
         {
             Random.InitState((int)Time.time);
@@ -84,9 +84,13 @@ namespace IdleHeaven
             Debug.Assert(false, "Error Not a possible situation");
             return Rarity.Error;
         }
-        private Item RandomItem(string itemName, IRandomItemInstance itemData)
+        private T GetRandomEnum<T>() where T : System.Enum
         {
-            return itemData.GetRandomItemInstance(itemName);
+            Random.InitState((int)(Time.realtimeSinceStartup * 1000f));
+            System.Array values = System.Enum.GetValues(typeof(T));
+            int itemType = Random.Range(0, values.Length);
+            return (T)values.GetValue(itemType);
+
         }
         private T GetRandomFromDictionary<T>(Dictionary<string, T> dictionary)
         {

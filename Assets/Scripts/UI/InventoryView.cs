@@ -11,7 +11,8 @@ namespace IdleHeaven
     {
         [SerializeField] InventoryViewModel _inventoryViewModel;
         [SerializeField] ItemView[] _itemViews;
-        [SerializeField] ItemDetailView _itemDetailUi;
+        [SerializeField] ItemDetailView _itemDetailView;
+        [SerializeField] ItemView _itemPopupView;
 
         [SerializeField] Button Button_left;
         [SerializeField] Button Button_right;
@@ -32,6 +33,7 @@ namespace IdleHeaven
             UpdateInventoryView();
         }
 
+
         private void UpdateInventoryView()
         {
             List<Item> items = _inventoryViewModel.GetFilteredItem("");
@@ -50,6 +52,16 @@ namespace IdleHeaven
                 }
             }
         }
+
+        private void ShowDetailView(ItemView itemView)
+        {
+            _itemPopupView.Init(itemView);
+            _itemPopupView.Window.Open();
+            _itemPopupView.transform.position = itemView.transform.position;
+        }
+
+
+
         private void HandlePropertyChange(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -62,19 +74,20 @@ namespace IdleHeaven
             }
         }
 
-        private void ItemClickCallback(Item item)
+        private void ItemClickCallback(ItemView itemView)
         {
-            if (item is EquipmentItem equipment)
-            {
-                _inventoryViewModel.Equip(equipment);
-            }
+            //if (item is EquipmentItem equipment)
+            //{
+            //    _inventoryViewModel.Equip(equipment);
+            //}
+            ShowDetailView(itemView);
         }
         private void ItemHoldCallback(Item item)
         {
             Debug.Log("holded");
 
-            _itemDetailUi.Window.Open();
-            _itemDetailUi.OnOpen(item);
+            _itemDetailView.Window.Open();
+            _itemDetailView.OnOpen(item);
         }
 
         private void OnLeftButtonClick()
