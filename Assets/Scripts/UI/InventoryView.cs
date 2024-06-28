@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 
 namespace IdleHeaven
@@ -12,6 +13,9 @@ namespace IdleHeaven
         [SerializeField] ItemView[] _itemViews;
         [SerializeField] ItemDetailView _itemDetailUi;
 
+        [SerializeField] Button Button_left;
+        [SerializeField] Button Button_right;
+
 
         private void Start()
         {
@@ -21,6 +25,9 @@ namespace IdleHeaven
                 _itemViews[i].RegisterOnHoldUp(ItemHoldCallback);
             }
             _inventoryViewModel.PropertyChanged += HandlePropertyChange;
+
+            Button_left.onClick.AddListener(OnLeftButtonClick);
+            Button_right.onClick.AddListener(OnRightButtonClick);
 
             UpdateInventoryView();
         }
@@ -68,6 +75,17 @@ namespace IdleHeaven
 
             _itemDetailUi.Window.Open();
             _itemDetailUi.OnOpen(item);
+        }
+
+        private void OnLeftButtonClick()
+        {
+            _inventoryViewModel.GetPreviousPage();
+            UpdateInventoryView();
+        }
+        private void OnRightButtonClick()
+        {
+            _inventoryViewModel.GetNextPage();
+            UpdateInventoryView();
         }
     }
 }

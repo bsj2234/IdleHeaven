@@ -56,20 +56,57 @@ namespace IdleHeaven
 
             if(filter == "equipment")
             {
-                foreach(Item item in items)
+                for(int i = 0; i < _itemCountPerPage; i++)
                 {
-                    if(item is EquipmentItem)
+                    int index = _currentPage * _itemCountPerPage + i;
+
+                    if (items[index] is EquipmentItem)
                     {
-                        list.Add(item);
+                        list.Add(items[index]);
                     }
                 }
                 return list;
             }
             else
             {
-                return _inventory.GetItems();
+
+
+                for (int i = 0; i < _itemCountPerPage; i++)
+                {
+                    int index = _currentPage * _itemCountPerPage + i;
+
+                    //if (items[index] is EquipmentItem)
+                    if(items.Count > index)
+                    {
+                        list.Add(items[index]);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                return list;
+                //return _inventory.GetItems();
             }
         }
 
+        private int _currentPage = 0;
+        public int _itemCountPerPage = 20;
+
+        public void GetPreviousPage()
+        {
+            if (_currentPage > 0)
+            {
+                _currentPage--;
+            }
+        }
+
+        public void GetNextPage()
+        {
+            if (_currentPage < (Inventory.GetItems().Count - 1) / _itemCountPerPage)
+            {
+                _currentPage++;
+            }
+        }
     }
 }
