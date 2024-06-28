@@ -29,7 +29,7 @@ namespace IdleHeaven
                 _equipments = equipments;
                 _equipments.OnEquipped += OnEquippedHandler;
                 _equipments.OnUnEquipped += OnUnequippedHandler;
-                LevelSystem.OnLevelUp += OnLevelUpHandler;
+                LevelSystem.OnLevelUp.AddListener(OnLevelUpHandler);
             }
         }
         private void OnDestroy()
@@ -38,7 +38,7 @@ namespace IdleHeaven
             {
                 _equipments.OnEquipped -= OnEquippedHandler;
                 _equipments.OnUnEquipped -= OnUnequippedHandler;
-                LevelSystem.OnLevelUp -= OnLevelUpHandler;
+                LevelSystem.OnLevelUp.RemoveListener(OnLevelUpHandler);
             }
         }
         public float GetStatValue(StatType statType)
@@ -51,7 +51,7 @@ namespace IdleHeaven
             _equipmentBonusStats.Clear();
             foreach (EquipmentItem equipment in equipments.GetEquippedItems().Values)
             {
-                _equipmentBonusStats.AddStats(equipment.Stats);
+                _equipmentBonusStats.AddStats(equipment.ResultStats);
             }
         }
         public void RefreshEffectStats(ICharacterEffector effector)
@@ -77,7 +77,7 @@ namespace IdleHeaven
                     Damage = Stats[StatType.Attack] * Stats[StatType.CritDamage],
                     AttackType = AttackType.ChargedMelee
                 };
-                    
+
             }
             else
             {
@@ -85,7 +85,7 @@ namespace IdleHeaven
                 Debug.Log(Stats[StatType.Attack]);
                 return new DamageInfo
                 {
-                    Damage = Stats[StatType.Attack] * Stats[StatType.CritDamage],
+                    Damage = Stats[StatType.Attack],
                     AttackType = AttackType.Melee
                 };
             }
@@ -96,12 +96,12 @@ namespace IdleHeaven
         //========장착, 해제이벤트 핸들러
         private void OnEquippedHandler(Equipments equipments, EquipmentType slot, EquipmentItem item)
         {
-            Stats.AddStats(item.Stats);
+            Stats.AddStats(item.ResultStats);
         }
 
         private void OnUnequippedHandler(Equipments equipments, EquipmentType slot, EquipmentItem item)
         {
-            Stats.SubtractStats(item.Stats);
+            Stats.SubtractStats(item.ResultStats);
         }
         private void OnLevelUpHandler()
         {

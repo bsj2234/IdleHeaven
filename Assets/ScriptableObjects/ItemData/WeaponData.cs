@@ -40,10 +40,10 @@ public class WeaponData : EquipmentData
        EquipmentSlot = EquipmentType.Weapon;
     }
 
-    public override Item GetRandomItemInstance(string name)
+    public override Item GetRandomItemInstance(string name, GenerateInfo generateInfo)
     {
-        EquipmentItem item = new EquipmentItem(name, this);
-        item.Damage = Random.Range(MinDamage, MaxDamage);
+        EquipmentItem item = new EquipmentItem(name, this, generateInfo.EnemyLevel);
+        item.BaseStats[StatType.Attack] = Random.Range(MinDamage, MaxDamage);
         return item;
     }
 }

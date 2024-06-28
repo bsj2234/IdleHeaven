@@ -5,8 +5,7 @@ using IdleHeaven;
 public class EquipmentData: ItemData
 {
     [SerializeField] EquipmentType _equipmentSlot;
-    [SerializeField] float _defanseValue;
-    [SerializeField] Stats _stats;
+    [SerializeField] Stats _stats = new Stats();
 
     public EquipmentType EquipmentSlot
     {
@@ -14,15 +13,20 @@ public class EquipmentData: ItemData
         set { _equipmentSlot = value; }
     }
 
-    public float DefenseValue
+    public EquipmentData()
     {
-        get { return _defanseValue; }
-        set { _defanseValue = value; }
+        ItemType = ItemType.Equipment;
     }
 
-    public override Item GetRandomItemInstance(string name)
+    public float DefenseValue
     {
-        EquipmentItem equipment = new EquipmentItem(name, this);
+        get { return _stats[StatType.Defense]; }
+        set { _stats[StatType.Defense] = value; }
+    }
+
+    public override Item GetRandomItemInstance(string name, GenerateInfo generateInfo)
+    {
+        EquipmentItem equipment = new EquipmentItem(name, this, generateInfo.EnemyLevel);
         equipment.BaseStats[StatType.Defense] = this.DefenseValue;
         return equipment;
     }

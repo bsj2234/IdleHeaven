@@ -44,7 +44,6 @@ public class Health : MonoBehaviour
     public void SetMaxHp(float maxHp)
     {
         _maxHp = maxHp;
-        ResetDead();
     }
     public float GetMaxHp()
     {
@@ -57,7 +56,6 @@ public class Health : MonoBehaviour
     public void ResetHpWithRatio(float ratio)
     {
         _hp = _maxHp * ratio;
-        _dead = false;
     }
 
 
@@ -132,5 +130,11 @@ public class Health : MonoBehaviour
     {
         _hp = _maxHp;
         _dead = false;
+    }
+
+    public void OnLevelUp()
+    {
+        _maxHp = GetComponent<CharacterStats>().Stats[StatType.Hp];
+        _hp = _maxHp;
     }
 }

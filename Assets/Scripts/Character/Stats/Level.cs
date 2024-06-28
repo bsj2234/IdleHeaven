@@ -1,14 +1,15 @@
 using System;
+using UnityEngine.Events;
 
 [Serializable]
 public class LevelSystem
 {
-    public int Level;
-    public int MaxLevel;
+    public int Level = 1;
+    public int MaxLevel = 50;
     public float Exp;
     public float MaxExp = 100f;
 
-    public Action OnLevelUp {get; set;}
+    public UnityEvent OnLevelUp;
     public Action OnLevelSystemChanged { get; internal set; }
 
     public void AddExp(int exp)

@@ -1,5 +1,4 @@
 using IdleHeaven;
-using System;
 using UnityEngine;
 
 
@@ -20,6 +19,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         health.OnDead.AddListener(HandleDead);
+        _levelSystem = GetComponent<CharacterStats>().LevelSystem;
     }
     private void OnDestroy()
     {
@@ -34,15 +34,22 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void HandleDead(Attack attacker ,Health self)
+    private void HandleDead(Attack attacker, Health self)
     {
         Destroy(gameObject);
     }
 
-    public void Init(EnemyData randomEnemyData)
+    public Enemy Init(EnemyData randomEnemyData)
     {
         SetBaseStats(randomEnemyData);
         _characterStats.Stats = _baseStats;
+        return this;
+    }
+
+    public void SetLevel(int level)
+    {
+        _levelSystem.Level = level;
+        CalcStat();
     }
 
     public void SetBaseStats(EnemyData randomEnemyData)

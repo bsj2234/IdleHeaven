@@ -47,7 +47,7 @@ public class ItemEffectRandomizer : MonoSingleton<ItemEffectRandomizer>
         }
 
         // Filter effects by selected rarity and choose a random one
-        var filteredEffects = itemEffects.FindAll(effect => effect.Rarity == selectedRarity);
+        List<ItemEffectData> filteredEffects = itemEffects.FindAll(effect => effect.Rarity == selectedRarity);
         if (filteredEffects.Count == 0)
         {
             Debug.LogError($"No effects found for rarity: {selectedRarity}");

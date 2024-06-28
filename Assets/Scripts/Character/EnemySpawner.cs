@@ -17,6 +17,8 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] Attack _playerAttack;
 
+    [SerializeField] int StageLevel = 1;
+
 
     private void Start()
     {
@@ -41,7 +43,7 @@ public class EnemySpawner : MonoBehaviour
 
             GameObject enemy = Instantiate(randomEnemyPrf, relativeToPlayerLocal, Quaternion.identity);
 
-            enemy.GetComponent<Enemy>().Init(randomEnemyData);
+            enemy.GetComponent<Enemy>().Init(randomEnemyData).SetLevel(StageLevel); ;
             AddEnemy(enemy);
             yield return new WaitForSeconds(_spawnInterval);
         }
