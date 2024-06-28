@@ -49,7 +49,11 @@ public class AttackState : BaseState
     }
     public override void UpdateState()
     {
-
+        if(attackCooldown > 0f)
+        {
+            attackCooldown -= Time.deltaTime;
+            return;
+        }
         //check is daed or destroyed
         bool isDestroyed = target == null;
         if (isDestroyed)
@@ -82,17 +86,13 @@ public class AttackState : BaseState
             return;
         }
         
-        bool isAttackable = attackCooldown < 0f;
+        bool isAttackable = attackCooldown <= 0f;
         if (isAttackable)
         {
             Debug.Assert(targetCombat != null, $"Enemy is null while {stateMachine.transform.name} try attacking");
             DamageInfo damage = _hasStat ? _stats.GetDamage() : new DamageInfo { AttackType = AttackType.None, Damage = 1f };
             _attack.TriggerAttack(targetCombat, damage.Damage, damage.AttackType);
-            attackCooldown = 1f;
-        }
-        else
-        {
-            attackCooldown -= Time.deltaTime;
+            attackCooldown = .5f;
         }
     }
 }

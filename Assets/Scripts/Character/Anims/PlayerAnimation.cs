@@ -1,4 +1,6 @@
 using IdleHeaven;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +12,7 @@ public class PlayerAnimation : MonoBehaviour
     private float direction = 0.0f;
     private NavMeshAgent agent;
     private Attack attack;
+
 
 
     //cache
@@ -39,16 +42,17 @@ public class PlayerAnimation : MonoBehaviour
 
 
     Vector3 prevDir = Vector3.zero;
-    void Update()
+    List<float> average = new List<float>();
+    void FixedUpdate()
     {
         float curSpeed = agent.velocity.magnitude;
 
+        float DeltaDir = 0f;
         if (curSpeed > 0.1f)
         {
             Vector3 dirDiff = transform.forward - prevDir;
             dirDiff = transform.InverseTransformDirection(dirDiff);
-            float DeltaDir = dirDiff.x;
-            anim.SetFloat("MovingDirection", DeltaDir);
+             DeltaDir = dirDiff.x;
 
             anim.SetBool("IsMoving", true);
             anim.SetBool("IsRunning", false);
@@ -67,6 +71,26 @@ public class PlayerAnimation : MonoBehaviour
             anim.SetBool("IsRunning", true);
             Debug.Log("Running");
         }
+
+        average.Add(DeltaDir);
+
+        float avgDelDir = 0f;
+
+        foreach (float dir in average)
+        {
+            avgDelDir += dir;
+        }
+        avgDelDir /= average.Count;
+
+        if (average.Count > 5)
+        {
+            average.RemoveAt(0);
+        }
+
+
+
+        anim.SetFloat("MovingDirection", avgDelDir);
+
         prevDir = transform.forward;
     }
 }
