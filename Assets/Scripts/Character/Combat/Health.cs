@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
+    [SerializeField] CharacterStats characterStats;
+
     [SerializeField] float initalMaxHp = 100f;
     [SerializeField] float _maxHp = 100f;
 
@@ -28,11 +30,28 @@ public class Health : MonoBehaviour
     {
         Init();
     }
-    private void OnDestroy()
+
+    private void Start()
     {
-        
+        if(characterStats != null)
+        {
+            characterStats.Stats.stats[(int)StatType.Hp].RegisterStatChanged(UpdateHealthBasedOnStats);
+        }
+        else
+        {
+            Debug.Log($"{gameObject.name}'s CharacterStats is not assigned in Health component");
+        }
     }
 
+    private void OnDestroy()
+    {
+    }
+
+    private void UpdateHealthBasedOnStats(Stat stat)
+    {
+        _maxHp = stat.Value;
+        _hp = _maxHp;
+    }
 
     public void Init()
     {
@@ -101,11 +120,11 @@ public class Health : MonoBehaviour
     }
 
 
-    public void Heal(int v)
+    public void Heal(float amount)
     {
         if (_hp < _maxHp)
         {
-            _hp += v;
+            _hp += amount;
         }
         if (OnHeal != null)
         {
