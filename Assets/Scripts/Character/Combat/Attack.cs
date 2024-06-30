@@ -40,6 +40,10 @@ namespace IdleHeaven
                 return;
             }
             List<Transform> targets = detector.GetSortedEnemys();
+            if(targets == null)
+            {
+                return;
+            }
             for (int i = targets.Count - 1; i > 0; i--)
             {
                 Transform item = targets[i];
