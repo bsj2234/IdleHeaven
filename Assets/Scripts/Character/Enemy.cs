@@ -62,9 +62,8 @@ public class Enemy : MonoBehaviour
 
     public void CalcStat()
     {
-        //_resultStats = _levelSystem.Level / 60f * _baseStats;
-        _baseStats.Clear();
-        _baseStats.AddStats(_resultStats);
+        _resultStats.Clear();
+        _resultStats.AddStats(_baseStats);
     }
 
 

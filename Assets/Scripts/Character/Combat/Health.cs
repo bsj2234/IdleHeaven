@@ -125,6 +125,10 @@ public class Health : MonoBehaviour
         if (_hp < _maxHp)
         {
             _hp += amount;
+            if (_hp > _maxHp)
+            {
+                _hp = _maxHp;
+            }
         }
         if (OnHeal != null)
         {
