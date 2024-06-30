@@ -40,4 +40,10 @@ public class Wave : MonoBehaviour
             OnWaveCompleted?.Invoke();
         }
     }
+
+    public void ResetWave()
+    {
+        WaveKillCount = 0;
+        _enemySpawner.ClearEnemies();
+    }
 }

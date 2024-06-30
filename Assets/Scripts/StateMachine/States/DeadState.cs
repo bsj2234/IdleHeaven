@@ -10,7 +10,7 @@ public class DeadState : BaseState
 
     public override void EnterState()
     {
-        Transform.Destroy(stateMachine.transform.gameObject);
+        //Transform.Destroy(stateMachine.transform.gameObject);
     }
     public override void UpdateState()
     {

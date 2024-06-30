@@ -19,10 +19,16 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] int StageLevel = 1;
 
+    private Coroutine spawnCoroutine;
 
-    private void Start()
+    private void OnEnable()
     {
-        StartCoroutine(SpawnEnemy());
+        spawnCoroutine = StartCoroutine(SpawnEnemy());
+    }
+
+    private void OnDisable()
+    {
+        StopCoroutine(spawnCoroutine);
     }
 
     private IEnumerator SpawnEnemy()
@@ -70,4 +76,6 @@ public class EnemySpawner : MonoBehaviour
         }
         _enemies.Clear();
     }
+
+
 }

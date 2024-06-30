@@ -35,6 +35,10 @@ namespace IdleHeaven
 
         public void RagedAttack(Health target, float damage, Detector detector, float distance, float angle, AttackType attackType = AttackType.None)
         {
+            if(transform.GetComponent<Health>().IsDead())
+            {
+                return;
+            }
             List<Transform> targets = detector.GetSortedEnemys();
             for (int i = targets.Count - 1; i > 0; i--)
             {
