@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -32,6 +33,23 @@ namespace IdleHeaven
             //return true;
         }
 
+        public void RagedAttack(Health target, float damage, Detector detector, float distance, float angle, AttackType attackType = AttackType.None)
+        {
+            List<Transform> targets = detector.GetSortedEnemys();
+            for (int i = targets.Count - 1; i > 0; i--)
+            {
+                Transform item = targets[i];
+                if (Vector3.Distance(item.transform.position, transform.position) > distance)
+                {
+                    break;
+                }
+                if(angle * 0.5f < Vector3.Angle(transform.forward, item.transform.position - transform.position))
+                {
+                    continue;
+                }
+                DealDamage(item.GetComponent<Health>(), damage, attackType);
+            }
+        }
         public void TriggerAttack(Health targetCombat, float damage, AttackType attackType)
         {
             OnAttack?.Invoke(targetCombat, damage, attackType);

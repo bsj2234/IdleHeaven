@@ -12,6 +12,7 @@ public class PlayerAnimation : MonoBehaviour
     private float direction = 0.0f;
     private NavMeshAgent agent;
     private Attack attack;
+    private Detector detector;
 
 
 
@@ -25,6 +26,7 @@ public class PlayerAnimation : MonoBehaviour
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         attack = GetComponent<Attack>();
+        detector = GetComponentInChildren<Detector>();
     }
 
     //애미네션 실행하고 공격 성공시 딜 넣기
@@ -37,7 +39,8 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void HandleAnimationAttack()
     {
-        attack.DealDamage(health, damage, type);
+        //attack.DealDamage(health, damage, type);
+        attack.RagedAttack(health, damage, detector, 5f, 90f, type);
     }
 
 

@@ -1,5 +1,6 @@
 using IdleHeaven;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AttackState : BaseState
 {
@@ -11,6 +12,7 @@ public class AttackState : BaseState
     Attack _attack;
     Detector _detector;
     CharacterStats _stats;
+    NavMeshAgent _agent;
 
     bool _hasStat = false;
 
@@ -23,6 +25,7 @@ public class AttackState : BaseState
 
 
         _hasStat = stateMachine.TryGetComponent(out CharacterStats stats);
+        _agent = stateMachine.GetComponent<NavMeshAgent>();
         _stats = stats;
     }
 
@@ -40,12 +43,14 @@ public class AttackState : BaseState
     public override void EnterState()
     {
         Debug.Log("Enter Attack State");
+        _agent.updateRotation = false;
     }
 
     public override void ExitState(BaseState nextState)
     {
         attackCooldown = 0f;
         Debug.Log("Exit Attack State");
+        _agent.updateRotation = true;
     }
     public override void UpdateState()
     {
@@ -77,6 +82,9 @@ public class AttackState : BaseState
         }
 
         Vector3 selftToTarget = target.position - _transform.position;
+
+        stateMachine.transform.rotation = Quaternion.LookRotation(new Vector3(selftToTarget.x, 0f, selftToTarget.z), Vector3.up);
+
         bool isInAttackRange = Mathf.Abs(selftToTarget.y) < .5f && new Vector2(selftToTarget.x, selftToTarget.z).magnitude < 2f;
         if (!isInAttackRange)
         {

@@ -8,6 +8,7 @@ public class ChaseState : BaseState
     private readonly NavMeshAgent _navMeshAgent;
     private CharacterAIController _owner;
     private Detector _detector;
+    private Health _health;
 
     private float destinationCoolDown = 0f;
 
@@ -19,6 +20,7 @@ public class ChaseState : BaseState
         _owner = stateMachine.GetComponent<CharacterAIController>();
         _detector = detector;
         _detector.OnFoundTarget += HandleFoundEnemy;
+        _health = stateMachine.GetComponent<Health>();
     }
     ~ChaseState() 
     {
@@ -81,6 +83,8 @@ public class ChaseState : BaseState
 
     public override void ExitState(BaseState nextState)
     {
+        if(!_health.IsDead())
+            _navMeshAgent.destination = _transform.position;
     }
 
     public ChaseState SetTarget(Transform target)

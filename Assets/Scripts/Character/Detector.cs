@@ -62,6 +62,21 @@ public class Detector : MonoBehaviour
         }
         return result;
     }
+
+    public List<Transform> GetSortedEnemys()
+    {
+        if (_targetsInDetector.Count == 0)
+        {
+            return null;
+        }
+        _targetsInDetector.Sort(SortTarget);
+        _targetsInDetector.RemoveAll((item) => item == null);
+        if (_targetsInDetector.Count == 0)
+        {
+            return null;
+        }
+        return _targetsInDetector;
+    }
     private int SortTarget(Transform lhs, Transform rhs)
     {
         if (lhs == null)
