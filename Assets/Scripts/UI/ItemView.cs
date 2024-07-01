@@ -17,7 +17,7 @@ public class ItemView : MonoBehaviour
     [SerializeField] private TMP_Text TEXT_itemDescription;
     [SerializeField] private TMP_Text TEXT_itemQuantity;
 
-    [SerializeField] private TMP_Text[] Text_stats;
+    [SerializeField] private HorizontalNamedLable[] Text_stats;
 
     [SerializeField] private TMP_Text[] Text_effects;
 
@@ -113,10 +113,10 @@ public class ItemView : MonoBehaviour
             }
             for (int i = 0; i < Text_stats.Length; i++)
             {
-                TrySetText(Text_stats[i], equipmentItem.ResultStats[(StatType)i].ToString());
+                TrySetText(Text_stats[i].Name, ((StatType)i).ToString());
+                TrySetText(Text_stats[i].Value, equipmentItem.ResultStats[(StatType)i].ToString());
             }
         }
-
     }
 
     private void ClearFields()
@@ -134,7 +134,7 @@ public class ItemView : MonoBehaviour
         }
         foreach (var text in Text_stats)
         {
-            TrySetText(text, "");
+            TrySetText(text.Value, "");
         }
     }
 

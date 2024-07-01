@@ -8,7 +8,7 @@ using UnityEngine;
 public class CharacterStatView : MonoBehaviour
 {
     [SerializeField] CharacteStatsViewModel _viewModel;
-    [SerializeField] List<HrizontalNamedLable> values;
+    [SerializeField] List<HorizontalNamedLable> values;
 
 
     private void OnEnable()
