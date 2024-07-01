@@ -22,7 +22,7 @@ public class ItemDroper : MonoBehaviour
 
     private void DropItem(Attack attacker, Enemy enemy)
     {
-        Item generatedItem = spawner.generator.GenerateItem(new GenerateInfo(enemy.GetComponent<CharacterStats>().LevelSystem.Level));
+        Item generatedItem = spawner.generator.GenerateItem(new GenerateInfo(enemy.GetComponent<CharacterStats>().LevelSystem.Level, Rarity.Error));
         DroppedItem item = spawner.SpawnItem(transform, generatedItem);
         item.SetAcquirer(attacker.transform);
         ItemGrabber grabber = item.GetComponent<ItemGrabber>();

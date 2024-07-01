@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace IdleHeaven
@@ -11,10 +12,12 @@ namespace IdleHeaven
     public struct GenerateInfo
     {
         public int EnemyLevel;
+        public Rarity ItemRarity;
 
-        public GenerateInfo(int enemyLevel)
+        public GenerateInfo(int enemyLevel, Rarity rarity)
         {
             EnemyLevel = enemyLevel;
+            ItemRarity = rarity;
         }
     }
     [System.Serializable]
@@ -42,13 +45,32 @@ namespace IdleHeaven
         [SerializeField] List<string> accessoryDatas = new List<string>();
         [SerializeField] List<string> equipmentDatas = new List<string>();
 
+
+        public void Init()
+        {
+            if (weaponDatas.Count == 0)
+            {
+                weaponDatas = CSVParser.Instance.GetItems(ItemType.Weapon).Keys.ToList();
+            }
+            if (equipmentDatas.Count == 0)
+            {
+                equipmentDatas = CSVParser.Instance.GetItems(ItemType.Equipment).Keys.ToList();
+            }
+        }
         public Item GenerateItem(GenerateInfo info, string name = "")
         {
+            Rarity rarity = GetRandomRairity(_rarityTable);
+
+            if (rarity == Rarity.Common)
+            {
+                return new Gold(1000);
+            }
+
             ItemType itemType = GetRandomEnum<ItemType>();
             Dictionary<string, ItemData> randomItemDatas = CSVParser.Instance.GetItems(itemType);
             ItemData randomItemdata = GetRandomFromDictionary(randomItemDatas);
 
-            if(string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(name))
                 name = randomItemdata.ItemName;
 
             Item randomItem = RandomItem(name, info, randomItemdata);

@@ -1,21 +1,29 @@
+using IdleHeaven;
 using UnityEngine;
+
+
 [System.Serializable]
-public class Currency
+public class Currency : Item
 {
-    [SerializeField]
-    private int _amount;
-    [SerializeField]
-    private string _name;
-    public int Amount { get => _amount; set => _amount = value; }
-    public string Name { get => _name; set => _name = value; }
+    public Currency()
+    {
+    }
+
+    public Currency(int quantity) : base(quantity)
+    {
+    }
+
+    public Currency(string name, CurrencyType type, int quantity = 1) : base(name, new ItemData(), quantity)
+    {
+    }
+
+    public CurrencyType CurrencyType { get; internal set; }
 }
 
 [System.Serializable]
 public class Gold : Currency
 {
-    public Gold(int amount)
+    public Gold(int amount) : base ("Gold", CurrencyType.Gold, amount)
     {
-        Name = "Gold";
-        Amount = amount;
     }
 }

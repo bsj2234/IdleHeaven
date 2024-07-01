@@ -7,9 +7,10 @@ namespace IdleHeaven
     [System.Serializable]
     public class Item
     {
-        private Inventory _owner;
-
-        private int _quantity;
+        [SerializeField] private Inventory _owner;
+        [SerializeField] private string _name;
+        [SerializeField] private int _quantity;
+        [SerializeField] protected ItemData _itemData;
 
         public Inventory Owner
         {
@@ -23,6 +24,7 @@ namespace IdleHeaven
                 _owner = value;
             }
         }
+        public string Name => _name;
         public int Quantity
         {
             get { return _quantity; }
@@ -32,11 +34,6 @@ namespace IdleHeaven
                 OnItemChanged?.Invoke();
             }
         }
-
-        [SerializeField] private string _name;
-        [SerializeField] protected ItemData _itemData;
-
-        public string Name => _name;
         public virtual ItemData ItemData
         {
             get { return _itemData; }

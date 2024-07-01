@@ -5,7 +5,8 @@ using UnityEngine;
 
 public enum CurrencyType
 {
-    Gold
+    Gold,
+    Diamond
 }
 
 public class CurrencyInventory : MonoBehaviour
@@ -14,13 +15,18 @@ public class CurrencyInventory : MonoBehaviour
 
     public bool TryUseGold(int amount)
     {
-        if (currencies[(int)CurrencyType.Gold].Amount < amount)
+        if (currencies[(int)CurrencyType.Gold].Quantity < amount)
         {
             return false;
         }
 
-        currencies[(int)CurrencyType.Gold].Amount -= amount;
+        currencies[(int)CurrencyType.Gold].Quantity -= amount;
         return true;
+    }
+
+    public void AddCurency(Currency currency)
+    {
+        currencies[(int)currency.CurrencyType].Quantity += currency.Quantity;
     }
 
     private void Start()
