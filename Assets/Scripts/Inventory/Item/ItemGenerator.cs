@@ -86,7 +86,6 @@ namespace IdleHeaven
         }
         private T GetRandomEnum<T>() where T : System.Enum
         {
-            Random.InitState((int)(Time.realtimeSinceStartup * 1000f));
             System.Array values = System.Enum.GetValues(typeof(T));
             int itemType = Random.Range(0, values.Length);
             return (T)values.GetValue(itemType);
@@ -94,7 +93,6 @@ namespace IdleHeaven
         }
         private T GetRandomFromDictionary<T>(Dictionary<string, T> dictionary)
         {
-            Random.InitState((int)Time.time);
             var item = dictionary.Values.GetEnumerator();
 
 

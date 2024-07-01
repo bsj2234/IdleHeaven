@@ -149,11 +149,11 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _mult: 1.04
+    - _mult: 0.68
     - _pwer: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Bottom: {r: 0.8578676, g: 0.94259524, b: 0.9622642, a: 0}
+    - _Bottom: {r: 1, g: 0.5707547, b: 0.99001753, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 0.7924528, g: 0.7684229, b: 0.75881094, a: 1}
