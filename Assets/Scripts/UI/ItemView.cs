@@ -1,7 +1,5 @@
 using IdleHeaven;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +17,7 @@ public class ItemView : MonoBehaviour
 
     [SerializeField] private HorizontalNamedLable[] Text_stats;
 
-    [SerializeField] private TMP_Text[] Text_effects;
+    [SerializeField] private HorizontalNamedLable[] Text_effects;
 
     private UIButtonHoldDetector _buttonHoldable;
 
@@ -105,11 +103,36 @@ public class ItemView : MonoBehaviour
         //TrySetImage(Image_equipedIcon, item.Owner != null ? item.Owner.Icon : null);
 
 
-        if(item is EquipmentItem equipmentItem)
+        if (item is EquipmentItem equipmentItem)
         {
             for (int i = 0; i < Text_effects.Length; i++)
             {
-                TrySetText(Text_effects[i], equipmentItem.Effects[i].ToString());
+                TrySetText(Text_effects[i].Name, equipmentItem.Effects[i].Stat.ToString());
+                TrySetText(Text_effects[i].Value, equipmentItem.Effects[i].Value.ToString());
+
+                switch (equipmentItem.Effects[i].Rarity)
+                {
+                    case Rarity.Common:
+                        Text_effects[i].Name.color = Color.white;
+                        Text_effects[i].Value.color = Color.white;
+                        break;
+                    case Rarity.Uncommon:
+                        Text_effects[i].Name.color = Color.green;
+                        Text_effects[i].Value.color = Color.green;
+                        break;
+                    case Rarity.Rare:
+                        Text_effects[i].Name.color = Color.blue;
+                        Text_effects[i].Value.color = Color.blue;
+                        break;
+                    case Rarity.Epic:
+                        Text_effects[i].Name.color = Color.magenta;
+                        Text_effects[i].Value.color = Color.magenta;
+                        break;
+                    case Rarity.Legendary:
+                        Text_effects[i].Name.color = Color.yellow;
+                        Text_effects[i].Value.color = Color.yellow;
+                        break;
+                }
             }
             for (int i = 0; i < Text_stats.Length; i++)
             {
@@ -130,7 +153,7 @@ public class ItemView : MonoBehaviour
 
         foreach (var text in Text_effects)
         {
-            TrySetText(text, "");
+            TrySetText(text.Value, "");
         }
         foreach (var text in Text_stats)
         {
