@@ -10,10 +10,12 @@ public class BendingManager : MonoSingleton<BendingManager>
     {
         if (Application.isPlaying)
         {
+            enabled = true;
             Shader.EnableKeyword(BENDING_FEATURE);
         }
         else
         {
+            enabled = false;
             Shader.DisableKeyword(BENDING_FEATURE);
         }
     }
@@ -30,7 +32,7 @@ public class BendingManager : MonoSingleton<BendingManager>
 
     private static void OnBeginCameraRendering(ScriptableRenderContext ctx, Camera cam)
     {
-        cam.cullingMatrix = Matrix4x4.Ortho(-99f, 99f, -99f, 99f, 0.001f, 99f) *
+        cam.cullingMatrix = Matrix4x4.Ortho(-99f, 99f, -99f, 99f, 0.001f, 200f) *
             cam.worldToCameraMatrix;
     }
     private static void OnEndCameraRendering(ScriptableRenderContext ctx, Camera cam)
