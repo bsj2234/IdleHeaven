@@ -55,6 +55,10 @@ namespace IdleHeaven
 
         private void ShowDetailView(ItemView itemView)
         {
+            if(itemView.ItemViewModel.Item == null)
+            {
+                return;
+            }
             _itemPopupView.Init(itemView);
             _itemPopupView.Window.Open();
 
