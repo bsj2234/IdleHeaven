@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace IdleHeaven
@@ -9,7 +10,7 @@ namespace IdleHeaven
         [SerializeField] string _itemName;
         [SerializeField] ItemType _itemType;
         [SerializeField] string _description;
-        [SerializeField] Sprite _icon;
+        [JsonIgnore][SerializeField] Sprite _icon;
         [SerializeField] Rarity _rarity;
 
 

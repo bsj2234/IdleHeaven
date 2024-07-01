@@ -44,6 +44,10 @@ public class WeaponData : EquipmentData
     {
         EquipmentItem item = new EquipmentItem(name, this, generateInfo.EnemyLevel);
         item.BaseStats[StatType.Attack] = Random.Range(MinDamage, MaxDamage);
+        float min = RarityData.GetRarityData(generateInfo.ItemRarity).MinBaseStatMulti;
+        float max = RarityData.GetRarityData(generateInfo.ItemRarity).MaxBaseStatMulti;
+        item.BaseStats[StatType.Attack] *= Random.Range(min, max);
+        item.SetRandomEffects();
         return item;
     }
 }

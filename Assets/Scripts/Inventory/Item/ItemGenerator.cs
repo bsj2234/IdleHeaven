@@ -24,6 +24,7 @@ namespace IdleHeaven
     public struct RarityTable
     {
         [Range(0f, 1f)] public float Common;
+        [Range(0f, 1f)] public float Uncommon;
         [Range(0f, 1f)] public float Epic;
         [Range(0f, 1f)] public float Unique;
         [Range(0f, 1f)] public float Legendary;
@@ -66,6 +67,8 @@ namespace IdleHeaven
                 return new Gold(1000);
             }
 
+            info.ItemRarity = rarity;
+
             ItemType itemType = GetRandomEnum<ItemType>();
             Dictionary<string, ItemData> randomItemDatas = CSVParser.Instance.GetItems(itemType);
             ItemData randomItemdata = GetRandomFromDictionary(randomItemDatas);
@@ -89,7 +92,6 @@ namespace IdleHeaven
 
         private Rarity GetRandomRairity(RarityTable rarityTable)
         {
-            Random.InitState((int)Time.time);
             float randVal = Random.Range(0f, 1f);
             if (randVal < rarityTable.Legendary)
             {
@@ -98,6 +100,10 @@ namespace IdleHeaven
             if (randVal < rarityTable.Epic)
             {
                 return Rarity.Epic;
+            }
+            if (randVal < rarityTable.Uncommon)
+            {
+                return Rarity.Uncommon;
             }
             if (randVal < rarityTable.Common)
             {

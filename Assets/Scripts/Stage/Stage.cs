@@ -25,7 +25,7 @@ public class Stage : MonoBehaviour
     {
         Waves[CurrentWaveIndex].gameObject.SetActive(false);
 
-        if (Looping )
+        if (Looping)
         {
             // 근데 웨이브 말고 플레이어도 다시 레벨업하고 등장하고 해야 하는데
             // 여기에는 적과 플레이어 전투(체력 마력 ) 웨이브가 리셋되어야 하지
@@ -33,17 +33,31 @@ public class Stage : MonoBehaviour
             Waves[CurrentWaveIndex].gameObject.SetActive(true);
             _player.ResetPlayer();
             return;
-            
+
         }
 
         CurrentWaveIndex++;
-        if(CurrentWaveIndex >= Waves.Count)
+        if (CurrentWaveIndex >= Waves.Count)
         {
             Debug.Log("Stage Completed");
-
+            OnStageClear();
             return;
         }
         Waves[CurrentWaveIndex].gameObject.SetActive(true);
+
+    }
+
+    public void OnStageClear()
+    {
+        StartCoroutine(DelayedSave());
+    }
+
+    private IEnumerator DelayedSave()
+    {
+
+        yield return new WaitForSeconds(2f);
+
+        DataManager.Instance.SavePlayerData();
     }
 
     private void OnEnable()
@@ -54,7 +68,7 @@ public class Stage : MonoBehaviour
     public void OnPlayerDead(Attack attacker, Health player)
     {
         Looping = true;
-        if(CurrentWaveIndex > 0 )
+        if (CurrentWaveIndex > 0)
         {
             Waves[CurrentWaveIndex].ResetWave();
             player.ResetDead();

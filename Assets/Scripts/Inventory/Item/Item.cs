@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -44,7 +45,7 @@ namespace IdleHeaven
             }
         }
 
-
+        [JsonIgnore]
         public Action OnItemChanged;
 
         public Item()
@@ -125,13 +126,17 @@ namespace IdleHeaven
         public EquipmentItem(string name, ItemData data, int level) : base(name, data, 1)
         {
             _level = level;
+            OnItemChanged += RecalcResultStats;
+        }
+
+        public void SetRandomEffects()
+        {
             for (int i = 0; i < MAX_ITEMEFFECT; i++)
             {
                 _effects[i] = ItemEffectRandomizer.Instance.GetRandomEffect();
             }
-            OnItemChanged += RecalcResultStats;
-            OnItemChanged.Invoke();
-            foreach ( Stat stat in _baseStats.stats)
+            OnItemChanged?.Invoke();
+            foreach (Stat stat in _baseStats.stats)
             {
                 stat.RegisterStatChanged(HandleStatChange);
             }

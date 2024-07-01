@@ -110,34 +110,24 @@ public class ItemView : MonoBehaviour
                 TrySetText(Text_effects[i].Name, equipmentItem.Effects[i].Stat.ToString());
                 TrySetText(Text_effects[i].Value, equipmentItem.Effects[i].Value.ToString());
 
-                switch (equipmentItem.Effects[i].Rarity)
-                {
-                    case Rarity.Common:
-                        Text_effects[i].Name.color = Color.white;
-                        Text_effects[i].Value.color = Color.white;
-                        break;
-                    case Rarity.Uncommon:
-                        Text_effects[i].Name.color = Color.green;
-                        Text_effects[i].Value.color = Color.green;
-                        break;
-                    case Rarity.Rare:
-                        Text_effects[i].Name.color = Color.blue;
-                        Text_effects[i].Value.color = Color.blue;
-                        break;
-                    case Rarity.Epic:
-                        Text_effects[i].Name.color = Color.magenta;
-                        Text_effects[i].Value.color = Color.magenta;
-                        break;
-                    case Rarity.Legendary:
-                        Text_effects[i].Name.color = Color.yellow;
-                        Text_effects[i].Value.color = Color.yellow;
-                        break;
-                }
+                Text_effects[i].Name.color = equipmentItem.Effects[i].GetRarityColor();
             }
             for (int i = 0; i < Text_stats.Length; i++)
             {
                 TrySetText(Text_stats[i].Name, ((StatType)i).ToString());
                 TrySetText(Text_stats[i].Value, equipmentItem.ResultStats[(StatType)i].ToString());
+                Text_stats[i].Name.color = Color.white;
+                Text_stats[i].Value.color = Color.white;
+            }
+
+            for (int i = 0; i < equipmentItem.Effects.Length; i++)
+            {
+                if ((int)equipmentItem.Effects[i].Stat >= Text_stats.Length)
+                {
+                    continue;
+                }
+                Text_stats[(int)equipmentItem.Effects[i].Stat].Name.color = equipmentItem.Effects[i].GetRarityColor();
+                Text_stats[(int)equipmentItem.Effects[i].Stat].Value.color = equipmentItem.Effects[i].GetRarityColor();
             }
         }
     }

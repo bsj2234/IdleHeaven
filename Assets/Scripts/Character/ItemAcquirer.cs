@@ -22,6 +22,8 @@ public class ItemAcquirer : MonoBehaviour
             if(droppedItem.GetItem() is Currency currency)
             {
                 _currencyInventory.AddCurency(currency);
+                Destroy(droppedItem.gameObject);
+                return;
             }
 
 

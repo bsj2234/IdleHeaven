@@ -28,6 +28,10 @@ public class EquipmentData: ItemData
     {
         EquipmentItem equipment = new EquipmentItem(name, this, generateInfo.EnemyLevel);
         equipment.BaseStats[StatType.Defense] = this.DefenseValue;
+        float min = RarityData.GetRarityData(generateInfo.ItemRarity).MinBaseStatMulti;
+        float max = RarityData.GetRarityData(generateInfo.ItemRarity).MaxBaseStatMulti;
+        equipment.BaseStats[StatType.Defense] *= Random.Range(min, max);
+        equipment.SetRandomEffects();
         return equipment;
     }
 }

@@ -193,6 +193,9 @@ MonoBehaviour:
     MaxLevel: 0
     Exp: 0
     MaxExp: 100
+    OnLevelUp:
+      m_PersistentCalls:
+        m_Calls: []
   _characterStats: {fileID: 6467175935991226350}
 --- !u!114 &46813057238139206
 MonoBehaviour:
@@ -206,6 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a393f623dc3fd43a562161228a525f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterStats: {fileID: 6467175935991226350}
   initalMaxHp: 100
   _maxHp: 100
   _hp: 100
@@ -365,6 +369,9 @@ MonoBehaviour:
     MaxLevel: 0
     Exp: 0
     MaxExp: 100
+    OnLevelUp:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!136 &304400646431480866
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -23,6 +23,8 @@ namespace IdleHeaven
         public Dictionary<string, ItemEffectData> effects = new Dictionary<string, ItemEffectData>();
         public Dictionary<string, EnemyData> enemies = new Dictionary<string, EnemyData>();
 
+        [SerializeField] private PlayerData _playerData;
+
         [SerializeField] bool Launch = false;
 
         private void Awake()
