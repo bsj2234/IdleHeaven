@@ -33,7 +33,7 @@ namespace IdleHeaven
             //return true;
         }
 
-        public void RagedAttack(Health target, float damage, Detector detector, float distance, float angle, AttackType attackType = AttackType.None)
+        public void RangeAttack(Health target, float damage, Detector detector, float distance, float angle, AttackType attackType = AttackType.None)
         {
             if(transform.GetComponent<Health>().IsDead())
             {

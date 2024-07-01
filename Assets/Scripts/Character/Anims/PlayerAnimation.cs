@@ -40,7 +40,7 @@ public class PlayerAnimation : MonoBehaviour
     public void HandleAnimationAttack()
     {
         //attack.DealDamage(health, damage, type);
-        attack.RagedAttack(health, damage, detector, 5f, 90f, type);
+        attack.RangeAttack(health, damage, detector, 5f, 90f, type);
     }
 
 
