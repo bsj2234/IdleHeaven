@@ -104,6 +104,7 @@ namespace IdleHeaven
                         usableItemData.Description = fields[Array.IndexOf(header, "Description")];
                         usableItemData.EffectType = (EffectType)Enum.Parse(typeof(EffectType), fields[Array.IndexOf(header, "EffectType")]);
                         usableItemData.EffectValue = int.Parse(fields[Array.IndexOf(header, "EffectValue")]);
+                        usableItemData.IconPath = fields[Array.IndexOf(header, "IconPath")];
                         UsableDatas.Add(usableItemData.ItemName, usableItemData);
                         break;
                 }
@@ -163,10 +164,10 @@ namespace IdleHeaven
                     effect.Rarity = (Rarity)Enum.Parse(typeof(Rarity), field, true);
                     break;
                 case "MinValue":
-                    effect.MinValue = int.Parse(field);
+                    effect.MinValue = float.Parse(field);
                     break;
                 case "MaxValue":
-                    effect.MaxValue = int.Parse(field);
+                    effect.MaxValue = float.Parse(field);
                     break;
                 case "LevelMultiplier":
                     effect.LevelMultiplier = float.Parse(field);

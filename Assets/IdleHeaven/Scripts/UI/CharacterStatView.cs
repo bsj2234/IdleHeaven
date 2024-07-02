@@ -8,7 +8,8 @@ using UnityEngine;
 public class CharacterStatView : MonoBehaviour
 {
     [SerializeField] CharacteStatsViewModel _viewModel;
-    [SerializeField] List<HorizontalNamedLable> values;
+    [SerializeField] List<HorizontalNamedLable> HoriNamed_Stats;
+    [SerializeField] HorizontalNamedLable HoriNamed_battleRating;
 
 
     private void OnEnable()
@@ -32,16 +33,27 @@ public class CharacterStatView : MonoBehaviour
         {
             case "Stat":
                 UpdateStatView(sender as Stat);
+                UpdateRattleRating();
                 break;
             default:
                 break;
         }
     }
 
+    private void UpdateRattleRating()
+    {
+        HoriNamed_battleRating.Value.text = _viewModel._characterStats.GetBattleRating().ToString("N2");
+    }
+
     private void UpdateStatView(Stat stat)
     {
-        values[(int)stat.StatType].Name.text = stat.StatType.ToString();
-        values[(int)stat.StatType].Value.text = stat.Value.ToString("F2");
+        if (HoriNamed_Stats[(int)stat.StatType] == null)
+        {
+            Debug.LogWarning("Stat not found");
+            return;
+        }
+        HoriNamed_Stats[(int)stat.StatType].Name.text = stat.StatType.ToString();
+        HoriNamed_Stats[(int)stat.StatType].Value.text = stat.Value.ToString("N2");
     }
 
     public void TestMVVM()

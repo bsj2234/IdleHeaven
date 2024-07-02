@@ -67,14 +67,12 @@ namespace IdleHeaven
 
         public DamageInfo GetDamage()
         {
-            float rand = UnityEngine.Random.Range(0f, 100f);
+            float rand = UnityEngine.Random.Range(0f, 1f);
             if (rand <= Stats[StatType.CritChance])
             {
-                Debug.Log("Critical Hit");
-                Debug.Log(Stats[StatType.Attack] * Stats[StatType.CritDamage]);
                 return new DamageInfo
                 {
-                    Damage = Stats[StatType.Attack] * Stats[StatType.CritDamage],
+                    Damage = Stats[StatType.Attack] * ( 1f + Stats[StatType.CritDamage]),
                     AttackType = AttackType.ChargedMelee
                 };
 
@@ -89,6 +87,15 @@ namespace IdleHeaven
                     AttackType = AttackType.Melee
                 };
             }
+        }
+
+        public float GetBattleRating()
+        {
+            float result = 0f;
+            float damage = Stats[StatType.Attack];
+            float criticalMulti = (1f + Stats[StatType.CritDamage]) * Stats[StatType.CritChance];
+            result = Stats[StatType.AttackSpeed] * criticalMulti * damage;
+            return result;
         }
 
 

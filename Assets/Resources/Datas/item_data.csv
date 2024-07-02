@@ -1,18 +1,18 @@
 Name,Type,Description,IconPath,SpecificType,AttackSpeed,MinDamage,MaxDamage,DefenseValue,EffectType,EffectValue
-Sword,Weapon,A powerful sword,Sprites/Sword,Melee,1.5,15,25,,,
-Axe,Weapon,A heavy axe,Prefabs/Axe,Melee,1.2,20,30,,,
-Shield,Equipment,A sturdy shield,Prefabs/Shield,Shield,,,,30,,
-Helmet,Equipment,A strong helmet,Prefabs/Helmet,Head,,,,20,,
-Chest Armor,Equipment,A strong chest,Sprites/Chest,Chest,,,,30,,
-Legs Armor,Equipment,A strong legs,Sprites/Leg,Legs,,,,20,,
-Bow,Weapon,A long-range bow,Prefabs/Bow,Ranged,1.8,10,20,,,
-Dagger,Weapon,A quick and sharp dagger,Prefabs/Dagger,Melee,2,8,15,,,
-Magic Wand,Weapon,A wand infused with magic,Prefabs/MagicWand,Magic,1,12,18,,,
-Greatsword,Weapon,A massive and powerful sword,Prefabs/Greatsword,Melee,1,25,35,,,
-Fire Shield,Equipment,A shield with fire resistance,Prefabs/FireShield,Shield,,,,40,,
-Iron Helmet,Equipment,A helmet made of iron,Sprites/Helmet,Head,,,,25,,
-Steel Chestplate,Equipment,A chestplate made of steel,Prefabs/SteelChestplate,Chest,,,,40,,
-Leather Boots,Equipment,A pair of sturdy leather boots,Prefabs/LeatherBoots,Legs,,,,15,,
-Speed Elixir,Usable,Increases speed,Prefabs/SpeedElixir,,,,,,Speed,15
-Health Potion,Usable,Restores health,Prefabs/HealthPotion,,,,,,Heal,50
-Strength Elixir,Usable,Increases strength,Prefabs/StrengthElixir,,,,,,Damage,10
+Shield,Equipment,A sturdy shield,ESH1,Shield,,,,30,,
+Helmet,Equipment,A strong helmet,EH13,Head,,,,20,,
+Chest Armor,Equipment,A strong chest,EA21,Chest,,,,30,,
+Legs Armor,Equipment,A strong legs,EB1,Legs,,,,20,,
+Fire Shield,Equipment,A shield with fire resistance,ESH28,Shield,,,,40,,
+Iron Helmet,Equipment,A helmet made of iron,EH26,Head,,,,25,,
+Steel Chestplate,Equipment,A chestplate made of steel,EA23,Chest,,,,40,,
+Leather Boots,Equipment,A pair of sturdy leather boots,EB1,Legs,,,,15,,
+Speed Elixir,Usable,Increases speed,UPO37,,,,,,Speed,15
+Health Potion,Usable,Restores health,UPO8,,,,,,Heal,50
+Strength Elixir,Usable,Increases strength,UPO39,,,,,,Damage,10
+Sword,Weapon,A powerful sword,WSW1,Melee,1.5,15,25,,,
+Axe,Weapon,A heavy axe,WAX1,Melee,1.2,20,30,,,
+Bow,Weapon,A long-range bow,WBOW1,Ranged,1.8,10,20,,,
+Dagger,Weapon,A quick and sharp dagger,WDAG1,Melee,2,8,15,,,
+Magic Wand,Weapon,A wand infused with magic,WSTF1,Magic,1,12,18,,,
+Greatsword,Weapon,A massive and powerful sword,WSW35,Melee,1,25,35,,,

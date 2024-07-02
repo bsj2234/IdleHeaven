@@ -56,7 +56,7 @@ public class ItemEffectRandomizer : MonoSingleton<ItemEffectRandomizer>
         ItemEffectData selectdedData = filteredEffects[UnityEngine.Random.Range(0, filteredEffects.Count)];
 
         // Generate random value within the specified range
-        int randomStat = UnityEngine.Random.Range(selectdedData.MinValue, selectdedData.MaxValue + 1);
+        float randomStat = UnityEngine.Random.Range(selectdedData.MinValue, selectdedData.MaxValue + 1f);
         ItemEffect randomEffect = new ItemEffect
         {
             Stat = selectdedData.Stat,
