@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class UIButtonHoldDetector : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
+public class UIButtonHoldDetector : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IDragHandler
 {
     public float holdDuration = 1.0f; // Duration to detect hold
     public UnityEvent onHoldComplete; // Event to trigger after hold
@@ -62,7 +62,6 @@ public class UIButtonHoldDetector : MonoBehaviour, IPointerDownHandler, IPointer
             holdTime += Time.deltaTime;
             yield return null;
         }
-        onHoldComplete.Invoke();
         holdComplete = true;
     }
 
@@ -71,5 +70,9 @@ public class UIButtonHoldDetector : MonoBehaviour, IPointerDownHandler, IPointer
         isHolding = false;
         holdComplete = false;
         holdTime = 0f;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
     }
 }
