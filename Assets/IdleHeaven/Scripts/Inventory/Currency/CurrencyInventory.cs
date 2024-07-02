@@ -12,6 +12,13 @@ public enum CurrencyType
 public class CurrencyInventory : MonoBehaviour
 {
     public List<Currency> currencies = new List<Currency>();
+    internal Action<object, EventArgs> OnCurrencyChanged;
+
+    private void Awake()
+    {
+        currencies.Add(new Gold(0));
+        currencies.Add(new Gold(0));
+    }
 
     public bool TryUseGold(int amount)
     {
@@ -21,16 +28,13 @@ public class CurrencyInventory : MonoBehaviour
         }
 
         currencies[(int)CurrencyType.Gold].Quantity -= amount;
+        OnCurrencyChanged?.Invoke(this, EventArgs.Empty);
         return true;
     }
 
     public void AddCurency(Currency currency)
     {
         currencies[(int)currency.CurrencyType].Quantity += currency.Quantity;
-    }
-
-    private void Start()
-    {
-        currencies.Add(new Gold(100000));
+        OnCurrencyChanged?.Invoke(this, EventArgs.Empty);
     }
 }
