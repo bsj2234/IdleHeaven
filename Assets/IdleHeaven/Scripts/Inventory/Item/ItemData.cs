@@ -43,7 +43,7 @@ namespace IdleHeaven
         {
             set
             {
-                _icon = Resources.Load<Sprite>(value);
+                _icon = Resources.Load<Sprite>($"Sprites/{value}");
             }
         }
 
