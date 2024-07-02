@@ -28,18 +28,15 @@ public class HudView : MonoBehaviour
         {
             case nameof(HudViewModel.Hp):
                 Slider_hp.value = _viewModel.HpPercentage;
-                Text_hp.text = _viewModel.Hp.ToString();
-                Text_maxHp.text = _viewModel.MaxHp.ToString();
+                Text_hp.text = $"{_viewModel.Hp.ToString()}/{_viewModel.MaxHp.ToString()}";
                 break;
             case nameof(HudViewModel.MaxHp):
                 Slider_hp.value = _viewModel.HpPercentage;
-                Text_hp.text = _viewModel.Hp.ToString();
-                Text_maxHp.text = _viewModel.MaxHp.ToString();
+                Text_hp.text = $"{_viewModel.Hp.ToString()}/{_viewModel.MaxHp.ToString()}";
                 break;
             case nameof(HudViewModel.HpPercentage):
                 Slider_hp.value = _viewModel.HpPercentage;
-                Text_hp.text = _viewModel.Hp.ToString();
-                Text_maxHp.text = _viewModel.MaxHp.ToString();
+                Text_hp.text = $"{_viewModel.Hp.ToString()}/{_viewModel.MaxHp.ToString()}";
                 break;
             default:
                 break;
