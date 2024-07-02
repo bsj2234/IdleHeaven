@@ -8,7 +8,15 @@ namespace IdleHeaven
     {
         [SerializeField] List<Item> items;
 
-        public List<Item> Items => items;
+        public List<Item> Items
+        {
+            get => items;
+            set
+            {
+                items = value;
+                OnInventoryChanged?.Invoke(null);
+            }
+        }
 
         [SerializeField] ItemAcquirer[] acquirers;
         public readonly int INVENTORY_SIZE = 200;
@@ -25,7 +33,7 @@ namespace IdleHeaven
             }
         }
 
-        
+
 
         private void HandleItemAcquired(Item item)
         {
