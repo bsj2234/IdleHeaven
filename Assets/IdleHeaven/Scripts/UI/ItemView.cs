@@ -100,7 +100,13 @@ public class ItemView : MonoBehaviour
         TrySetText(TEXT_itemQuantity, item.Quantity.ToString());
 
         TrySetImage(Image_item, item.ItemData.Icon);
-        //TrySetImage(Image_equipedIcon, item.Owner != null ? item.Owner.Icon : null);
+
+
+        if(item is EquipmentItem equipment)
+        {
+            TryEnableImage(Image_equipedIcon, equipment.Equiped);
+            //TrySetImage(Image_equipedIcon, item.Owner != null ? item.Owner.Icon : null);
+        }
 
 
         if (item is EquipmentItem equipmentItem)
@@ -132,6 +138,14 @@ public class ItemView : MonoBehaviour
         }
     }
 
+    private void TryEnableImage(Image image_equipedIcon, bool condition)
+    {
+        if(image_equipedIcon != null)
+        {
+            image_equipedIcon.gameObject.SetActive(condition);
+        }
+    }
+
     private void ClearFields()
     {
         TrySetText(TEXT_itemName, "");
@@ -139,7 +153,7 @@ public class ItemView : MonoBehaviour
         TrySetText(TEXT_itemQuantity, "");
 
         TrySetImage(Image_item, null);
-        TrySetImage(Image_equipedIcon, null);
+        //TrySetImage(Image_equipedIcon, null);
 
         foreach (var text in Text_effects)
         {

@@ -14,8 +14,8 @@ namespace IdleHeaven
         [SerializeField] ItemDetailView _itemDetailView;
         [SerializeField] ItemView _itemPopupView;
 
-        [SerializeField] Button Button_left;
-        [SerializeField] Button Button_right;
+        //[SerializeField] Button Button_left;
+        //[SerializeField] Button Button_right;
 
 
         private void Start()
@@ -27,8 +27,8 @@ namespace IdleHeaven
             }
             _inventoryViewModel.PropertyChanged += HandlePropertyChange;
 
-            Button_left.onClick.AddListener(OnLeftButtonClick);
-            Button_right.onClick.AddListener(OnRightButtonClick);
+            //Button_left.onClick.AddListener(OnLeftButtonClick);
+            //Button_right.onClick.AddListener(OnRightButtonClick);
 
             UpdateInventoryView();
         }

@@ -6,7 +6,8 @@ namespace IdleHeaven
 {
     public class Inventory : MonoBehaviour
     {
-        [SerializeField] List<Item> items;
+        [SerializeField] private List<Item> items;
+        private Dictionary<string ,Item> hashedItem = new Dictionary<string, Item>();
 
         public List<Item> Items
         {
@@ -42,8 +43,30 @@ namespace IdleHeaven
 
         public void AddItem(Item item)
         {
-            items.Add(item);
-            OnInventoryChanged?.Invoke(item);
+            if(item is not EquipmentItem)
+            {
+                if (hashedItem.ContainsKey(item.Name))
+                {
+                    Item foundItem = hashedItem[item.Name];
+                    foundItem.Quantity += item.Quantity;
+                    OnInventoryChanged?.Invoke(foundItem);
+                    return;
+                }
+                else
+                {
+                    hashedItem.Add(item.Name, item);
+                    items.Add(item);
+                    OnInventoryChanged?.Invoke(item);
+                    return;
+                }
+            }
+            else
+            {
+                items.Add(item);
+                OnInventoryChanged?.Invoke(item);
+                return;
+            }
+
         }
 
         public void RemoveItem(Item item)

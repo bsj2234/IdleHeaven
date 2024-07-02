@@ -42,7 +42,7 @@ public class LevelSystemView : MonoBehaviour
         }
         if(Text_Level != null)
         {
-            Text_Level.text = levelSystem.Level.ToString();
+            Text_Level.text = $"Lv.{levelSystem.Level.ToString()}";
         }
         if(Text_Exp != null)
         {
