@@ -28,8 +28,8 @@ public class CurrencyView : MonoBehaviour
     {
         if (currency != null)
         {
-            Text_Currency.text = currency.currencies[(int)CurrencyType.Gold].Quantity.ToString("N");
-            Text_Diamond.text = currency.currencies[(int)CurrencyType.Diamond].Quantity.ToString("N");
+            Text_Currency.text = currency.currencies[(int)CurrencyType.Gold].Quantity.ToString("N0");
+            Text_Diamond.text = currency.currencies[(int)CurrencyType.Diamond].Quantity.ToString("N0");
             return;
         }
         
