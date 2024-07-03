@@ -35,6 +35,10 @@ public class EquipmentView : MonoBehaviour
     private void ItemClickCallback(ItemView itemView)
     {
         EquipmentItem equipmentItem = itemView.ItemViewModel.Item as EquipmentItem;
+        if (equipmentItem == null)
+        {
+            return;
+        }
         _equipmentViewModel.Unequip(equipmentItem.EquipmentData.EquipmentSlot);
     }
 

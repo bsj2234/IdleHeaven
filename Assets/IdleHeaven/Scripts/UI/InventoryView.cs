@@ -14,8 +14,8 @@ namespace IdleHeaven
         [SerializeField] ItemDetailView _itemDetailView;
         [SerializeField] ItemView _itemPopupView;
 
-        //[SerializeField] Button Button_left;
-        //[SerializeField] Button Button_right;
+        [SerializeField] Button Button_left;
+        [SerializeField] Button Button_right;
 
 
         private void Start()
@@ -27,8 +27,11 @@ namespace IdleHeaven
             }
             _inventoryViewModel.PropertyChanged += HandlePropertyChange;
 
-            //Button_left.onClick.AddListener(OnLeftButtonClick);
-            //Button_right.onClick.AddListener(OnRightButtonClick);
+            if(Button_left != null && Button_right != null)
+            {
+                Button_left.onClick.AddListener(OnLeftButtonClick);
+                Button_right.onClick.AddListener(OnRightButtonClick);
+            }
 
             UpdateInventoryView();
         }
@@ -127,7 +130,7 @@ namespace IdleHeaven
             Debug.Log("holded");
 
             _itemDetailView.Window.Open();
-            _itemDetailView.OnOpen(item);
+            _itemDetailView.Init(item);
         }
 
         private void OnLeftButtonClick()

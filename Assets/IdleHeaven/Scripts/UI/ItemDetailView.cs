@@ -9,14 +9,19 @@ public class ItemDetailView : MonoBehaviour
 
     public UIWindow Window;
 
-    public void OnOpen(Item item)
+    public void Init(Item item)
     {
         _itemView.SetItem(item);
-        _button.onClick.AddListener(() => OnClick(item));
+        _button.onClick.AddListener(OnClick);
+    }
+    public void OnDisable()
+    {
+        _button.onClick.RemoveListener(OnClick);
     }
 
-    public void OnClick(Item item)
+    public void OnClick()
     {
+        Item item = _itemView.ItemViewModel.Item;
         if (item is EquipmentItem)
         {
             if (_itemViewModel.TryEnhanceItem(item as EquipmentItem))

@@ -14,14 +14,19 @@ public class ItemView : MonoBehaviour
     [SerializeField] private TMP_Text TEXT_itemName;
     [SerializeField] private TMP_Text TEXT_itemDescription;
     [SerializeField] private TMP_Text TEXT_itemQuantity;
+    [SerializeField] private TMP_Text TEXT_itemLevel;
+    [SerializeField] private TMP_Text TEXT_itemEnhancedLevel;
 
     [SerializeField] private HorizontalNamedLable[] Text_stats;
+    [SerializeField] private HorizontalNamedLable Text_itemBattleRating;
 
     [SerializeField] private HorizontalNamedLable[] Text_effects;
 
     private UIButtonHoldDetector _buttonHoldable;
 
     public UIWindow Window;
+
+    private Sprite Sprite_defaultIcon;
 
     private void Awake()
     {
@@ -30,6 +35,7 @@ public class ItemView : MonoBehaviour
         {
             _buttonHoldable = buttonHoldable;
         }
+        Sprite_defaultIcon = Image_item.sprite;
     }
     private void OnEnable()
     {
@@ -86,11 +92,16 @@ public class ItemView : MonoBehaviour
         ClearFields();
         if (item == null)
         {
-            Image_item.gameObject.SetActive(false);
+            Image_item.sprite = Sprite_defaultIcon;
+            if(Image_item.sprite == null)
+            {
+                Image_item.enabled = false;
+            }
             return;
         }
         else
         {
+            Image_item.enabled = true;
             Image_item.gameObject.SetActive(true);
         }
 
@@ -102,9 +113,12 @@ public class ItemView : MonoBehaviour
         TrySetImage(Image_item, item.ItemData.Icon);
 
 
-        if(item is EquipmentItem equipment)
+        if (item is EquipmentItem equipment)
         {
             TryEnableImage(Image_equipedIcon, equipment.Equiped);
+            TrySetText(TEXT_itemLevel, equipment.Level.ToString());
+            TrySetText(TEXT_itemEnhancedLevel, equipment.EnhancedLevel.ToString());
+            TrySetText(Text_itemBattleRating, equipment.GetItemBattleRating().ToString("N2"));
             //TrySetImage(Image_equipedIcon, item.Owner != null ? item.Owner.Icon : null);
         }
 
@@ -113,8 +127,10 @@ public class ItemView : MonoBehaviour
         {
             for (int i = 0; i < Text_effects.Length; i++)
             {
+                ItemEffect effect = equipmentItem.Effects[i];
+
                 TrySetText(Text_effects[i].Name, equipmentItem.Effects[i].Stat.ToString());
-                TrySetText(Text_effects[i].Value, equipmentItem.Effects[i].Value.ToString());
+                TrySetText(Text_effects[i].Value, equipmentItem.GetEffectStat(effect).ToString());
 
                 Text_effects[i].Name.color = equipmentItem.Effects[i].GetRarityColor();
             }
@@ -138,9 +154,18 @@ public class ItemView : MonoBehaviour
         }
     }
 
+    private void TrySetText(HorizontalNamedLable horizontalNamedLable, string v)
+    {
+        if(horizontalNamedLable == null)
+        {
+            return;
+        }
+        TrySetText(horizontalNamedLable.Value, v);
+    }
+
     private void TryEnableImage(Image image_equipedIcon, bool condition)
     {
-        if(image_equipedIcon != null)
+        if (image_equipedIcon != null)
         {
             image_equipedIcon.gameObject.SetActive(condition);
         }
