@@ -10,15 +10,38 @@ public class HealOnRest : MonoBehaviour
 
     private float _foughtTimeStamp = 0f;
 
-    public void Start()
+    private void OnEnable()
     {
         StartCoroutine(HealOverTime());
+        _attack.OnAttack.AddListener(OnFought);
+        _health.OnDamaged.AddListener(OnFought);
+    }
+    private void OnDisable()
+    {
+        _attack.OnAttack.RemoveListener(OnFought);
+        _health.OnDamaged.RemoveListener(OnFought);
+        StopAllCoroutines();
+    }
+
+    private void OnFought(Health health, float damage, AttackType attackType)
+    {
+        SetFoughtTimeStamp();
+    }
+    private void OnFought(Attack attack, AttackType attackType)
+    {
+        SetFoughtTimeStamp();
+    }
+
+    private void SetFoughtTimeStamp()
+    {
+        _foughtTimeStamp = Time.time;
     }
 
     private IEnumerator HealOverTime()
     {
         while (true)
         {
+
             if (_foughtTimeStamp + 1.5f < Time.time)
             {
                 _health.Heal(_health.GetMaxHp() * 0.1f);

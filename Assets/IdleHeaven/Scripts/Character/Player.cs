@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 
     public void ResetPlayer()
     {
+        _health.ResetDead();
         StartCoroutine(DelayedReset(1f));
     }
 
@@ -23,7 +24,6 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         _stateMachine.ChangeState<IdleState>();
-        _health.ResetDead();
     }
 
     public void TestLoad()

@@ -8,9 +8,13 @@ public class HealOnKill : MonoBehaviour
     [SerializeField] private Health _health;
     [SerializeField] private Attack _attack;
 
-    public void Start()
+    private void OnEnable()
     {
         _attack.OnKillEnemy += Heal;
+    }
+    private void OnDisable()
+    {
+        _attack.OnKillEnemy -= Heal;
     }
 
     private void Heal()

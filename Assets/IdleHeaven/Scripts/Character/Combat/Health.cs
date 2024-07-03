@@ -31,31 +31,12 @@ public class Health : MonoBehaviour
         Init();
     }
 
-    private void Start()
-    {
-        if(characterStats != null)
-        {
-            characterStats.Stats.stats[(int)StatType.Hp].RegisterStatChanged(UpdateHealthBasedOnStats);
-        }
-        else
-        {
-            Debug.Log($"{gameObject.name}'s CharacterStats is not assigned in Health component");
-        }
-    }
-
     private void OnDestroy()
     {
     }
-
-    private void UpdateHealthBasedOnStats(Stat stat)
-    {
-        _maxHp = stat.Value;
-        _hp = _maxHp;
-    }
-
     public void Init()
     {
-        _hp = _maxHp;
+        Heal(_maxHp);
         initalMaxHp = _maxHp;
         _attackComponentOfSelf = GetComponent<Attack>();
     }
@@ -151,13 +132,13 @@ public class Health : MonoBehaviour
     }
     public void ResetDead()
     {
-        _hp = _maxHp;
+        Heal(_maxHp);
         _dead = false;
     }
 
     public void OnLevelUp()
     {
         _maxHp = GetComponent<CharacterStats>().Stats[StatType.Hp];
-        _hp = _maxHp;
+        Heal(_maxHp);
     }
 }

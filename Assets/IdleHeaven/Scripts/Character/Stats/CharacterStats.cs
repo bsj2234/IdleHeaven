@@ -29,7 +29,6 @@ namespace IdleHeaven
                 _equipments = equipments;
                 _equipments.OnEquipped += OnEquippedHandler;
                 _equipments.OnUnEquipped += OnUnequippedHandler;
-                LevelSystem.OnLevelUp.AddListener(OnLevelUpHandler);
             }
         }
         private void OnDestroy()
@@ -38,7 +37,6 @@ namespace IdleHeaven
             {
                 _equipments.OnEquipped -= OnEquippedHandler;
                 _equipments.OnUnEquipped -= OnUnequippedHandler;
-                LevelSystem.OnLevelUp.RemoveListener(OnLevelUpHandler);
             }
         }
         public float GetStatValue(StatType statType)
@@ -89,7 +87,7 @@ namespace IdleHeaven
             }
         }
 
-        public float GetBattleRating()
+        public float GetCharacterBattleRating()
         {
             float result = 0f;
             float damage = Stats[StatType.Attack];
@@ -110,7 +108,7 @@ namespace IdleHeaven
         {
             Stats.SubtractStats(item.ResultStats);
         }
-        private void OnLevelUpHandler()
+        public void OnLevelUpHandler()
         {
             Stats.AddStat(StatType.Hp, LevelSystem.Level * 100f);
             Stats.AddStat(StatType.Attack, LevelSystem.Level * 10f);
