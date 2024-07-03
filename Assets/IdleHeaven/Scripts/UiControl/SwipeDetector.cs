@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+//Todo 자식(자신위에뜨워진 UI)무시하고 인풋 받는것 하려다
+//정지 시간이 많이 소요될것같아 나중으로) 자식에
+//모두 스크립트를 추가해서 감시하는게 제일 좋을지도
+//아니면 클릭을 자식을 잠시 꺼두었다가 스와이프가 이니면 자식을 강제로 클릭?
 
 public class SwipeDetector : MonoBehaviour, IDragHandler,IBeginDragHandler, IEndDragHandler, IPointerUpHandler, IPointerDownHandler
 {
