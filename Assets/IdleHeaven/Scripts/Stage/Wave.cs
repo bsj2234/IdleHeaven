@@ -7,7 +7,7 @@ public class Wave : MonoBehaviour
 {
     [SerializeField] Attack _playerAttack;
     [SerializeField] EnemySpawner _enemySpawner;
-    [SerializeField] private List<Enemy> _enemies;
+    [SerializeField] ItemSpawner _itemSpawner;
 
     public event System.Action<Enemy> OnEnemyKilled;
 
@@ -25,6 +25,13 @@ public class Wave : MonoBehaviour
     {
         _playerAttack.OnKillEnemy -= HandleOnKillEnemy;
     }
+
+    public void Init(ItemSpawner itemSpawner, EnemySpawner enemySpawner)
+    {
+        _itemSpawner.Init(itemSpawner);
+        _enemySpawner.Init(enemySpawner);
+    }
+
     private void HandleOnKillEnemy()
     {
         AddKillCount(1);

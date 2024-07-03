@@ -151,8 +151,12 @@ namespace IdleHeaven
             _resultStats.AddStats(_baseStats);
             foreach (ItemEffect effect in _effects)
             {
-                _resultStats[effect.Stat] += effect.Value * EnhancedLevel * 1.1f * Level * 0.02f;
+                _resultStats[effect.Stat] += GetEffectStat(effect);
             }
+        }
+        public float GetEffectStat(ItemEffect effect)
+        {
+            return effect.Value * EnhancedLevel * 1.1f * Level * 0.02f;
         }
         public bool TryEnhance(CurrencyInventory currencyInventory)
         {
@@ -168,6 +172,17 @@ namespace IdleHeaven
                 }
             }
             return false;
+        }
+
+        public float GetItemBattleRating()
+        {
+            float result = 0f;
+            // 장비는 공격력, 크리티컬 찬수, 데미지가 0일 수 있어 1씩 더해줌
+            // 플레이어 스탯 배틀레이팅과 다름
+            float damage = 1f + ResultStats[StatType.Attack];
+            float criticalMulti = (1f + (1f + ResultStats[StatType.CritDamage]) * ResultStats[StatType.CritChance]);
+            result = (1f + ResultStats[StatType.AttackSpeed]) * criticalMulti * damage;
+            return result;
         }
     }
 }

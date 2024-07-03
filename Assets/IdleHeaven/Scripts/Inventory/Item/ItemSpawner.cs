@@ -1,10 +1,17 @@
 using UnityEngine;
 using IdleHeaven;
+using System;
 
 public class ItemSpawner : MonoBehaviour
 {
     [SerializeField] public ItemGenerator generator;
     [SerializeField] public GameObject droppedItemPrefab;
+
+    public void Init(ItemSpawner itemSpawner)
+    {
+        generator = itemSpawner.generator;
+        droppedItemPrefab = itemSpawner.droppedItemPrefab;
+    }
 
     public DroppedItem SpawnItem(Transform position, Item item)
     {
@@ -19,4 +26,5 @@ public class ItemSpawner : MonoBehaviour
 
          return itemObj;
     }
+
 }

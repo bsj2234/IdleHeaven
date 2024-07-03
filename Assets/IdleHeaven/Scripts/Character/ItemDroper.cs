@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class ItemDroper : MonoBehaviour
 {
-    [SerializeField] ItemSpawner spawner;
+    private ItemSpawner spawner;
 
     private void Awake()
     {
         CharacterAIController characterController = GetComponent<CharacterAIController>();
         Health health = GetComponent<Health>();
         health.OnDead.AddListener(HandleOnDead);
-        spawner = FindObjectOfType<ItemSpawner>();
     }
-
+    public void Init(ItemSpawner spawner)
+    {
+        this.spawner = spawner;
+    }
     public void HandleOnDead(Attack attacker, Health gotHit)
     {
         DropItem(attacker, gotHit.GetComponent<Enemy>());

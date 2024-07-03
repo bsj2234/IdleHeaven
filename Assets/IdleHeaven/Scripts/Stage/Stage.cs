@@ -2,6 +2,7 @@ using IdleHeaven;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Stage : MonoBehaviour
 {
@@ -13,11 +14,29 @@ public class Stage : MonoBehaviour
 
     public List<Wave> Waves => _waves;
 
+    [SerializeField] private string _stageName;
+
+    public string StageKey { get => _stageName; set => _stageName = value; }
+
+    public UnityEvent OnStageClear;
+    private int _waveCount;
+
     private void Start()
     {
         foreach (Wave wave in _waves)
         {
             wave.OnWaveCompleted += HandleOnWaveCompleted;
+        }
+    }
+
+    public void Init(StageData stage)
+    {
+        StageKey = stage.GetKey();
+        _waveCount = stage.WaveCount;
+
+        for (int i = 0; i < _waveCount; i++)
+        {
+            _waves[i].Init(stage.GetItemSpawner(), stage.GetEnemySpawner());
         }
     }
 
@@ -31,7 +50,6 @@ public class Stage : MonoBehaviour
             // 여기에는 적과 플레이어 전투(체력 마력 ) 웨이브가 리셋되어야 하지
             Waves[CurrentWaveIndex].ResetWave();
             Waves[CurrentWaveIndex].gameObject.SetActive(true);
-            _player.ResetPlayer();
             return;
 
         }
@@ -40,16 +58,11 @@ public class Stage : MonoBehaviour
         if (CurrentWaveIndex >= Waves.Count)
         {
             Debug.Log("Stage Completed");
-            OnStageClear();
+            OnStageClear?.Invoke();
             return;
         }
         Waves[CurrentWaveIndex].gameObject.SetActive(true);
 
-    }
-
-    public void OnStageClear()
-    {
-        StartCoroutine(DelayedSave());
     }
 
     private IEnumerator DelayedSave()
@@ -71,7 +84,6 @@ public class Stage : MonoBehaviour
         if (CurrentWaveIndex > 0)
         {
             Waves[CurrentWaveIndex].ResetWave();
-            player.ResetDead();
             _player.ResetPlayer();
             CurrentWaveIndex--;
         }
@@ -79,7 +91,6 @@ public class Stage : MonoBehaviour
         {
             //스테이지 구현시 전 스테이지로 돌아가게
             Waves[CurrentWaveIndex].ResetWave();
-            player.ResetDead();
             _player.ResetPlayer();
         }
     }

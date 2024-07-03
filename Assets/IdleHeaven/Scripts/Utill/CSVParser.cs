@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -16,12 +15,17 @@ namespace IdleHeaven
     {
         public string csvItemFilePath;
         public string csvEffectFilePath;
-        public string csvEnemiesFilePath;
+        public string csvEnemieFilePath;
+        public string csvStageFilePath;
+
         private Dictionary<string, ItemData> WeaponDatas = new Dictionary<string, ItemData>();
         public Dictionary<string, ItemData> EquipmentDatas = new Dictionary<string, ItemData>();
         public Dictionary<string, ItemData> UsableDatas = new Dictionary<string, ItemData>();
+        public Dictionary<string, StageData> StageDatas = new Dictionary<string, StageData>();
+
         public Dictionary<string, ItemEffectData> effects = new Dictionary<string, ItemEffectData>();
         public Dictionary<string, EnemyData> enemies = new Dictionary<string, EnemyData>();
+        public Dictionary<string, StageData> stages = new Dictionary<string, StageData>();
 
         [SerializeField] private PlayerData _playerData;
 
@@ -51,10 +55,15 @@ namespace IdleHeaven
             {
                 Debug.Log($"Parsed effect: {effect.Value.Stat} with Rarity: {effect.Value.Rarity}");
             }
-            enemies = ParseCSV<EnemyData>(csvEnemiesFilePath);
+            enemies = ParseCSV<EnemyData>(csvEnemieFilePath);
             foreach (var enemy in enemies)
             {
                 Debug.Log($"Parsed enemy: {enemy.Value.Name}");
+            }
+            stages = ParseCSV<StageData>(csvStageFilePath);
+            foreach (var stage in stages)
+            {
+                Debug.Log($"Parsed enemy: {stage.Value.GetKey()}");
             }
         }
 
@@ -142,6 +151,14 @@ namespace IdleHeaven
                     {
                         PopulateEnemyRecord(record as EnemyData, header, field);
                     }
+                    else if (typeof(T) == typeof(StageData))
+                    {
+                        PopulateStageRecord(record as StageData, header, field);
+                    }
+                    else
+                    {
+                        Assert.IsTrue(false, $"Unknown type: {typeof(T)}");
+                    }
                 }
 
                 records.Add(record.GetKey(), record);
@@ -211,8 +228,42 @@ namespace IdleHeaven
             }
         }
 
+        private void PopulateStageRecord(StageData stage, string header, string field)
+        {
+            switch (header)
+            {
+                case "StageName":
+                    stage.StageName = field;
+                    break;
+                case "WaveIndex":
+                    stage.WaveIndex = int.Parse(field);
+                    break;
+                case "NextStage":
+                    stage.NextStage = field;
+                    break;
+                case "TargetKillCount":
+                    stage.TargetKillCount = int.Parse(field);
+                    break;
+                case "MapName":
+                    stage.MapName = field;
+                    break;
+                case "ItemSpawner":
+                    stage.ItemSpawner = field;
+                    break;
+                case "EnemySpawner":
+                    stage.EnemySpawner = field;
+                    break;
+                case "WaveCount":
+                    stage.WaveCount = int.Parse(field);
+                    break;
+                case "RequireStage":
+                    break;
+                default:
+                    Assert.IsTrue(false, $"Unknown field: {header}");
+                    break;
 
-
+            }
+        }
         private void SaveScriptableObject(ScriptableObject scriptableObject, string path)
         {
             //unity editor only script

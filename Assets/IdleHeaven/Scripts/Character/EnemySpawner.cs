@@ -7,28 +7,39 @@ public class EnemySpawner : MonoBehaviour
 {
     private List<Enemy> _enemies = new List<Enemy>();
 
-    [SerializeField] float _spawnInterval;
+    [SerializeField] private float _spawnInterval;
 
-    [SerializeField] Transform[] _spawnPoint;
-
-    [SerializeField] string[] _enemyToSpawn;
-    [SerializeField] int _maxEnemies;
+    [SerializeField] private Transform[] _spawnPoint;
 
 
-    [SerializeField] Attack _playerAttack;
+    [SerializeField] private string[] _enemyToSpawn;
+    [SerializeField] private int _maxEnemies;
+    [SerializeField] private int _stageLevel = 1;
 
-    [SerializeField] int StageLevel = 1;
+
+    [SerializeField] private Attack _playerAttack;
+    [SerializeField] private ItemSpawner _itemSpawner;
+
 
     private Coroutine spawnCoroutine;
 
+
     private void OnEnable()
     {
-        spawnCoroutine = StartCoroutine(SpawnEnemy());
     }
 
     private void OnDisable()
     {
-        StopCoroutine(spawnCoroutine);
+        if(spawnCoroutine != null)
+            StopCoroutine(spawnCoroutine);
+    }
+
+    public void Init(EnemySpawner enemySpawner)
+    {
+        _enemyToSpawn = enemySpawner._enemyToSpawn; 
+        _maxEnemies = enemySpawner._maxEnemies;
+        _stageLevel = enemySpawner._stageLevel;
+        spawnCoroutine = StartCoroutine(SpawnEnemy());
     }
 
     private IEnumerator SpawnEnemy()
@@ -49,7 +60,8 @@ public class EnemySpawner : MonoBehaviour
 
             GameObject enemy = Instantiate(randomEnemyPrf, relativeToPlayerLocal, Quaternion.identity);
 
-            enemy.GetComponent<Enemy>().Init(randomEnemyData).SetLevel(StageLevel); ;
+            enemy.GetComponent<Enemy>().Init(randomEnemyData).SetLevel(_stageLevel); ;
+            enemy.GetComponent<ItemDroper>().Init(_itemSpawner);
             AddEnemy(enemy);
             yield return new WaitForSeconds(_spawnInterval);
         }
@@ -61,7 +73,7 @@ public class EnemySpawner : MonoBehaviour
         enemy.GetComponent<Health>().OnDead.AddListener(HandleOnEnemyDead);
     }
 
-    private void HandleOnEnemyDead(Attack attacker , Health health)
+    private void HandleOnEnemyDead(Attack attacker, Health health)
     {
         _enemies.Remove(health.GetComponent<Enemy>());
         health.OnDead.RemoveListener(HandleOnEnemyDead);
