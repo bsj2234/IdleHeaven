@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class SwipeDetector : MonoBehaviour, IDragHandler, IEndDragHandler
+public class SwipeDetector : MonoBehaviour, IDragHandler,IBeginDragHandler, IEndDragHandler, IPointerUpHandler, IPointerDownHandler
 {
     public enum SwipeDirection
     {
@@ -23,14 +23,20 @@ public class SwipeDetector : MonoBehaviour, IDragHandler, IEndDragHandler
     public UnityEvent OnSwipeUp;
     public UnityEvent OnSwipeDown;
 
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        startDragPosition = eventData.position;
+        Debug.Log("Start Drag Position: " + startDragPosition);
+    }
     public void OnDrag(PointerEventData eventData)
     {
         // No implementation needed for drag event
     }
-
     public void OnEndDrag(PointerEventData eventData)
     {
         DetectSwipe(eventData);
+        Debug.Log("End Drag Position: " + eventData.position);
     }
 
     private void DetectSwipe(PointerEventData eventData)
@@ -45,6 +51,7 @@ public class SwipeDetector : MonoBehaviour, IDragHandler, IEndDragHandler
         }
 
         float angle = Vector2.Angle(Vector2.up, swipeVector);
+        Debug.Log("Angle: " + angle);
         if (angle < 45)
         {
             swipeDirection = SwipeDirection.Up;
@@ -91,8 +98,13 @@ public class SwipeDetector : MonoBehaviour, IDragHandler, IEndDragHandler
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    public void OnPointerUp(PointerEventData eventData)
     {
-        startDragPosition = eventData.position;
+        OnEndDrag(eventData);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        OnBeginDrag(eventData);
     }
 }
