@@ -42,7 +42,7 @@ public class CharacterStatView : MonoBehaviour
 
     private void UpdateRattleRating()
     {
-        HoriNamed_battleRating.Value.text = _viewModel._characterStats.GetBattleRating().ToString("N2");
+        HoriNamed_battleRating.Value.text = _viewModel._characterStats.GetCharacterBattleRating().ToString("N2");
     }
 
     private void UpdateStatView(Stat stat)
