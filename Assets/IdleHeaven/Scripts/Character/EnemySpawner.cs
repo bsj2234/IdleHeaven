@@ -24,9 +24,6 @@ public class EnemySpawner : MonoBehaviour
     private Coroutine spawnCoroutine;
 
 
-    private void OnEnable()
-    {
-    }
 
     private void OnDisable()
     {
@@ -34,13 +31,16 @@ public class EnemySpawner : MonoBehaviour
             StopCoroutine(spawnCoroutine);
     }
 
-    public void Init(EnemySpawner enemySpawner)
+    public void Init(EnemySpawnData enemySpawnData)
     {
-        _enemyToSpawn = enemySpawner._enemyToSpawn; 
-        _maxEnemies = enemySpawner._maxEnemies;
-        _stageLevel = enemySpawner._stageLevel;
-        spawnCoroutine = StartCoroutine(SpawnEnemy());
+        StopAllCoroutines();
+        _enemyToSpawn = enemySpawnData.Enemies;
+        _maxEnemies = enemySpawnData.MaxEnemies;
+        _stageLevel = enemySpawnData.StageLevel;
+        _spawnInterval = enemySpawnData.SpawnInterval;
+        StartCoroutine(SpawnEnemy());
     }
+
 
     private IEnumerator SpawnEnemy()
     {
@@ -53,9 +53,11 @@ public class EnemySpawner : MonoBehaviour
             }
             Transform randomTrf = _spawnPoint[Random.Range(0, _spawnPoint.Length)];
 
-            EnemyData randomEnemyData = CSVParser.Instance.enemies[_enemyToSpawn[Random.Range(0, _enemyToSpawn.Length)]];
+            EnemyData randomEnemyData = CSVParser.Instance.EnemyDatas[_enemyToSpawn[Random.Range(0, _enemyToSpawn.Length)]];
 
             GameObject randomEnemyPrf = randomEnemyData.Prefab;
+            if (_playerAttack == null)
+            Debug.LogWarning($"WhyNull{gameObject.name}");
             Vector3 relativeToPlayerLocal = _playerAttack.transform.position + randomTrf.localPosition;
 
             GameObject enemy = Instantiate(randomEnemyPrf, relativeToPlayerLocal, Quaternion.identity);
@@ -88,6 +90,5 @@ public class EnemySpawner : MonoBehaviour
         }
         _enemies.Clear();
     }
-
 
 }

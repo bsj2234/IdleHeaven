@@ -17,19 +17,30 @@ namespace IdleHeaven
         public string csvEffectFilePath;
         public string csvEnemieFilePath;
         public string csvStageFilePath;
+        public string csvItemDropFilePath;
+        public string csvEnemySpawnFilePath;
 
         private Dictionary<string, ItemData> WeaponDatas = new Dictionary<string, ItemData>();
         public Dictionary<string, ItemData> EquipmentDatas = new Dictionary<string, ItemData>();
         public Dictionary<string, ItemData> UsableDatas = new Dictionary<string, ItemData>();
-        public Dictionary<string, StageData> StageDatas = new Dictionary<string, StageData>();
 
-        public Dictionary<string, ItemEffectData> effects = new Dictionary<string, ItemEffectData>();
-        public Dictionary<string, EnemyData> enemies = new Dictionary<string, EnemyData>();
-        public Dictionary<string, StageData> stages = new Dictionary<string, StageData>();
+        public Dictionary<string, ItemDropTableData>  ItemDropDatas = new Dictionary<string, ItemDropTableData>();
+        public Dictionary<string, EnemySpawnData>  EnemySpawnDatas = new Dictionary<string, EnemySpawnData>();
+        public Dictionary<string, ItemEffectData> EffectDatas = new Dictionary<string, ItemEffectData>();
+        public Dictionary<string, EnemyData> EnemyDatas = new Dictionary<string, EnemyData>();
+        public Dictionary<string, StageData> StageDatas = new Dictionary<string, StageData>();
 
         [SerializeField] private PlayerData _playerData;
 
-        [SerializeField] bool Launch = false;
+        public static StageData GetStageData(string stageName, int waveIndex)
+        {
+            return Instance.StageDatas[$"{stageName}-{waveIndex}"];
+        }
+        public static StageData GetStageData(string stageName)
+        {
+            return Instance.StageDatas[$"{stageName}-{0}"];
+        }
+
 
         private void Awake()
         {
@@ -50,20 +61,30 @@ namespace IdleHeaven
             {
                 Debug.Log($"Parsed item: {item.Value.ItemName}");
             }
-            effects = ParseCSV<ItemEffectData>(csvEffectFilePath);
-            foreach (var effect in effects)
+            EffectDatas = ParseCSV<ItemEffectData>(csvEffectFilePath);
+            foreach (var effect in EffectDatas)
             {
                 Debug.Log($"Parsed effect: {effect.Value.Stat} with Rarity: {effect.Value.Rarity}");
             }
-            enemies = ParseCSV<EnemyData>(csvEnemieFilePath);
-            foreach (var enemy in enemies)
+            EnemyDatas = ParseCSV<EnemyData>(csvEnemieFilePath);
+            foreach (var enemy in EnemyDatas)
             {
                 Debug.Log($"Parsed enemy: {enemy.Value.Name}");
             }
-            stages = ParseCSV<StageData>(csvStageFilePath);
-            foreach (var stage in stages)
+            StageDatas = ParseCSV<StageData>(csvStageFilePath);
+            foreach (var stage in StageDatas)
             {
                 Debug.Log($"Parsed enemy: {stage.Value.GetKey()}");
+            }
+            ItemDropDatas = ParseCSV<ItemDropTableData>(csvItemDropFilePath);
+            foreach (var itemDrop in ItemDropDatas)
+            {
+                Debug.Log($"Parsed itemDrop: {itemDrop.Value.Name}");
+            }
+            EnemySpawnDatas = ParseCSV<EnemySpawnData>(csvEnemySpawnFilePath);
+            foreach (var enemySpawn in EnemySpawnDatas)
+            {
+                Debug.Log($"Parsed enemySpawn: {enemySpawn.Value.Name}");
             }
         }
 
@@ -121,6 +142,8 @@ namespace IdleHeaven
 
         }
 
+
+
         public Dictionary<string, T> ParseCSV<T>(string filePath) where T : IKeyProvider, new()
         {
             Dictionary<string, T> records = new Dictionary<string, T>();
@@ -154,6 +177,14 @@ namespace IdleHeaven
                     else if (typeof(T) == typeof(StageData))
                     {
                         PopulateStageRecord(record as StageData, header, field);
+                    }
+                    else if (typeof(T) == typeof(ItemDropTableData))
+                    {
+                        PopulateItemDropRecord(record as ItemDropTableData, header, field);
+                    }
+                    else if (typeof(T) == typeof(EnemySpawnData))
+                    {
+                        PopulateEnemySpawnRecord(record as EnemySpawnData, header, field);
                     }
                     else
                     {
@@ -232,6 +263,9 @@ namespace IdleHeaven
         {
             switch (header)
             {
+                case "ID":
+                    stage.ID = int.Parse(field);
+                    break;
                 case "StageName":
                     stage.StageName = field;
                     break;
@@ -248,10 +282,10 @@ namespace IdleHeaven
                     stage.MapName = field;
                     break;
                 case "ItemSpawner":
-                    stage.ItemSpawner = field;
+                    stage.ItemSpawnData = field;
                     break;
                 case "EnemySpawner":
-                    stage.EnemySpawner = field;
+                    stage.EnemySpawnData = field;
                     break;
                 case "WaveCount":
                     stage.WaveCount = int.Parse(field);
@@ -262,6 +296,68 @@ namespace IdleHeaven
                     Assert.IsTrue(false, $"Unknown field: {header}");
                     break;
 
+            }
+        }
+
+        private void PopulateItemDropRecord(ItemDropTableData itemDrop, string header, string field)
+        {
+            switch (header)
+            {
+                case "Name":
+                    itemDrop.Name = field;
+                    break;
+                case "Common":
+                    itemDrop.Common = float.Parse(field);
+                    break;
+                case "Uncommon":
+                    itemDrop.Uncommon = float.Parse(field);
+                    break;
+                case "Epic":
+                    itemDrop.Epic = float.Parse(field);
+                    break;
+                case "Unique":
+                    itemDrop.Unique = float.Parse(field);
+                    break;
+                case "Legendary":
+                    itemDrop.Legendary = float.Parse(field);
+                    break;
+                case "WeaponDatas":
+                    itemDrop.WeaponDatas = field.Split(',');
+                    break;
+                case "AccessoryDatas":
+                    itemDrop.AccessoryDatas = field.Split(',');
+                    break;
+                case "EquipmentDatas":
+                    itemDrop.EquipmentDatas = field.Split(',');
+                    break;
+                default:
+                    Assert.IsTrue(false, $"Unknown field: {header}");
+                    break;
+            }
+        }
+
+        private void PopulateEnemySpawnRecord(EnemySpawnData enemySpawn, string header, string field)
+        {
+            switch (header)
+            {
+                case "Name":
+                    enemySpawn.Name = field;
+                    break;
+                case "Enemies":
+                    enemySpawn.Enemies = field.Split(',');
+                    break;
+                case "MaxEnemies":
+                    enemySpawn.MaxEnemies = int.Parse(field);
+                    break;
+                case "StageLevel":
+                    enemySpawn.StageLevel = int.Parse(field);
+                    break;
+                case "SpawnInterval":
+                    enemySpawn.SpawnInterval = float.Parse(field);
+                    break;
+                default:
+                    Assert.IsTrue(false, $"Unknown field: {header}");
+                    break;
             }
         }
         private void SaveScriptableObject(ScriptableObject scriptableObject, string path)
@@ -286,7 +382,8 @@ namespace IdleHeaven
                 case ItemType.Equipment:
                     return EquipmentDatas;
                 case ItemType.Usable:
-                    return UsableDatas;
+                    //Todo Jin: Implement UsableDatas
+                    return EquipmentDatas;
                 default:
                     return null;
             }

@@ -1,4 +1,5 @@
 using IdleHeaven;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,11 +27,20 @@ public class Wave : MonoBehaviour
         _playerAttack.OnKillEnemy -= HandleOnKillEnemy;
     }
 
-    public void Init(ItemSpawner itemSpawner, EnemySpawner enemySpawner)
+    public void Init(StageData stageData)
     {
-        _itemSpawner.Init(itemSpawner);
-        _enemySpawner.Init(enemySpawner);
+        StageData CurrentStage = stageData;
+
+        TargetKillCount = CurrentStage.TargetKillCount;
+
+        ItemDropTableData itemDropData = CSVParser.Instance.ItemDropDatas[CurrentStage.ItemSpawnData];
+        EnemySpawnData enemySpawnData = CSVParser.Instance.EnemySpawnDatas[CurrentStage.EnemySpawnData];
+
+        ResetWave();
+        _itemSpawner.Init(itemDropData);
+        _enemySpawner.Init(enemySpawnData);
     }
+
 
     private void HandleOnKillEnemy()
     {
@@ -53,4 +63,5 @@ public class Wave : MonoBehaviour
         WaveKillCount = 0;
         _enemySpawner.ClearEnemies();
     }
+
 }

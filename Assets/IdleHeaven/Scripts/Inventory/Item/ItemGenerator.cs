@@ -28,6 +28,16 @@ namespace IdleHeaven
         [Range(0f, 1f)] public float Epic;
         [Range(0f, 1f)] public float Unique;
         [Range(0f, 1f)] public float Legendary;
+
+        public RarityTable(float common, float uncommon, float epic, float unique, float legendary)
+        {
+            Common = common;
+            Uncommon = uncommon;
+            Epic = epic;
+            Unique = unique;
+            Legendary = legendary;
+        }
+
     }
     public enum ItemType
     {
@@ -58,6 +68,13 @@ namespace IdleHeaven
                 equipmentDatas = CSVParser.Instance.GetItems(ItemType.Equipment).Keys.ToList();
             }
         }
+        public void Init(in RarityTable rarityTable)
+        {
+            _rarityTable = rarityTable;
+            Init();
+        }
+
+
         public Item GenerateItem(GenerateInfo info, string name = "")
         {
             Rarity rarity = GetRandomRairity(_rarityTable);

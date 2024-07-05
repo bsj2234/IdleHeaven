@@ -7,10 +7,9 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] public ItemGenerator generator;
     [SerializeField] public GameObject droppedItemPrefab;
 
-    public void Init(ItemSpawner itemSpawner)
+    public void Init(ItemDropTableData itemDrop)
     {
-        generator = itemSpawner.generator;
-        droppedItemPrefab = itemSpawner.droppedItemPrefab;
+        generator.Init(new RarityTable(itemDrop.Common,itemDrop.Uncommon,itemDrop.Epic,itemDrop.Unique,itemDrop.Legendary));
     }
 
     public DroppedItem SpawnItem(Transform position, Item item)

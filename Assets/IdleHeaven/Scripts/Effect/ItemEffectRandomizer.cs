@@ -21,7 +21,7 @@ public class ItemEffectRandomizer : MonoSingleton<ItemEffectRandomizer>
 
     void Start()
     {
-        itemEffects = CSVParser.Instance.effects.Values.ToList();
+        itemEffects = CSVParser.Instance.EffectDatas.Values.ToList();
     }
 
     public ItemEffect GetRandomEffect()

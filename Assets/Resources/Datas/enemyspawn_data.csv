@@ -1,0 +1,7 @@
+Name,Enemies,MaxEnemies,StageLevel,SpawnInterval
+Dragon,Dragon,10,1,0.1
+Burrow,Burrow,10,5,0.1
+Mummy,Mummy,10,10,0.1
+Ghost,Ghost,10,15,0.1
+DragonStone,DragonStone,10,20,0.1
+Whale,Whale,10,25,0.1

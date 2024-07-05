@@ -4,17 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent (typeof(Animator))]
+[RequireComponent (typeof(NavMeshAgent))]
+[RequireComponent (typeof(Attack))]
+[RequireComponent (typeof(Detector))]
 public class PlayerAnimation : MonoBehaviour
 {
-    private Animator anim;
-    private Vector3 moveDirection = Vector3.zero;
-    private float speed = 0.0f;
-    private float direction = 0.0f;
-    private NavMeshAgent agent;
-    private Attack attack;
-    private Detector detector;
-
-
+    private Animator _animator;
+    private Vector3 _moveDirection = Vector3.zero;
+    private float _speed = 0.0f;
+    private float _direction = 0.0f;
+    private NavMeshAgent _agent;
+    private Attack _attack;
+    private Detector _detector;
 
     //cache
     Health health;
@@ -23,24 +25,25 @@ public class PlayerAnimation : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
-        attack = GetComponent<Attack>();
-        detector = GetComponentInChildren<Detector>();
+        _animator = GetComponent<Animator>();
+        _agent = GetComponent<NavMeshAgent>();
+        _attack = GetComponent<Attack>();
+        _detector = GetComponentInChildren<Detector>();
     }
 
-    //애미네션 실행하고 공격 성공시 딜 넣기
+    //애니메이션 실행하고 공격 성공시 딜 넣기
     public void HandleOnAttack(Health health, float damage, AttackType type)
     {
-        anim.SetTrigger("Attack");
+        _animator.SetTrigger("Attack");
         this.health = health;
         this.damage = damage;
         this.type = type;
     }
+
     public void HandleAnimationAttack()
     {
         //attack.DealDamage(health, damage, type);
-        attack.RangeAttack(health, damage, detector, 5f, 90f, type);
+        _attack.RangeAttack(health, damage, _detector, 5f, 90f, type);
     }
 
 
@@ -48,7 +51,7 @@ public class PlayerAnimation : MonoBehaviour
     List<float> average = new List<float>();
     void FixedUpdate()
     {
-        float curSpeed = agent.velocity.magnitude;
+        float curSpeed = _agent.velocity.magnitude;
 
         float DeltaDir = 0f;
         if (curSpeed > 0.1f)
@@ -57,21 +60,21 @@ public class PlayerAnimation : MonoBehaviour
             dirDiff = transform.InverseTransformDirection(dirDiff);
              DeltaDir = dirDiff.x;
 
-            anim.SetBool("IsMoving", true);
-            anim.SetBool("IsRunning", false);
+            _animator.SetBool("IsMoving", true);
+            _animator.SetBool("IsRunning", false);
             Debug.Log("Moving");
         }
         else
         {
-            anim.SetBool("IsMoving", false);
-            anim.SetBool("IsRunning", false);
+            _animator.SetBool("IsMoving", false);
+            _animator.SetBool("IsRunning", false);
             Debug.Log("Not Moving");
         }
         if (curSpeed > 15f)
         {
-            anim.SetBool("IsMoving" +
+            _animator.SetBool("IsMoving" +
                 "", false);
-            anim.SetBool("IsRunning", true);
+            _animator.SetBool("IsRunning", true);
             Debug.Log("Running");
         }
 
@@ -92,7 +95,7 @@ public class PlayerAnimation : MonoBehaviour
 
 
 
-        anim.SetFloat("MovingDirection", avgDelDir);
+        _animator.SetFloat("MovingDirection", avgDelDir);
 
         prevDir = transform.forward;
     }
