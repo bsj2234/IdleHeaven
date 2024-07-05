@@ -13,6 +13,10 @@ namespace IdleHeaven
 
         public void DealDamage(Health target, float damage, AttackType attackType = AttackType.None)
         {
+            if(target == null)
+            {
+               return;
+            }
             bool isAttackSucceeded = target.TakeDamage(this, damage, attackType);
             if (isAttackSucceeded)
             {
@@ -44,7 +48,7 @@ namespace IdleHeaven
             {
                 return;
             }
-            for (int i = targets.Count - 1; i > 0; i--)
+            for (int i = 0; i < targets.Count; i++)
             {
                 Transform item = targets[i];
                 if (Vector3.Distance(item.transform.position, transform.position) > distance)

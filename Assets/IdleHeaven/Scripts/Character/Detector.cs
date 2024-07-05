@@ -11,12 +11,12 @@ public class Detector : MonoBehaviour
 
     [SerializeField] string _targetTag;
 
-    public Func<bool> additionalConditionForDelete;
+    public List<Func<Transform, bool>> additionalConditionForCleanup = new List<Func<Transform, bool>>();
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(_targetTag))
         {
-            if(OnFoundTarget != null)
+            if (OnFoundTarget != null)
             {
                 Transform target = other.transform;
 
@@ -29,7 +29,7 @@ public class Detector : MonoBehaviour
     {
         if (other.CompareTag(_targetTag))
         {
-            if(LooseTargetHandler != null)
+            if (LooseTargetHandler != null)
             {
                 Transform target = other.transform;
                 LooseTargetHandler(other.transform);
@@ -40,26 +40,13 @@ public class Detector : MonoBehaviour
     }
     public Transform GetNearestTarget()
     {
+        CleanupTargets();
         if (_targetsInDetector.Count == 0)
         {
             return null;
         }
         _targetsInDetector.Sort(SortTarget);
-        _targetsInDetector.RemoveAll((item) => item == null);
-        if (_targetsInDetector.Count == 0)
-        {
-            return null;
-        }
-        int i = _targetsInDetector.Count - 1;
-        var result = _targetsInDetector[i];
-        if (additionalConditionForDelete != null)
-        {
-            while (additionalConditionForDelete.Invoke())
-            {
-                _targetsInDetector.RemoveAt(i--);
-                result = _targetsInDetector[i];
-            }
-        }
+        var result = _targetsInDetector[0];
         return result;
     }
 
@@ -70,11 +57,6 @@ public class Detector : MonoBehaviour
             return null;
         }
         _targetsInDetector.Sort(SortTarget);
-        _targetsInDetector.RemoveAll((item) => item == null);
-        if (_targetsInDetector.Count == 0)
-        {
-            return null;
-        }
         return _targetsInDetector;
     }
     private int SortTarget(Transform lhs, Transform rhs)
@@ -89,7 +71,7 @@ public class Detector : MonoBehaviour
         }
         float DistanceToLhs = Vector3.Distance(lhs.position, transform.position);
         float DistanceToRhs = Vector3.Distance(rhs.position, transform.position);
-        return DistanceToRhs.CompareTo(DistanceToLhs);
+        return DistanceToLhs.CompareTo(DistanceToRhs);
     }
     public void RemoveTarget(Transform target)
     {
@@ -99,5 +81,34 @@ public class Detector : MonoBehaviour
             return;
         }
         _targetsInDetector.Remove(target);
+    }
+
+    public void CleanupTargets()
+    {
+        for (int i = 0; i < _targetsInDetector.Count; i++)
+        {
+
+            bool anyContidionFailed = false;
+
+            foreach (var condition in additionalConditionForCleanup)
+            {
+                anyContidionFailed = condition?.Invoke(_targetsInDetector[i]) ?? false;
+                if (anyContidionFailed)
+                {
+                    break;
+                }
+            }
+
+            bool isRemove = _targetsInDetector[i] == null || anyContidionFailed;
+
+            if (isRemove)
+            {
+                _targetsInDetector.RemoveAt(i);
+                if (i > 0)
+                {
+                    i--;
+                }
+            }
+        }
     }
 }

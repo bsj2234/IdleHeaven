@@ -1,15 +1,43 @@
 using IdleHeaven;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public enum EnemySpawnLocationType
+{
+    Vector3,
+    Transform
+}
+
+[Serializable]
+public class EnemySpawnPos
+{
+    public EnemySpawnLocationType LocationType;
+    public Vector3 PosVec3;
+    public Transform PosTrf;
+
+    public Vector3 GetPos()
+    {
+        if (LocationType == EnemySpawnLocationType.Vector3)
+        {
+            return PosVec3;
+        }
+        else
+        {
+            return PosTrf.position;
+        }
+    }
+}
+
 
 public class EnemySpawner : MonoBehaviour
 {
     private List<Enemy> _enemies = new List<Enemy>();
 
     [SerializeField] private float _spawnInterval;
-
-    [SerializeField] private Transform[] _spawnPoint;
+    [SerializeField] private EnemySpawnPos[] _spawnPoint;
 
 
     [SerializeField] private string[] _enemyToSpawn;
@@ -27,7 +55,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDisable()
     {
-        if(spawnCoroutine != null)
+        if (spawnCoroutine != null)
             StopCoroutine(spawnCoroutine);
     }
 
@@ -51,14 +79,14 @@ public class EnemySpawner : MonoBehaviour
                 yield return new WaitForSeconds(_spawnInterval);
                 continue;
             }
-            Transform randomTrf = _spawnPoint[Random.Range(0, _spawnPoint.Length)];
+            Vector3 randomPos = _spawnPoint[UnityEngine.Random.Range(0, _spawnPoint.Length)].GetPos();
 
-            EnemyData randomEnemyData = CSVParser.Instance.EnemyDatas[_enemyToSpawn[Random.Range(0, _enemyToSpawn.Length)]];
+            EnemyData randomEnemyData = CSVParser.Instance.EnemyDatas[_enemyToSpawn[UnityEngine.Random.Range(0, _enemyToSpawn.Length)]];
 
             GameObject randomEnemyPrf = randomEnemyData.Prefab;
             if (_playerAttack == null)
-            Debug.LogWarning($"WhyNull{gameObject.name}");
-            Vector3 relativeToPlayerLocal = _playerAttack.transform.position + randomTrf.localPosition;
+                Debug.LogWarning($"WhyNull{gameObject.name}");
+            Vector3 relativeToPlayerLocal = _playerAttack.transform.position + randomPos;
 
             GameObject enemy = Instantiate(randomEnemyPrf, relativeToPlayerLocal, Quaternion.identity);
 
