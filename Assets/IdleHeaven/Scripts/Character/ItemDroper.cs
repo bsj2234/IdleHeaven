@@ -5,17 +5,14 @@ using UnityEngine;
 
 public class ItemDroper : MonoBehaviour
 {
-    private ItemSpawner spawner;
+    private ItemSpawnManager spawner;
 
     private void Awake()
     {
         CharacterAIController characterController = GetComponent<CharacterAIController>();
         Health health = GetComponent<Health>();
         health.OnDead.AddListener(HandleOnDead);
-    }
-    public void Init(ItemSpawner spawner)
-    {
-        this.spawner = spawner;
+        spawner = ItemSpawnManager.Instance;
     }
     public void HandleOnDead(Attack attacker, Health gotHit)
     {
@@ -26,7 +23,9 @@ public class ItemDroper : MonoBehaviour
     {
         Item generatedItem = spawner.generator.GenerateItem(new GenerateInfo(enemy.GetComponent<CharacterStats>().LevelSystem.Level, Rarity.Error));
         DroppedItem item = spawner.SpawnItem(transform, generatedItem);
+
         item.SetAcquirer(attacker.transform);
+
         ItemGrabber grabber = item.GetComponent<ItemGrabber>();
         grabber.GrabToTarget(attacker.transform);
         grabber.OnHalfway += item.TriggerAcquirable;

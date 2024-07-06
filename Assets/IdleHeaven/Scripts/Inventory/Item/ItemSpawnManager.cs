@@ -2,13 +2,14 @@ using UnityEngine;
 using IdleHeaven;
 using System;
 
-public class ItemSpawner : MonoBehaviour
+public class ItemSpawnManager : MonoSingleton<ItemSpawnManager>
 {
     [SerializeField] public ItemGenerator generator;
     [SerializeField] public GameObject droppedItemPrefab;
 
     public void Init(ItemDropTableData itemDrop)
     {
+        generator = new ItemGenerator();
         generator.Init(new RarityTable(itemDrop.Common,itemDrop.Uncommon,itemDrop.Epic,itemDrop.Unique,itemDrop.Legendary));
     }
 

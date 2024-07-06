@@ -153,9 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b8fa1d2b5233340a62c10c35a0892a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoSet: 0
-  health: {fileID: 46813057238139206}
-  spawner: {fileID: 0}
+  _autoSet: 0
+  _health: {fileID: 46813057238139206}
+  _itemDroper: {fileID: 5381912472165687061}
+  _spawner: {fileID: 0}
   _baseStats:
     stats:
     - _statType: 0

@@ -75,19 +75,20 @@ public class EnemySpawner : MonoBehaviour
                 yield return new WaitForSeconds(_spawnInterval);
                 continue;
             }
-            Vector3 randomPos = _spawnPoint.GetRandomItem().GetPos();
 
-            string enemyKey = _enemyToSpawn.GetRandomItem();
+            Vector3 randomPos = _spawnPoint.GetRandomValue().GetPos();
+
+            string enemyKey = _enemyToSpawn.GetRandomValue();
             EnemyData randomEnemyData = CSVParser.Instance.EnemyDatas[enemyKey];
-
             GameObject randomEnemyPrf = randomEnemyData.Prefab;
+
             if (_playerAttack == null)
                 Debug.LogWarning($"missing PlayerAttack{gameObject.name}");
+
             Vector3 relativeRandomPos = _playerAttack.transform.position + randomPos;
 
             GameObject enemy = Instantiate(randomEnemyPrf, relativeRandomPos, Quaternion.identity);
-
-            enemy.GetComponent<Enemy>().Init(randomEnemyData).SetLevel(_stageLevel); ;
+            enemy.GetComponent<Enemy>().Init(randomEnemyData).SetLevel(_stageLevel);
             AddEnemy(enemy);
             yield return new WaitForSeconds(_spawnInterval);
         }

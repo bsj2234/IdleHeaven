@@ -39,7 +39,7 @@ public class StageManager : MonoSingleton<StageManager>
     [SerializeField] private Stage stage;
 
     [SerializeField] private Attack _playerAttack;
-    [SerializeField] private ItemSpawner _itemSpawner;
+    [SerializeField] private ItemSpawnManager _itemSpawner;
     [SerializeField] private EnemySpawner _enemySpawner;
     EnemySpawnData EnemySpawnData;
 

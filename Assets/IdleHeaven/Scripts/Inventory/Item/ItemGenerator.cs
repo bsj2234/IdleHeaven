@@ -52,18 +52,18 @@ namespace IdleHeaven
     {
         [SerializeField] RarityTable _rarityTable;
 
-        [SerializeField] List<string> weaponDatas = new List<string>();
-        [SerializeField] List<string> accessoryDatas = new List<string>();
-        [SerializeField] List<string> equipmentDatas = new List<string>();
+        [SerializeField] List<string> weaponDatas;
+        [SerializeField] List<string> accessoryDatas;
+        [SerializeField] List<string> equipmentDatas;
 
 
         public void Init()
         {
-            if (weaponDatas.Count == 0)
+            if (weaponDatas == null)
             {
                 weaponDatas = CSVParser.Instance.GetItems(ItemType.Weapon).Keys.ToList();
             }
-            if (equipmentDatas.Count == 0)
+            if (equipmentDatas == null)
             {
                 equipmentDatas = CSVParser.Instance.GetItems(ItemType.Equipment).Keys.ToList();
             }

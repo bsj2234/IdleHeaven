@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 public static class ArrayExtensions
 {
-    public static T GetRandomItem<T>(this T[] array)
+    public static T GetRandomValue<T>(this T[] array)
     {
         if (array == null || array.Length == 0)
         {

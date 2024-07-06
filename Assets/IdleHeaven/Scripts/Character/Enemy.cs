@@ -9,7 +9,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Health _health;
 
     [SerializeField] private ItemDroper _itemDroper;
-    [SerializeField] private ItemSpawner _spawner;
 
     [SerializeField] private Stats _baseStats;
     [SerializeField] private Stats _resultStats;
@@ -45,7 +44,6 @@ public class Enemy : MonoBehaviour
         SetBaseStats(randomEnemyData);
         _characterStats.Stats = _baseStats;
 
-        _itemDroper.Init(_spawner);
         return this;
     }
 

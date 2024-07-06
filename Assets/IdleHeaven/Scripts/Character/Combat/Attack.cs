@@ -43,11 +43,13 @@ namespace IdleHeaven
             {
                 return;
             }
+
             List<Transform> targets = detector.GetSortedEnemys();
             if(targets == null)
             {
                 return;
             }
+
             for (int i = 0; i < targets.Count; i++)
             {
                 Transform item = targets[i];
@@ -62,6 +64,7 @@ namespace IdleHeaven
                 DealDamage(item.GetComponent<Health>(), damage, attackType);
             }
         }
+
         public void TriggerAttack(Health targetCombat, float damage, AttackType attackType)
         {
             OnAttack?.Invoke(targetCombat, damage, attackType);
