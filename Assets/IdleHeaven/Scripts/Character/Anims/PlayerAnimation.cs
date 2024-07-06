@@ -13,11 +13,6 @@ public class PlayerAnimation : MonoBehaviour
     private Attack _attack;
     private Detector _detector;
 
-    private Vector3 _moveDirection = Vector3.zero;
-    private float _speed = 0.0f;
-    private float _direction = 0.0f;
-
-
     void Start()
     {
         _animator = GetComponent<Animator>();

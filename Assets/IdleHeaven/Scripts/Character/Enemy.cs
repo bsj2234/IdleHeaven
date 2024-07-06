@@ -5,32 +5,33 @@ using UnityEngine;
 [RequireComponent(typeof(Attack))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] bool autoSet = false;
-    [SerializeField] Health health;
+    [SerializeField] private bool _autoSet = false;
+    [SerializeField] private Health _health;
 
-    [SerializeField] ItemSpawner spawner;
+    [SerializeField] private ItemDroper _itemDroper;
+    [SerializeField] private ItemSpawner _spawner;
 
-    [SerializeField] Stats _baseStats;
-    [SerializeField] Stats _resultStats;
-    [SerializeField] LevelSystem _levelSystem;
+    [SerializeField] private Stats _baseStats;
+    [SerializeField] private Stats _resultStats;
+    [SerializeField] private LevelSystem _levelSystem;
 
-    [SerializeField] CharacterStats _characterStats;
+    [SerializeField] private CharacterStats _characterStats;
 
     private void Awake()
     {
-        health.OnDead.AddListener(HandleDead);
+        _health.OnDead.AddListener(HandleDead);
         _levelSystem = GetComponent<CharacterStats>().LevelSystem;
     }
     private void OnDestroy()
     {
-        health.OnDead.RemoveListener(HandleDead);
+        _health.OnDead.RemoveListener(HandleDead);
     }
     private void OnValidate()
     {
-        if (autoSet)
+        if (_autoSet)
         {
-            health = GetComponent<Health>();
-            autoSet = false;
+            _health = GetComponent<Health>();
+            _autoSet = false;
         }
     }
 
@@ -43,6 +44,8 @@ public class Enemy : MonoBehaviour
     {
         SetBaseStats(randomEnemyData);
         _characterStats.Stats = _baseStats;
+
+        _itemDroper.Init(_spawner);
         return this;
     }
 

@@ -25,25 +25,25 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    public MT ChangeState<MT>() where MT : BaseState
+    public T ChangeState<T>() where T : BaseState
     {
-        var type = typeof(MT);
+        var type = typeof(T);
         if (states.ContainsKey(type))
         {
             CurrentState?.ExitState(states[type]);
             CurrentState = states[type];
             CurrentState.EnterState();
-            return (MT)CurrentState;
+            return (T)CurrentState;
         }
         Debug.Assert(false, $"{type} is not exist on statemachine");
         return null;
     }
-    public MT GetState<MT>() where MT : BaseState
+    public T GetState<T>() where T : BaseState
     {
-        var type = typeof(MT);
-        if (states.ContainsKey(typeof(MT)))
+        var type = typeof(T);
+        if (states.ContainsKey(typeof(T)))
         {
-            return (MT)states[typeof(MT)];
+            return (T)states[typeof(T)];
         }
         Debug.Assert(false, $"{type} is not exist on statemachine");
         return null;

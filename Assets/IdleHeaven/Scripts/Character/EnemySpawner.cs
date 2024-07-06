@@ -39,15 +39,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _spawnInterval;
     [SerializeField] private EnemySpawnPos[] _spawnPoint;
 
-
     [SerializeField] private string[] _enemyToSpawn;
     [SerializeField] private int _maxEnemies;
     [SerializeField] private int _stageLevel = 1;
 
-
     [SerializeField] private Attack _playerAttack;
-    [SerializeField] private ItemSpawner _itemSpawner;
-
 
     private Coroutine spawnCoroutine;
 
@@ -79,19 +75,19 @@ public class EnemySpawner : MonoBehaviour
                 yield return new WaitForSeconds(_spawnInterval);
                 continue;
             }
-            Vector3 randomPos = _spawnPoint[UnityEngine.Random.Range(0, _spawnPoint.Length)].GetPos();
+            Vector3 randomPos = _spawnPoint.GetRandomItem().GetPos();
 
-            EnemyData randomEnemyData = CSVParser.Instance.EnemyDatas[_enemyToSpawn[UnityEngine.Random.Range(0, _enemyToSpawn.Length)]];
+            string enemyKey = _enemyToSpawn.GetRandomItem();
+            EnemyData randomEnemyData = CSVParser.Instance.EnemyDatas[enemyKey];
 
             GameObject randomEnemyPrf = randomEnemyData.Prefab;
             if (_playerAttack == null)
-                Debug.LogWarning($"WhyNull{gameObject.name}");
-            Vector3 relativeToPlayerLocal = _playerAttack.transform.position + randomPos;
+                Debug.LogWarning($"missing PlayerAttack{gameObject.name}");
+            Vector3 relativeRandomPos = _playerAttack.transform.position + randomPos;
 
-            GameObject enemy = Instantiate(randomEnemyPrf, relativeToPlayerLocal, Quaternion.identity);
+            GameObject enemy = Instantiate(randomEnemyPrf, relativeRandomPos, Quaternion.identity);
 
             enemy.GetComponent<Enemy>().Init(randomEnemyData).SetLevel(_stageLevel); ;
-            enemy.GetComponent<ItemDroper>().Init(_itemSpawner);
             AddEnemy(enemy);
             yield return new WaitForSeconds(_spawnInterval);
         }
