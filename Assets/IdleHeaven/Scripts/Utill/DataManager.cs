@@ -22,13 +22,13 @@ public class InventoryData
 public class DataManager : MonoSingleton<DataManager>
 {
     public PlayerData PlayerData = new PlayerData();
-
+    
 
 
     [SerializeField] private CharacterStats _characterStats;
     [SerializeField] private Inventory _inventory;
     [SerializeField] private CurrencyInventory _currencyInventory;
-
+    [SerializeField] private RarityData[] _rarityDatas;
 
     private void Start()
     {
@@ -61,5 +61,10 @@ public class DataManager : MonoSingleton<DataManager>
 
         PlayerData = SaveSystem.LoadData<PlayerData>("pd");
         return PlayerData;
+    }
+
+    public RarityData GetRarityData(Rarity itemRarity)
+    {
+        return _rarityDatas[(int)itemRarity];
     }
 }
