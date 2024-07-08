@@ -4,29 +4,56 @@ using UnityEngine;
 public class ItemDetailView : MonoBehaviour
 {
     [SerializeField] ItemView _itemView;
-    [SerializeField] UIButtonHoldDetector _button;
-    [SerializeField] ItemDetailViewModel _itemViewModel;
+    [SerializeField] UIButtonHoldDetector _equipButton;
+    [SerializeField] UIButtonHoldDetector _enhanceButton;
+    [SerializeField] ItemDetailViewModel _itemDetailViewModel;
+    [SerializeField] Equip _equip;
 
-    public UIWindow Window;
+    public UIClosedWindow Window;
 
     public void Init(Item item)
     {
         _itemView.SetItem(item);
-        _button.onClick.AddListener(OnClick);
+        if (_equipButton != null)
+        {
+            _equipButton.onClick.AddListener(OnClickEquip);
+        }
+        if (_enhanceButton != null)
+        {
+            _enhanceButton.onClick.AddListener(OnClickEnhance);
+        }
     }
     public void OnDisable()
     {
-        _button.onClick.RemoveListener(OnClick);
+        if (_equipButton != null)
+        {
+            _equipButton.onClick.RemoveListener(OnClickEquip);
+        }
+        if(_enhanceButton != null)
+        {
+            _enhanceButton.onClick.RemoveListener(OnClickEnhance);
+        }
     }
 
-    public void OnClick()
+    public void OnClickEquip()
     {
         Item item = _itemView.ItemViewModel.Item;
         if (item is EquipmentItem)
         {
-            if (_itemViewModel.TryEnhanceItem(item as EquipmentItem))
+            if (_equip.EquipItem(item))
             {
-                Debug.Log("Enhance Succesded");
+                Debug.Log("Equip Succese");
+            }
+        }
+    }
+    public void OnClickEnhance()
+    {
+        Item item = _itemView.ItemViewModel.Item;
+        if (item is EquipmentItem equipmentItem)
+        {
+            if (_itemDetailViewModel.TryEnhanceItem(equipmentItem))
+            {
+                Debug.Log("Enhance Succese");
             }
         }
     }
