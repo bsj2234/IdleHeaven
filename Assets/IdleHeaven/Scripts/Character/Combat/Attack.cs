@@ -52,6 +52,10 @@ namespace IdleHeaven
 
             for (int i = 0; i < targets.Count; i++)
             {
+                if(targets[i] == null)
+                {
+                    continue;
+                }
                 Transform item = targets[i];
                 if (Vector3.Distance(item.transform.position, transform.position) > distance)
                 {
