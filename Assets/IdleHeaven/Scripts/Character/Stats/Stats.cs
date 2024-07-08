@@ -142,6 +142,21 @@ namespace IdleHeaven
                 this[stat.StatType] -= stat.Value;
             }
         }
+
+        internal void MultiplyStats(int level)
+        {
+            foreach (Stat stat in stats)
+            {
+                if (stat.StatType == StatType.Hp)
+                {
+                    stat.Value *= level;
+                }
+                else
+                {
+                    stat.Value *= level;
+                }
+            }
+        }
     }
 }
 
