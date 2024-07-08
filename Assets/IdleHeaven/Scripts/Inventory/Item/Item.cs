@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Random = UnityEngine.Random;
 
 namespace IdleHeaven
 {
@@ -75,7 +76,17 @@ namespace IdleHeaven
         [SerializeField] ItemEffect[] _effects = new ItemEffect[MAX_ITEMEFFECT];
         [SerializeField] Stats _baseStats = new Stats();
         [SerializeField] Stats _resultStats = new Stats();
-        public Rarity Rarity;
+        private RarityData _rarityData;
+        public RarityData RarityData
+        {
+            get => _rarityData;
+            set
+            {
+                _rarityMultiply = Random.Range(value.MinBaseStatMulti, value.MaxBaseStatMulti);
+                _rarityData = value;
+            }
+        }
+        private float _rarityMultiply;
 
         public ItemEffect[] Effects => _effects;
         public bool Equiped
@@ -152,6 +163,11 @@ namespace IdleHeaven
             foreach (ItemEffect effect in _effects)
             {
                 _resultStats[effect.Stat] += GetEffectStat(effect);
+            }
+
+            foreach (Stat stat in _resultStats.stats)
+            {
+                stat .Value *= _rarityMultiply;
             }
         }
         public float GetEffectStat(ItemEffect effect)
