@@ -156,7 +156,6 @@ MonoBehaviour:
   _autoSet: 0
   _health: {fileID: 46813057238139206}
   _itemDroper: {fileID: 5381912472165687061}
-  _spawner: {fileID: 0}
   _baseStats:
     stats:
     - _statType: 0
@@ -287,7 +286,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2855540130070105857}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14d3c8e1764373547b2392c26e184d14, type: 3}
+  m_Script: {fileID: 11500000, guid: 702ea648630b081428c5be196755589d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2716438110794715463
