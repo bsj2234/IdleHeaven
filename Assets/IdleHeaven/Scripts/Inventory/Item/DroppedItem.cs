@@ -11,7 +11,6 @@ public class DroppedItem : MonoBehaviour
     private Item _item;
     private void OnEnable()
     {
-        _item = GetComponent<ItemMono>().Item;
     }
     private void OnDisable()
     {
@@ -36,6 +35,15 @@ public class DroppedItem : MonoBehaviour
     public void Init(Item item)
     {
         _item = item;
+        if (_item is EquipmentItem equipmentItem)
+        {
+            Color color = equipmentItem.RarityData.Color;
+
+
+
+            GetComponent<MeshRenderer>().material = equipmentItem.RarityData.Material;
+            GetComponent<TrailRenderer>().material = equipmentItem.RarityData.Material; ;
+        }
     }
 
     public void TriggerAcquirable()
