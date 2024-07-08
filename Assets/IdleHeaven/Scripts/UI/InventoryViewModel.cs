@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using UnityEngine;
 
 namespace IdleHeaven
@@ -49,47 +49,179 @@ namespace IdleHeaven
             }
         }
 
-        public List<Item> GetFilteredItem(string filter)
+        public List<Item> GetItemList(string filter, string sortType, bool descending)
         {
             List<Item> items = Inventory.GetItems();
-            List<Item> list = new List<Item>();
-
-            if(filter == "equipment")
-            {
-                for(int i = 0; i < _itemCountPerPage; i++)
-                {
-                    int index = _currentPage * _itemCountPerPage + i;
-
-                    if (items[index] is EquipmentItem)
-                    {
-                        list.Add(items[index]);
-                    }
-                }
-                return list;
-            }
-            else
-            {
-
-
-                for (int i = 0; i < _itemCountPerPage; i++)
-                {
-                    int index = _currentPage * _itemCountPerPage + i;
-
-                    //if (items[index] is EquipmentItem)
-                    if(items.Count > index)
-                    {
-                        list.Add(items[index]);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                return list;
-                //return _inventory.GetItems();
-            }
+            List<Item> filteredItemList = GetFilteredItemList(items, filter);
+            List<Item> sortedItemList = GetSortedItemList(filteredItemList, sortType, descending);
+            List<Item> pagedItemList = GetPagedItemList(sortedItemList, _currentPage, _itemCountPerPage);
+            return pagedItemList;
         }
 
+        private List<Item> GetFilteredItemList(List<Item> items, string filter)
+        {
+            if(items.Count == 0)
+            {
+                return items;
+            }
+            if (filter == "all")
+                return items;
+
+            List<Item> filteredItemList = null;
+
+            if (filter == "equipment")
+                filteredItemList = items.Where(item => item is EquipmentItem).ToList();
+            if (filter == "weapon")
+                filteredItemList = items.Where(item => item is EquipmentItem equipmentItem &&
+                equipmentItem.EquipmentData.ItemType == ItemType.Weapon).ToList();
+            if (filter == "armor")
+                filteredItemList = items.Where(item => item is EquipmentItem equipmentItem &&
+                equipmentItem.EquipmentData.ItemType == ItemType.Armor).ToList();
+            if (filter == "usable")
+                filteredItemList = items.Where(item => item.ItemData.ItemType == ItemType.Usable).ToList();
+            if (filteredItemList == null)
+                throw new System.Exception("Invalid filter type");
+            else
+                return filteredItemList;
+        }
+
+        private List<Item> GetSortedItemList(List<Item> items, string sortType, bool descending)
+        {
+            if(items.Count == 0)
+            {
+                return items;
+            }
+            if (sortType == "none")
+            {
+                return items;
+            }
+            List<Item> result = new List<Item>(items);
+            if (sortType == "attack")
+            {
+                result.Sort(SortByAttack);
+            }
+            if (sortType == "defense")
+            {
+                result.Sort(SortByDefense);
+            }
+            if (sortType == "rarity")
+            {
+                result.Sort(SortByRarity);
+            }
+            if (sortType == "name")
+            {
+                result.Sort(SortByName);
+            }
+            if (sortType == "type")
+            {
+                result.Sort(SortByType);
+            }
+            if (sortType == "critChance")
+            {
+                result.Sort(SortByCritChance);
+            }
+            if (sortType == "critDamage")
+            {
+                result.Sort(SortByCritDamage);
+            }
+            if (!descending)
+            {
+                result.Reverse();
+            }
+            return result;
+        }
+        private List<Item> GetPagedItemList(List<Item> items, int page, int countPerPage)
+        {
+            List<Item> result = new List<Item>();
+            for (int i = page * countPerPage; i < (page + 1) * countPerPage; i++)
+            {
+                if (i < items.Count)
+                {
+                    result.Add(items[i]);
+                }
+            }
+            return result;
+        }
+
+        #region Sort Methods
+        private int SortByLevel(Item a, Item b)
+        {
+            if (a is EquipmentItem && b is EquipmentItem)
+            {
+                EquipmentItem equipmentItemA = a as EquipmentItem;
+                EquipmentItem equipmentItemB = b as EquipmentItem;
+                return equipmentItemA.Level.CompareTo(equipmentItemB.Level);
+            }
+            return 0;
+        }
+        private int SortByAttack(Item a, Item b)
+        {
+            if (a is EquipmentItem && b is EquipmentItem)
+            {
+                EquipmentItem equipmentItemA = a as EquipmentItem;
+                EquipmentItem equipmentItemB = b as EquipmentItem;
+                float attackA = equipmentItemA.ResultStats[StatType.Attack];
+                float attackB = equipmentItemB.ResultStats[StatType.Attack];
+                return attackA.CompareTo(attackB);
+            }
+            return 0;
+        }
+        private int SortByDefense(Item a, Item b)
+        {
+            if (a is EquipmentItem && b is EquipmentItem)
+            {
+                EquipmentItem equipmentItemA = a as EquipmentItem;
+                EquipmentItem equipmentItemB = b as EquipmentItem;
+                float defenseA = equipmentItemA.ResultStats[StatType.Defense];
+                float defenseB = equipmentItemB.ResultStats[StatType.Defense];
+                return defenseA.CompareTo(defenseB);
+            }
+            return 0;
+        }
+        private int SortByRarity(Item a, Item b)
+        {
+            if (a is EquipmentItem && b is EquipmentItem)
+            {
+                EquipmentItem equipmentItemA = a as EquipmentItem;
+                EquipmentItem equipmentItemB = b as EquipmentItem;
+                return equipmentItemA.RarityData.Rarity.CompareTo(equipmentItemB.RarityData.Rarity);
+            }
+            return 0;
+        }
+        private int SortByName(Item a, Item b)
+        {
+            return a.Name.CompareTo(b.Name);
+        }
+        private int SortByType(Item a, Item b)
+        {
+            return a.ItemData.ItemType.CompareTo(b.ItemData.ItemType);
+        }
+        private int SortByCritChance(Item a, Item b)
+        {
+            if (a is EquipmentItem && b is EquipmentItem)
+            {
+                EquipmentItem equipmentItemA = a as EquipmentItem;
+                EquipmentItem equipmentItemB = b as EquipmentItem;
+                float critChanceA = equipmentItemA.ResultStats[StatType.CritChance];
+                float critChanceB = equipmentItemB.ResultStats[StatType.CritChance];
+                return critChanceA.CompareTo(critChanceB);
+            }
+            return 0;
+        }
+        private int SortByCritDamage(Item a, Item b)
+        {
+
+            if (a is EquipmentItem && b is EquipmentItem)
+            {
+                EquipmentItem equipmentItemA = a as EquipmentItem;
+                EquipmentItem equipmentItemB = b as EquipmentItem;
+                float critDamageA = equipmentItemA.ResultStats[StatType.CritDamage];
+                float critDamageB = equipmentItemB.ResultStats[StatType.CritDamage];
+                return critDamageA.CompareTo(critDamageB);
+            }
+            return 0;
+        }
+        #endregion
         private int _currentPage = 0;
         public int _itemCountPerPage = 20;
 

@@ -12,10 +12,14 @@ namespace IdleHeaven
         [SerializeField] InventoryViewModel _inventoryViewModel;
         [SerializeField] ItemView[] _itemViews;
         [SerializeField] ItemDetailView _itemDetailView;
-        [SerializeField] ItemView _itemPopupView;
+        [SerializeField] ItemDetailView _itemPopupView;
 
         [SerializeField] Button Button_left;
         [SerializeField] Button Button_right;
+
+        private string _filter = "all";
+        private string _sortType = "none";
+        private bool _descending = false;
 
 
         private void Start()
@@ -39,7 +43,7 @@ namespace IdleHeaven
 
         private void UpdateInventoryView()
         {
-            List<Item> items = _inventoryViewModel.GetFilteredItem("");
+            List<Item> items = _inventoryViewModel.GetItemList(_filter,_sortType,_descending);
 
             for (int i = 0; i < _itemViews.Length; i++)
             {
@@ -62,7 +66,7 @@ namespace IdleHeaven
             {
                 return;
             }
-            _itemPopupView.Init(itemView);
+            _itemPopupView.Init(itemView.ItemViewModel.Item);
             _itemPopupView.Window.Open();
 
             //RectTransform popupRectTransform = _itemPopupView.GetComponent<RectTransform>();
@@ -143,6 +147,78 @@ namespace IdleHeaven
             _inventoryViewModel.GetNextPage();
             UpdateInventoryView();
         }
+
+
+        #region Sort Buttons
+        public void OnSortByNoneButtonClicked()
+        {
+            _sortType = "none";
+            UpdateInventoryView();
+        }
+        public void OnSortByAttackButtonClicked()
+        {
+            _sortType = "attack";
+            UpdateInventoryView();
+        }
+        public void OnSortByDefenseButtonClicked()
+        {
+            _sortType = "defense";
+            UpdateInventoryView();
+        }
+        public void OnSortByRarityButtonClicked()
+        {
+            _sortType = "rarity";
+            UpdateInventoryView();
+        }
+        public void OnSortByNameButtonClicked()
+        {
+            _sortType = "name";
+            UpdateInventoryView();
+        }
+        public void OnSortByTypeButtonClicked()
+        {
+            _sortType = "type";
+            UpdateInventoryView();
+        }
+        public void OnSortByCritChanceButtonClicked()
+        {
+            _sortType = "critChance";
+            UpdateInventoryView();
+        }
+        public void OnSortByCritDamageButtonClicked()
+        {
+            _sortType = "critDamage";
+            UpdateInventoryView();
+        }
+        #endregion
+
+        #region Filter Buttons
+        public void OnFilterAllButtonClicked()
+        {
+            _filter = "all";
+            UpdateInventoryView();
+        }
+        public void OnFilterEquipmentButtonClicked()
+        {
+            _filter = "equipment";
+            UpdateInventoryView();
+        }
+        public void OnFilterWeaponButtonClicked()
+        {
+            _filter = "weapon";
+            UpdateInventoryView();
+        }
+        public void OnFilterArmorButtonClicked()
+        {
+            _filter = "armor";
+            UpdateInventoryView();
+        }
+        public void OnFilterUsableButtonClicked()
+        {
+            _filter = "usable";
+            UpdateInventoryView();
+        }
+        #endregion
     }
 }
 
