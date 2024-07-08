@@ -19,6 +19,8 @@ public class EnemySpawnData:IKeyProvider
 public class ItemDropTableData:IKeyProvider
 {
     public string Name;
+    public float None;
+    public float Currency;
     public float Common;
     public float Uncommon;
     public float Epic;
