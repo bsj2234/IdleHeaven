@@ -26,7 +26,7 @@ public class EnemySpawnPos
         }
         else
         {
-            return PosTrf.position;
+            return PosTrf.localPosition;
         }
     }
 }
@@ -37,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
     private List<Enemy> _enemies = new List<Enemy>();
 
     [SerializeField] private float _spawnInterval;
-    [SerializeField] private EnemySpawnPos[] _spawnPoint;
+    [SerializeField] private EnemySpawnPos[] _localSpawnPoint;
 
     [SerializeField] private string[] _enemyToSpawn;
     [SerializeField] private int _maxEnemies;
@@ -68,6 +68,7 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator SpawnEnemy()
     {
+        List<Vector3> AvailableSpawnPoints = new List<Vector3>();
         while (true)
         {
             if (_enemies.Count >= _maxEnemies)
@@ -75,8 +76,17 @@ public class EnemySpawner : MonoBehaviour
                 yield return new WaitForSeconds(_spawnInterval);
                 continue;
             }
+            AvailableSpawnPoints.Clear();
 
-            Vector3 randomPos = _spawnPoint.GetRandomValue().GetPos();
+            foreach (var spawnPoint in _localSpawnPoint)
+            {
+                if (Physics.Raycast(spawnPoint.GetPos() + _playerAttack.transform.position, Vector3.down, out RaycastHit hit, 3f, LayerMask.GetMask("Ground")))
+                {
+                    AvailableSpawnPoints.Add(hit.point);
+                }
+            }
+
+            Vector3 randomPos = AvailableSpawnPoints.GetRandomValue();
 
             string enemyKey = _enemyToSpawn.GetRandomValue();
             EnemyData randomEnemyData = CSVParser.Instance.EnemyDatas[enemyKey];
@@ -85,7 +95,7 @@ public class EnemySpawner : MonoBehaviour
             if (_playerAttack == null)
                 Debug.LogWarning($"missing PlayerAttack{gameObject.name}");
 
-            Vector3 relativeRandomPos = _playerAttack.transform.position + randomPos;
+            Vector3 relativeRandomPos = randomPos;
 
             GameObject enemy = Instantiate(randomEnemyPrf, relativeRandomPos, Quaternion.identity);
             enemy.GetComponent<Enemy>().Init(randomEnemyData).SetLevel(_stageLevel);
