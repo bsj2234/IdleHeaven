@@ -23,18 +23,23 @@ namespace IdleHeaven
     [System.Serializable]
     public struct RarityTable
     {
+        [Range(0f, 1f)] public float None;
+        [Range(0f, 1f)] public float Currency;
         [Range(0f, 1f)] public float Common;
         [Range(0f, 1f)] public float Uncommon;
+        [Range(0f, 1f)] public float Rare;
         [Range(0f, 1f)] public float Epic;
-        [Range(0f, 1f)] public float Unique;
         [Range(0f, 1f)] public float Legendary;
 
-        public RarityTable(float common, float uncommon, float epic, float unique, float legendary)
+        public RarityTable(float none, float currency, float common,
+            float uncommon, float epic, float rare, float legendary)
         {
+            None = none;
+            Currency = currency;
             Common = common;
             Uncommon = uncommon;
+            Rare = rare;
             Epic = epic;
-            Unique = unique;
             Legendary = legendary;
         }
 
@@ -42,7 +47,7 @@ namespace IdleHeaven
     public enum ItemType
     {
         Weapon,
-        Equipment,
+        Armor,
         Usable
     }
 
@@ -65,7 +70,7 @@ namespace IdleHeaven
             }
             if (equipmentDatas == null)
             {
-                equipmentDatas = CSVParser.Instance.GetItems(ItemType.Equipment).Keys.ToList();
+                equipmentDatas = CSVParser.Instance.GetItems(ItemType.Armor).Keys.ToList();
             }
         }
         public void Init(in RarityTable rarityTable)
@@ -79,9 +84,13 @@ namespace IdleHeaven
         {
             Rarity rarity = GetRandomRairity(_rarityTable);
 
-            if (rarity == Rarity.Common)
+            if (rarity == Rarity.None)
             {
-                return new Gold(1000);
+                return null;
+            }
+            if (rarity == Rarity.Currency)
+            {
+                return new Gold(info.EnemyLevel * 50);
             }
 
             info.ItemRarity = rarity;
@@ -118,6 +127,10 @@ namespace IdleHeaven
             {
                 return Rarity.Epic;
             }
+            if (randVal < rarityTable.Rare)
+            {
+                return Rarity.Rare;
+            }
             if (randVal < rarityTable.Uncommon)
             {
                 return Rarity.Uncommon;
@@ -125,6 +138,14 @@ namespace IdleHeaven
             if (randVal < rarityTable.Common)
             {
                 return Rarity.Common;
+            }
+            if (randVal < rarityTable.Currency)
+            {
+                return Rarity.Currency;
+            }
+            if (randVal < rarityTable.None)
+            {
+                return Rarity.None;
             }
             Debug.Assert(false, "Error Not a possible situation");
             return Rarity.Error;
