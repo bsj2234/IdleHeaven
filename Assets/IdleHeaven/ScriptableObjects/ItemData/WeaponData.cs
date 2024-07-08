@@ -37,17 +37,18 @@ public class WeaponData : EquipmentData
 
     public WeaponData()
     {
-       EquipmentSlot = EquipmentType.Weapon;
+        ItemType = ItemType.Weapon;
+        EquipmentSlot = EquipmentType.Weapon;
     }
 
     public override Item GetRandomItemInstance(string name, GenerateInfo generateInfo)
     {
-        EquipmentItem item = new EquipmentItem(name, this, generateInfo.EnemyLevel);
-        item.BaseStats[StatType.Attack] = Random.Range(MinDamage, MaxDamage);
-        float min = RarityData.GetRarityData(generateInfo.ItemRarity).MinBaseStatMulti;
-        float max = RarityData.GetRarityData(generateInfo.ItemRarity).MaxBaseStatMulti;
-        item.BaseStats[StatType.Attack] *= Random.Range(min, max);
-        item.SetRandomEffects();
+        //call the base class method
+        EquipmentItem item = (EquipmentItem)base.GetRandomItemInstance(name, generateInfo);
         return item;
+    }
+    protected override void SetItemBaseStats(EquipmentItem item, GenerateInfo generateInfo)
+    {
+        item.BaseStats[StatType.Attack] = Random.Range(MinDamage, MaxDamage);
     }
 }

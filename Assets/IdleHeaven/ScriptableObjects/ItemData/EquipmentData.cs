@@ -1,5 +1,6 @@
 using UnityEngine;
 using IdleHeaven;
+using System;
 
 [System.Serializable]
 public class EquipmentData: ItemData
@@ -15,7 +16,7 @@ public class EquipmentData: ItemData
 
     public EquipmentData()
     {
-        ItemType = ItemType.Equipment;
+        ItemType = ItemType.Armor;
     }
 
     public float DefenseValue
@@ -26,12 +27,20 @@ public class EquipmentData: ItemData
 
     public override Item GetRandomItemInstance(string name, GenerateInfo generateInfo)
     {
-        EquipmentItem equipment = new EquipmentItem(name, this, generateInfo.EnemyLevel);
-        equipment.BaseStats[StatType.Defense] = this.DefenseValue;
-        float min = RarityData.GetRarityData(generateInfo.ItemRarity).MinBaseStatMulti;
-        float max = RarityData.GetRarityData(generateInfo.ItemRarity).MaxBaseStatMulti;
-        equipment.BaseStats[StatType.Defense] *= Random.Range(min, max);
-        equipment.SetRandomEffects();
-        return equipment;
+        EquipmentItem item = new EquipmentItem(name, this, generateInfo.EnemyLevel);
+        SetItemBaseStats(item, generateInfo);
+        SetItemRarity(item, generateInfo.ItemRarity);
+        item.SetRandomEffects();
+        return item;
+    }
+
+    private void SetItemRarity(EquipmentItem item, Rarity itemRarity)
+    {
+        item.RarityData = DataManager.Instance.GetRarityData(itemRarity);
+    }
+
+    protected virtual void SetItemBaseStats(EquipmentItem item, GenerateInfo generateInfo)
+    {
+        item.BaseStats[StatType.Defense] = DefenseValue;
     }
 }
