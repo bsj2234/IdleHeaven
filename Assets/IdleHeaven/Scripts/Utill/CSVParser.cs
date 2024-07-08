@@ -119,7 +119,7 @@ namespace IdleHeaven
                         weaponData.IconPath = fields[Array.IndexOf(header, "IconPath")];
                         WeaponDatas.Add(weaponData.ItemName, weaponData);
                         break;
-                    case ItemType.Equipment:
+                    case ItemType.Armor:
                         EquipmentData equipmentData = new EquipmentData();
                         equipmentData.ItemName = fields[Array.IndexOf(header, "Name")];
                         equipmentData.Description = fields[Array.IndexOf(header, "Description")];
@@ -306,17 +306,23 @@ namespace IdleHeaven
                 case "Name":
                     itemDrop.Name = field;
                     break;
+                case "None":
+                    itemDrop.None = float.Parse(field);
+                    break;
+                case "Currency":
+                    itemDrop.Currency = float.Parse(field);
+                    break;
                 case "Common":
                     itemDrop.Common = float.Parse(field);
                     break;
                 case "Uncommon":
                     itemDrop.Uncommon = float.Parse(field);
                     break;
+                case "Rare":
+                    itemDrop.Unique = float.Parse(field);
+                    break;
                 case "Epic":
                     itemDrop.Epic = float.Parse(field);
-                    break;
-                case "Unique":
-                    itemDrop.Unique = float.Parse(field);
                     break;
                 case "Legendary":
                     itemDrop.Legendary = float.Parse(field);
@@ -379,7 +385,7 @@ namespace IdleHeaven
             {
                 case ItemType.Weapon:
                     return WeaponDatas;
-                case ItemType.Equipment:
+                case ItemType.Armor:
                     return EquipmentDatas;
                 case ItemType.Usable:
                     //Todo Jin: Implement UsableDatas
