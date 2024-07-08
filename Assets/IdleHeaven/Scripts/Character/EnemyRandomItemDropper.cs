@@ -1,9 +1,7 @@
 using IdleHeaven;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemDroper : MonoBehaviour
+public class EnemyRandomItemDropper : MonoBehaviour
 {
     private ItemSpawnManager spawner;
 
@@ -21,8 +19,13 @@ public class ItemDroper : MonoBehaviour
 
     private void DropItem(Attack attacker, Enemy enemy)
     {
-        Item generatedItem = spawner.generator.GenerateItem(new GenerateInfo(enemy.GetComponent<CharacterStats>().LevelSystem.Level, Rarity.Error));
+        Item generatedItem = spawner.generator.GenerateItem(new GenerateInfo(enemy.GetComponent<CharacterStats>().LevelSystem.Level, Rarity.None));
+        if (generatedItem == null)
+        {
+            return;
+        }
         DroppedItem item = spawner.SpawnItem(transform, generatedItem);
+
 
         item.SetAcquirer(attacker.transform);
 
