@@ -13,3 +13,17 @@ public static class ArrayExtensions
         return array[randomIndex];
     }
 }
+
+public static class ListExtensions
+{
+    public static T GetRandomValue<T>(this System.Collections.Generic.List<T> list)
+    {
+        if (list == null || list.Count == 0)
+        {
+            throw new InvalidOperationException("List is null or empty.");
+        }
+
+        int randomIndex = UnityEngine.Random.Range(0, list.Count);
+        return list[randomIndex];
+    }
+}
