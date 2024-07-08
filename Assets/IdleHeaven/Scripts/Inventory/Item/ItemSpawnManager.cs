@@ -10,7 +10,7 @@ public class ItemSpawnManager : MonoSingleton<ItemSpawnManager>
     public void Init(ItemDropTableData itemDrop)
     {
         generator = new ItemGenerator();
-        generator.Init(new RarityTable(itemDrop.Common,itemDrop.Uncommon,itemDrop.Epic,itemDrop.Unique,itemDrop.Legendary));
+        generator.Init(new RarityTable(itemDrop.None, itemDrop.Currency, itemDrop.Common,itemDrop.Uncommon,itemDrop.Epic,itemDrop.Unique,itemDrop.Legendary));
     }
 
     public DroppedItem SpawnItem(Transform position, Item item)
@@ -23,6 +23,7 @@ public class ItemSpawnManager : MonoSingleton<ItemSpawnManager>
         Instantiate( droppedItemPrefab, position.position, position.rotation)
             .TryGetComponent(out DroppedItem itemObj);
         itemObj.Init(item);
+        itemObj.GetComponent<ItemMono>().Init(item);
 
          return itemObj;
     }
