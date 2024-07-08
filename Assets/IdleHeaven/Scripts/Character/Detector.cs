@@ -61,13 +61,17 @@ public class Detector : MonoBehaviour
     }
     private int SortTarget(Transform lhs, Transform rhs)
     {
+        if (lhs == null && rhs == null)
+        {
+            return 0;
+        }
         if (lhs == null)
         {
-            return -1;
+            return 1;
         }
         if (rhs == null)
         {
-            return 1;
+            return -1;
         }
         float DistanceToLhs = Vector3.Distance(lhs.position, transform.position);
         float DistanceToRhs = Vector3.Distance(rhs.position, transform.position);
