@@ -6,7 +6,7 @@ public class ItemPopupView : MonoBehaviour
 {
     [SerializeField] ItemViewModel _itemViewModel;
 
-    public UIWindow Window;
+    public UIClosedWindow Window;
 
     public void Init(ItemView itemView)
     {

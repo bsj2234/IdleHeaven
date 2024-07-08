@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ItemView : MonoBehaviour
 {
     public ItemViewModel ItemViewModel;
+    public Item Item;
 
     [SerializeField] private Image Image_item;
     [SerializeField] private Image Image_equipedIcon;
@@ -22,11 +23,16 @@ public class ItemView : MonoBehaviour
 
     [SerializeField] private HorizontalNamedLable[] Text_effects;
 
+    [SerializeField] private bool _specialMaterial;
+
+    [SerializeField] private Image Image_RarityBackground;
+
     private UIButtonHoldDetector _buttonHoldable;
 
-    public UIWindow Window;
+    public UIClosedWindow Window;
 
     private Sprite Sprite_defaultIcon;
+    private Material _initialMaterial;
 
     private void Awake()
     {
@@ -36,6 +42,7 @@ public class ItemView : MonoBehaviour
             _buttonHoldable = buttonHoldable;
         }
         Sprite_defaultIcon = Image_item.sprite;
+        _initialMaterial = Image_item.material;
     }
     private void OnEnable()
     {
@@ -45,8 +52,9 @@ public class ItemView : MonoBehaviour
 
     public void Init(ItemView itemView)
     {
-        ItemViewModel = itemView.ItemViewModel;
-        UpdateItemView(ItemViewModel.Item);
+        ItemViewModel.Item = itemView.ItemViewModel.Item;
+        Item = itemView.Item;
+        UpdateItemView(Item);
     }
 
     public ItemView RegisterOnClick(Action<ItemView> onClick)
@@ -72,6 +80,7 @@ public class ItemView : MonoBehaviour
     public void SetItem(Item item)
     {
         ItemViewModel.Item = item;
+        Item = item;
         UpdateItemView(item);
     }
 
@@ -79,7 +88,7 @@ public class ItemView : MonoBehaviour
     {
         switch (e.PropertyName)
         {
-            case nameof(ItemViewModel.Item):
+            case nameof(Item):
                 UpdateItemView(sender as Item);
                 break;
             default:
@@ -93,6 +102,7 @@ public class ItemView : MonoBehaviour
         if (item == null)
         {
             Image_item.sprite = Sprite_defaultIcon;
+            Image_item.material = _initialMaterial;
             if(Image_item.sprite == null)
             {
                 Image_item.enabled = false;
@@ -101,6 +111,7 @@ public class ItemView : MonoBehaviour
         }
         else
         {
+            Image_item.material = null;
             Image_item.enabled = true;
             Image_item.gameObject.SetActive(true);
         }
@@ -119,6 +130,9 @@ public class ItemView : MonoBehaviour
             TrySetText(TEXT_itemLevel, equipment.Level.ToString());
             TrySetText(TEXT_itemEnhancedLevel, equipment.EnhancedLevel.ToString());
             TrySetText(Text_itemBattleRating, equipment.GetItemBattleRating().ToString("N2"));
+            TryEnableImage(Image_RarityBackground, true);
+            TrySetImage(Image_RarityBackground, (equipment.RarityData.Sprite_Background));
+            TrySetImageColor(Image_RarityBackground, equipment.RarityData.Color);
             //TrySetImage(Image_equipedIcon, item.Owner != null ? item.Owner.Icon : null);
         }
 
@@ -177,7 +191,10 @@ public class ItemView : MonoBehaviour
         TrySetText(TEXT_itemDescription, "");
         TrySetText(TEXT_itemQuantity, "");
 
-        TrySetImage(Image_item, null);
+        TrySetImage(Image_item, Sprite_defaultIcon);
+        TrySetMaterial(Image_item, _initialMaterial);
+        TryEnableImage(Image_RarityBackground, false);
+        TryEnableImage(Image_equipedIcon, false);
         //TrySetImage(Image_equipedIcon, null);
 
         foreach (var text in Text_effects)
@@ -203,6 +220,20 @@ public class ItemView : MonoBehaviour
         if (image != null)
         {
             image.sprite = sprite;
+        }
+    }
+    private void TrySetMaterial(Image image, Material material)
+    {
+        if (image != null)
+        {
+            image.material = material;
+        }
+    }
+    private void TrySetImageColor(Image image, Color color)
+    {
+        if (image != null)
+        {
+            image.color = color;
         }
     }
 
