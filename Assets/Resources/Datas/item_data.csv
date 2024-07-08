@@ -1,12 +1,12 @@
 Name,Type,Description,IconPath,SpecificType,AttackSpeed,MinDamage,MaxDamage,DefenseValue,EffectType,EffectValue
-Shield,Equipment,A sturdy shield,ESH1,Shield,,,,30,,
-Helmet,Equipment,A strong helmet,EH13,Head,,,,20,,
-Chest Armor,Equipment,A strong chest,EA21,Chest,,,,30,,
-Legs Armor,Equipment,A strong legs,EB1,Legs,,,,20,,
-Fire Shield,Equipment,A shield with fire resistance,ESH28,Shield,,,,40,,
-Iron Helmet,Equipment,A helmet made of iron,EH26,Head,,,,25,,
-Steel Chestplate,Equipment,A chestplate made of steel,EA23,Chest,,,,40,,
-Leather Boots,Equipment,A pair of sturdy leather boots,EB1,Legs,,,,15,,
+Shield,Armor,A sturdy shield,ESH1,Shield,,,,30,,
+Helmet,Armor,A strong helmet,EH13,Head,,,,20,,
+Chest Armor,Armor,A strong chest,EA21,Chest,,,,30,,
+Legs Armor,Armor,A strong legs,EB1,Legs,,,,20,,
+Fire Shield,Armor,A shield with fire resistance,ESH28,Shield,,,,40,,
+Iron Helmet,Armor,A helmet made of iron,EH26,Head,,,,25,,
+Steel Chestplate,Armor,A chestplate made of steel,EA23,Chest,,,,40,,
+Leather Boots,Armor,A pair of sturdy leather boots,EB1,Legs,,,,15,,
 Speed Elixir,Usable,Increases speed,UPO37,,,,,,Speed,15
 Health Potion,Usable,Restores health,UPO8,,,,,,Heal,50
 Strength Elixir,Usable,Increases strength,UPO39,,,,,,Damage,10
