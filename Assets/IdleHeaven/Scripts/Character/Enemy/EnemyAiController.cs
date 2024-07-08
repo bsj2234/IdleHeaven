@@ -38,11 +38,11 @@ public class EnemyAiController : MonoBehaviour
         stateMachine = GetComponent<StateMachine>();
         stateMachine.Init(transform);
 
-        var idleState = new IdleState(stateMachine, _detector);
-        var patrolState = new PatrolState(stateMachine, patrolWaypoints);
-        var chaseState = new ChaseState(stateMachine, chaseTarget, _detector);
-        var attackState = new AttackState(stateMachine, _attack, _detector);
-        var deadState = new DeadState(stateMachine);
+        IdleState idleState = new IdleState(stateMachine, _detector);
+        PatrolState patrolState = new PatrolState(stateMachine, patrolWaypoints);
+        ChaseState chaseState = new ChaseState(stateMachine, chaseTarget, _detector);
+        AttackState attackState = new AttackState(stateMachine, _attack, _detector);
+        DeadState deadState = new DeadState(stateMachine);
 
         stateMachine.AddState(idleState);
         stateMachine.AddState(patrolState);
