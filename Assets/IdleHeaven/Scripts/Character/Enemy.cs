@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool _autoSet = false;
     [SerializeField] private Health _health;
 
-    [SerializeField] private ItemDroper _itemDroper;
+    [SerializeField] private EnemyRandomItemDropper _itemDroper;
 
     [SerializeField] private Stats _baseStats;
     [SerializeField] private Stats _resultStats;
@@ -65,6 +65,8 @@ public class Enemy : MonoBehaviour
     {
         _resultStats.Clear();
         _resultStats.AddStats(_baseStats);
+        _resultStats.MultiplyStats(_levelSystem.Level);
+        _characterStats.Stats = _resultStats;
     }
 
 
