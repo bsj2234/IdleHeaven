@@ -1,8 +1,7 @@
 using IdleHeaven;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 public class Player : MonoBehaviour
@@ -11,8 +10,19 @@ public class Player : MonoBehaviour
     [SerializeField] private Health _health;
     [SerializeField] private CharacterStats _playerStats;
     [SerializeField] private Inventory _inventory;
+    [SerializeField] private NavMeshAgent _navMeshAgent;
 
     private PlayerData _playerData;
+
+    private void Awake()
+    {
+        _playerStats.GetResultStats().stats[(int)StatType.Speed].StatChanged += SetMoveSpeed;
+    }
+
+    private void SetMoveSpeed(Stat stat)
+    {
+        _navMeshAgent.speed = stat.Value;
+    }
 
     public void ResetPlayer()
     {

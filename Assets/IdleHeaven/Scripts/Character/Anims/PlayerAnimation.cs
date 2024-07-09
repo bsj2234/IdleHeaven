@@ -12,6 +12,7 @@ public class PlayerAnimation : MonoBehaviour
     private NavMeshAgent _agent;
     private Attack _attack;
     private Detector _detector;
+    private CharacterStats _characterStats;
 
     void Start()
     {
@@ -19,6 +20,8 @@ public class PlayerAnimation : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _attack = GetComponent<Attack>();
         _detector = GetComponentInChildren<Detector>();
+        _characterStats = GetComponent<CharacterStats>();
+        _characterStats.GetResultStats().stats[(int)StatType.AttackSpeed].StatChanged += SetAttackSpeed;
         Assert.IsNotNull( _detector );
     }
 
@@ -40,6 +43,10 @@ public class PlayerAnimation : MonoBehaviour
     {
         //attack.DealDamage(health, damage, type);
         _attack.RangeAttack(cachedHealth, cachedDamage, _detector, 5f, 90f, cachedAttackType);
+    }
+    private void SetAttackSpeed(Stat stat)
+    {
+       _animator.SetFloat("AttackSpeed", stat.Value);
     }
 
 
