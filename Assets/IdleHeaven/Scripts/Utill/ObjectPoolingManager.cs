@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ public interface IPooledObject
     GameObject Prefab { get; }
     Transform transform { get; }
 
+    string tag_Pool { get; }
+
+    bool pooled { get; set; }
     void Init(GameObject prefab);
     void OnObjectReuse();
     void OnObjectRelease();
@@ -24,12 +28,16 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
 
     public List<Pool> pools;
     private Dictionary<GameObject, Queue<IPooledObject>> poolDictionary;
+    private Dictionary<string, GameObject> tagpoolDictionary;
+    private Dictionary<string, Transform> parentDictionary;
 
     private GameObject poolParent;
 
     private void Awake()
     {
         poolDictionary = new Dictionary<GameObject, Queue<IPooledObject>>();
+        tagpoolDictionary = new Dictionary<string, GameObject>();
+        parentDictionary = new Dictionary<string, Transform>();
         poolParent = new GameObject("=======ObjectPool=======");
 
         foreach (Pool pool in pools)
@@ -42,6 +50,7 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
+                obj.name = $"{obj.name} {i}";
                 obj.SetActive(false);
 
                 obj.transform.SetParent(currentPoolParent.transform);
@@ -50,6 +59,15 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
                 if(obj.TryGetComponent(out IPooledObject pooledObject))
                 {
                     objectPool.Enqueue(pooledObject);
+
+                    if(!tagpoolDictionary.ContainsKey(pooledObject.tag_Pool))
+                    {
+                        tagpoolDictionary.Add(pooledObject.tag_Pool, pool.prefab);
+                    }
+                    if(!parentDictionary.ContainsKey(pooledObject.tag_Pool))
+                    {
+                        parentDictionary.Add(pooledObject.tag_Pool, currentPoolParent.transform);
+                    }
                 }
                 else
                 {
@@ -58,6 +76,28 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
             }
 
             poolDictionary.Add(pool.prefab, objectPool);
+        }
+    }
+
+    private IPooledObject IntantiateAdditional(GameObject prefab)
+    {
+        GameObject obj = Instantiate(prefab);
+        IPooledObject pooledObject1 = obj.GetComponent<IPooledObject>();
+        pooledObject1.pooled = true;
+        Transform currentPoolParent = parentDictionary[pooledObject1.tag_Pool];
+
+
+        obj.transform.SetParent(currentPoolParent);
+
+
+        if (obj.TryGetComponent(out IPooledObject pooledObject))
+        {
+            return pooledObject;
+        }
+        else
+        {
+            Assert.IsTrue(false, $"Prefab {prefab.name} doesn't have a component that implements IPooledObject interface.");
+            return null;
         }
     }
 
@@ -71,19 +111,19 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
         if(poolDictionary[prefab].Count == 0)
         {
             Debug.LogWarning($"Pool for prefab {prefab.name} is empty. Instantating");
-            GameObject obj = Instantiate(prefab);
-            return null;
+            return IntantiateAdditional(prefab);
         }
         IPooledObject objectToSpawn = poolDictionary[prefab].Dequeue();
 
-        if(objectToSpawn.transform.gameObject.activeSelf == true)
+        if (objectToSpawn.transform.gameObject.activeSelf == true)
         {
-            Debug.Assert(false,$"Object {objectToSpawn.transform.gameObject.name} is already active. Returning to pool.");
-            ReturnToPool(prefab, objectToSpawn);
-            return null;
+            Debug.LogWarning($"Object {objectToSpawn.transform.gameObject.name} is already active. Instantiate");
+            StartCoroutine(DelayedCheck(objectToSpawn.transform));
+            return IntantiateAdditional(prefab);
         }
 
         objectToSpawn.transform.gameObject.SetActive(true);
+        objectToSpawn.pooled = true;
         objectToSpawn.transform.position = position;
         objectToSpawn.transform.rotation = rotation;
 
@@ -91,32 +131,56 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
 
         return objectToSpawn;
     }
-
-    public void ReturnToPool(GameObject prefab, IPooledObject objectToReturn, float lifeTime)
+    private IEnumerator DelayedCheck(Transform transform)
     {
-        StartCoroutine(ReleaseTimer(prefab, objectToReturn, lifeTime));
+        yield return null;
+        yield return null;
+        if(transform.gameObject.activeSelf == true)
+        {
+            Debug.LogWarning($"Object is still active. Instantiate");
+        }
+    }
+    public void ReturnToPool(IPooledObject objectToReturn, float lifeTime)
+    {
+        StartCoroutine(ReleaseTimer(objectToReturn, lifeTime));
     }
 
-    public void ReturnToPool(GameObject prefab, IPooledObject objectToReturn)
+    public void ReturnToPool(IPooledObject objectToReturn)
     {
+
         objectToReturn.transform.gameObject.SetActive(false);
 
         objectToReturn.OnObjectRelease();
 
-        if (poolDictionary.ContainsKey(prefab))
+        if(tagpoolDictionary.ContainsKey(objectToReturn.tag_Pool))
         {
-            poolDictionary[prefab].Enqueue(objectToReturn);
+            objectToReturn.transform.gameObject.SetActive(false);
+            objectToReturn.pooled = false;
+
+            Queue<IPooledObject> queue = poolDictionary[tagpoolDictionary[objectToReturn.tag_Pool]];
+
+            if(queue.Contains(objectToReturn))
+            {
+                Debug.LogWarning($"Object {objectToReturn.transform.gameObject.name} is already in the pool.");
+                return;
+            }
+
+            queue.Enqueue(objectToReturn);
+            if(objectToReturn.transform.gameObject.activeSelf == true)
+            {
+                Debug.Assert(false,$"Object {objectToReturn.transform.gameObject.name} is active even set it to false ,Never gonna happen");
+            }
         }
         else
         {
-            Assert.IsTrue(false, $"Pool for prefab {prefab.name} doesn't exist.");
+            Assert.IsTrue(false, $"Pool for prefab {objectToReturn.tag_Pool} doesn't exist.");
         }
     }
 
 
-    private IEnumerator ReleaseTimer(GameObject prefab, IPooledObject objectToReturn, float lifeTime)
+    private IEnumerator ReleaseTimer(IPooledObject objectToReturn, float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
-        ReturnToPool(prefab, objectToReturn);
+        ReturnToPool(objectToReturn);
     }
 }
