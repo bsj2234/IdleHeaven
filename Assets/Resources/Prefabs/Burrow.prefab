@@ -139,8 +139,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 46813057238139206, guid: 7e2cfc10d2ea3314080089ad8bd54c35,
         type: 3}
-      propertyPath: OnDamaged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
+      propertyPath: OnDamaged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 606946675531184039, guid: 7e2cfc10d2ea3314080089ad8bd54c35,
         type: 3}
@@ -207,6 +207,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 946470a8eb64ca84c9ee20a3e3db41ff, type: 2}
+    - target: {fileID: 6584269660926000852, guid: 7e2cfc10d2ea3314080089ad8bd54c35,
+        type: 3}
+      propertyPath: _tag_Pool
+      value: Burrow
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1245084950422780803, guid: 7e2cfc10d2ea3314080089ad8bd54c35, type: 3}

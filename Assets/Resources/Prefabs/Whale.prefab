@@ -198,6 +198,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 946470a8eb64ca84c9ee20a3e3db41ff, type: 2}
+    - target: {fileID: 6584269660926000852, guid: 7e2cfc10d2ea3314080089ad8bd54c35,
+        type: 3}
+      propertyPath: _tag_Pool
+      value: Whale
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1245084950422780803, guid: 7e2cfc10d2ea3314080089ad8bd54c35, type: 3}

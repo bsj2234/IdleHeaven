@@ -114,9 +114,10 @@ GameObject:
   - component: {fileID: 2716438110794715463}
   - component: {fileID: 7268930832981669950}
   - component: {fileID: 7551891438284628015}
-  - component: {fileID: 6467175935991226350}
   - component: {fileID: 304400646431480866}
   - component: {fileID: 2563121716358505987}
+  - component: {fileID: 6584269660926000852}
+  - component: {fileID: -5228646066588275196}
   m_Layer: 0
   m_Name: TempEnemy
   m_TagString: Enemy
@@ -156,47 +157,9 @@ MonoBehaviour:
   _autoSet: 0
   _health: {fileID: 46813057238139206}
   _itemDroper: {fileID: 5381912472165687061}
-  _baseStats:
-    stats:
-    - _statType: 0
-      _value: 0
-    - _statType: 1
-      _value: 0
-    - _statType: 2
-      _value: 0
-    - _statType: 3
-      _value: 0
-    - _statType: 4
-      _value: 0
-    - _statType: 5
-      _value: 0
-    - _statType: 6
-      _value: 0
-  _resultStats:
-    stats:
-    - _statType: 0
-      _value: 0
-    - _statType: 1
-      _value: 0
-    - _statType: 2
-      _value: 0
-    - _statType: 3
-      _value: 0
-    - _statType: 4
-      _value: 0
-    - _statType: 5
-      _value: 0
-    - _statType: 6
-      _value: 0
-  _levelSystem:
-    Level: 0
-    MaxLevel: 0
-    Exp: 0
-    MaxExp: 100
-    OnLevelUp:
-      m_PersistentCalls:
-        m_Calls: []
-  _characterStats: {fileID: 6467175935991226350}
+  _characterStats: {fileID: -5228646066588275196}
+  _stateMachine: {fileID: 0}
+  _aiController: {fileID: 0}
 --- !u!114 &46813057238139206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a393f623dc3fd43a562161228a525f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterStats: {fileID: 6467175935991226350}
+  characterStats: {fileID: -5228646066588275196}
   initalMaxHp: 100
   _maxHp: 100
   _hp: 100
@@ -242,6 +205,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: DropExp, Assembly-CSharp
         m_MethodName: Drop
         m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6584269660926000852}
+        m_TargetAssemblyTypeName: PooledObject, Assembly-CSharp
+        m_MethodName: Release
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -335,42 +310,6 @@ MonoBehaviour:
   Agent_movement: {fileID: 2563121716358505987}
   patrolWaypoints: []
   chaseTarget: {fileID: 0}
---- !u!114 &6467175935991226350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2855540130070105857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74e9c0bb4c73ecc42af4af2c308d81cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Stats:
-    stats:
-    - _statType: 0
-      _value: 0
-    - _statType: 1
-      _value: 0
-    - _statType: 2
-      _value: 0
-    - _statType: 3
-      _value: 0
-    - _statType: 4
-      _value: 0
-    - _statType: 5
-      _value: 0
-    - _statType: 6
-      _value: 0
-  LevelSystem:
-    Level: 0
-    MaxLevel: 0
-    Exp: 0
-    MaxExp: 100
-    OnLevelUp:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!136 &304400646431480866
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -416,6 +355,59 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6584269660926000852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2855540130070105857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa6468d12992b784a80f9d45e5c4cf17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnObjectReuseEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _prefab: {fileID: 2855540130070105857}
+  _tag_Pool: TempEnemy
+--- !u!114 &-5228646066588275196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2855540130070105857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa45cc17571d8a4c86f309738eb206e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelSystem:
+    Level: 1
+    MaxLevel: 50
+    Exp: 0
+    MaxExp: 100
+    OnLevelUp:
+      m_PersistentCalls:
+        m_Calls: []
+  ResultStats:
+    stats:
+    - _statType: 0
+      _value: 0
+    - _statType: 1
+      _value: 0
+    - _statType: 2
+      _value: 0
+    - _statType: 3
+      _value: 0
+    - _statType: 4
+      _value: 0
+    - _statType: 5
+      _value: 0
+    - _statType: 6
+      _value: 0
 --- !u!1 &8056413627272257197
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +425,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6675691040783557574
 Transform:
   m_ObjectHideFlags: 0
