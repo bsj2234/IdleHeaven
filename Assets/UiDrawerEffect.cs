@@ -2,6 +2,7 @@ using CartoonFX;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiDrawerEffect : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class UiDrawerEffect : MonoBehaviour
     bool _isShown = false;
 
     RectTransform _rect;
+
+    [SerializeField] private UIClosedWindow Button_backgroundQuit;
     private void Start()
     {
         _rect = GetComponent<RectTransform>();
@@ -24,10 +27,12 @@ public class UiDrawerEffect : MonoBehaviour
         if(_isShown)
         {
             StartCoroutine(HideDrawerCoroutine());
+            Button_backgroundQuit.FlipFlopOpen();
         }
         else
         {
             StartCoroutine(ShowDrawerCoroutine());
+            Button_backgroundQuit.FlipFlopOpen();
         }
         _isShown = !_isShown;
     }
