@@ -17,10 +17,12 @@ namespace IdleHeaven
             {
                return;
             }
-            bool isAttackSucceeded = target.TakeDamage(this, damage, attackType);
+
+            Stats targetStats = target.GetComponent<CharacterStats>()?.GetResultStats();
+
+            bool isAttackSucceeded = target.TakeDamage(this, damage, attackType,targetStats);
             if (isAttackSucceeded)
             {
-                SpawnDamageUi(target.transform, damage);
                 if (OnAttackSucceeded != null)
                 {
                     OnAttackSucceeded.Invoke();
@@ -72,18 +74,6 @@ namespace IdleHeaven
         public void TriggerAttack(Health targetCombat, float damage, AttackType attackType)
         {
             OnAttack?.Invoke(targetCombat, damage, attackType);
-        }
-
-        private void SpawnDamageUi(Transform target, float damage)
-        {
-            if (target.CompareTag("Player"))
-            {
-                DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.black);
-            }
-            else
-            {
-                DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.red);
-            }
         }
     }
 }

@@ -80,10 +80,16 @@ public class Health : MonoBehaviour
         }
         return true;
     }
-    public bool TakeDamage(Attack attacker, float damage, AttackType attackType = AttackType.None)
+    public bool TakeDamage(Attack attacker, float damage, AttackType attackType = AttackType.None, Stats stats = null)
     {
         if (!IsDamageable())
             return false;
+
+        if(stats != null)
+        {
+            damage -= stats[StatType.Defense] * 0.1f;
+        }
+
         CalcTakeDamage(damage);
         OnDamaged?.Invoke(attacker, attackType);
 
@@ -97,6 +103,8 @@ public class Health : MonoBehaviour
     private void CalcTakeDamage(float damage)
     {
         _prevHitTime = Time.time;
+        damage = Mathf.Max(0f, damage);
+        DamageUIManager.Instance.SpawnDamageUi(transform, damage);
         _hp -= damage;
     }
 
@@ -132,13 +140,13 @@ public class Health : MonoBehaviour
     }
     public void ResetDead()
     {
-        Heal(_maxHp);
+        Heal(999999999999f);
         _dead = false;
     }
 
     public void OnLevelUp()
     {
-        _maxHp = GetComponent<CharacterStats>().Stats[StatType.Hp];
-        Heal(_maxHp);
+        _maxHp = GetComponent<CharacterStats>().GetResultStats()[StatType.Hp];
+        Heal(999999999999f);
     }
 }
