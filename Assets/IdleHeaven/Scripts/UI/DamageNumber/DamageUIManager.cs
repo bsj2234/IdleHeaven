@@ -18,6 +18,18 @@ public class DamageUIManager : MonoSingleton<DamageUIManager>
         damageUIInstance.transform.SetParent(canvas_parent.transform);
         setTarget.Init(damageAmount, color, targetTrf);
 
-        ObjectPoolingManager.Instance.ReturnToPool(damageUIPrefab, damageUIInstance, _lifeTime);
+        ObjectPoolingManager.Instance.ReturnToPool( damageUIInstance, _lifeTime);
+    }
+
+    public void SpawnDamageUi(Transform target, float damage)
+    {
+        if (target.CompareTag("Player"))
+        {
+            DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.black);
+        }
+        else
+        {
+            DamageUIManager.Instance.ShowDamage(target.transform, damage, Color.red);
+        }
     }
 }

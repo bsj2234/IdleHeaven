@@ -62,6 +62,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _prefab: {fileID: 6115116134189093682}
+  _tag_Pool: DamageNumberUI
   Text_damage: {fileID: 4738915962228020491}
   _Scailer: {fileID: 8184828499207065115}
   _translator: {fileID: 2772438038304835838}
