@@ -11,7 +11,8 @@ public class AttackState : BaseState
     Detector _detector;
     CharacterStats _stats;
     NavMeshAgent _agent;
-
+    float initialAttackDelay = .5f;
+    float attackDelay = .5f;
 
 
     public AttackState(StateMachine stateMachine, Attack attack, Detector detector) : base(stateMachine)
@@ -26,6 +27,13 @@ public class AttackState : BaseState
         _stats = stats;
 
         _detector.additionalConditionForCleanup.Add(IsDead);
+
+        _stats.GetResultStats().stats[(int)StatType.AttackSpeed].StatChanged += SetAttackSpeed;
+    }
+
+    private void SetAttackSpeed(Stat stat)
+    {
+        attackDelay = initialAttackDelay / stat.Value;
     }
 
     private bool IsDead(Transform item)
@@ -35,6 +43,10 @@ public class AttackState : BaseState
             return true;
         }
         if(item.GetComponent<Health>().IsDead())
+        {
+            return true;
+        }
+        if (item.gameObject.activeSelf == false)
         {
             return true;
         }
@@ -60,12 +72,12 @@ public class AttackState : BaseState
         _agent.updateRotation = false;
     }
 
-    float attackCooldown = 0f;
+    float currentAttackCooldown = 0f;
     public override void UpdateState()
     {
-        if (attackCooldown > 0f)
+        if (currentAttackCooldown > 0f)
         {
-            attackCooldown -= Time.deltaTime;
+            currentAttackCooldown -= Time.deltaTime;
             return;
         }
         // check tager is not destroyed then dead clenup target
@@ -77,9 +89,10 @@ public class AttackState : BaseState
         // if target is not destroyed then attack target
         if (!isDestroyed)
         {
-            if (targetCombat.IsDead())
+            if (targetCombat.IsDead() || targetCombat.gameObject.activeSelf == false)
             {
                 _detector.RemoveTarget(targetCombat.transform);
+                SetTarget(_detector.GetNearestTarget());
                 return;
             }
             SetTarget(_detector.GetNearestTarget());
@@ -103,18 +116,18 @@ public class AttackState : BaseState
             return;
         }
 
-        bool isAttackable = attackCooldown <= 0f;
+        bool isAttackable = currentAttackCooldown <= 0f;
         if (isAttackable)
         {
             Debug.Assert(targetCombat != null, $"Enemy is null while {stateMachine.transform.name} try attacking");
             DamageInfo damage = hasStat ? _stats.GetDamage() : new DamageInfo { AttackType = AttackType.None, Damage = 1f };
             _attack.TriggerAttack(targetCombat, damage.Damage, damage.AttackType);
-            attackCooldown = .5f;
+            currentAttackCooldown = attackDelay;
         }
     }
     public override void ExitState(BaseState nextState)
     {
-        attackCooldown = 0f;
+        currentAttackCooldown = 0f;
         Debug.Log("Exit Attack State");
         _agent.updateRotation = true;
     }
