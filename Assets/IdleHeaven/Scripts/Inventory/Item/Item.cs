@@ -77,12 +77,13 @@ namespace IdleHeaven
         [SerializeField] Stats _baseStats = new Stats();
         [SerializeField] Stats _resultStats = new Stats();
         private RarityData _rarityData;
+        private float _rarityMultiply;
         public RarityData RarityData
         {
             get => _rarityData;
             set
             {
-                _rarityMultiply = Random.Range(value.MinBaseStatMulti, value.MaxBaseStatMulti);
+                _rarityMultiply = Random.Range(value.MinRarityStatMulti, value.MaxRarityStatMulti);
                 _rarityData = value;
             }
         }
@@ -167,7 +168,7 @@ namespace IdleHeaven
 
             foreach (Stat stat in _resultStats.stats)
             {
-                stat .Value *= _rarityMultiply;
+                stat.Value *= _rarityMultiply;
             }
         }
         public float GetEffectStat(ItemEffect effect)

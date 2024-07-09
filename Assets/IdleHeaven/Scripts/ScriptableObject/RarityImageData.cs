@@ -9,6 +9,6 @@ public class RarityData : ScriptableObject
     [field: SerializeField] public Color Color { get; private set; }
     [field: SerializeField] public Material Material { get; private set; }
     [field: SerializeField] public Sprite Sprite_Background { get; private set; }
-    [field: SerializeField] public float MinBaseStatMulti { get; private set; }
-    [field: SerializeField] public float MaxBaseStatMulti { get; private set; }
+    [field: SerializeField] public float MinRarityStatMulti { get; private set; }
+    [field: SerializeField] public float MaxRarityStatMulti { get; private set; }
 }

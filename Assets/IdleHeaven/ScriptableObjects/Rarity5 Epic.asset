@@ -18,5 +18,5 @@ MonoBehaviour:
     type: 2}
   <Sprite_Background>k__BackingField: {fileID: 21300000, guid: 51db62e2be880429986f314a80f0d5e3,
     type: 3}
-  <MinBaseStatMulti>k__BackingField: 2.5
-  <MaxBaseStatMulti>k__BackingField: 3
+  <MinRarityStatMulti>k__BackingField: 2
+  <MaxRarityStatMulti>k__BackingField: 2.5
