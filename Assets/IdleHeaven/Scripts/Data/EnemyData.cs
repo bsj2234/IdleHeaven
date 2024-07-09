@@ -30,4 +30,18 @@ public class EnemyData : IKeyProvider
     {
         return Name;
     }
+
+    private Stats _stats;
+    public Stats GetStats()
+    {
+        if(_stats == null)
+        {
+            _stats = new Stats();
+            _stats.AddStat(StatType.Hp, BaseHealth);
+            _stats.AddStat(StatType.Attack, BaseAttack);
+            _stats.AddStat(StatType.Defense, BaseDefense);
+            _stats.AddStat(StatType.Speed, BaseSpeed);
+        }
+        return _stats;
+    }
 }
