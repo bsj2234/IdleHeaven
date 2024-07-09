@@ -34,10 +34,12 @@ public class EnemySpawnPos
 
 public class EnemySpawner : MonoBehaviour
 {
-    private List<Enemy> _enemies = new List<Enemy>();
 
     [SerializeField] private float _spawnInterval;
     [SerializeField] private EnemySpawnPos[] _localSpawnPoint;
+    [SerializeField] private Vector3 _randomOffset;
+
+    private List<Enemy> _enemies = new List<Enemy>();
 
     [SerializeField] private string[] _enemyToSpawn;
     [SerializeField] private int _maxEnemies;
@@ -45,24 +47,42 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private Attack _playerAttack;
 
+    private bool _inited = false;
     private Coroutine spawnCoroutine;
 
 
-
+    private void OnEnable()
+    {
+        if(!_inited)
+        {
+            return;
+        }
+        if(spawnCoroutine == null)
+        {
+            spawnCoroutine = StartCoroutine(SpawnEnemy());
+        }
+    }
     private void OnDisable()
     {
         if (spawnCoroutine != null)
+        {
             StopCoroutine(spawnCoroutine);
+            spawnCoroutine = null;
+        }
     }
 
     public void Init(EnemySpawnData enemySpawnData)
     {
-        StopAllCoroutines();
         _enemyToSpawn = enemySpawnData.Enemies;
         _maxEnemies = enemySpawnData.MaxEnemies;
         _stageLevel = enemySpawnData.StageLevel;
         _spawnInterval = enemySpawnData.SpawnInterval;
-        StartCoroutine(SpawnEnemy());
+        _inited = true;
+        if (spawnCoroutine != null)
+        {
+            return;
+        }
+        spawnCoroutine = StartCoroutine(SpawnEnemy());
     }
 
 
@@ -87,6 +107,7 @@ public class EnemySpawner : MonoBehaviour
             }
 
             Vector3 randomPos = AvailableSpawnPoints.GetRandomValue();
+            Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-_randomOffset.x, _randomOffset.x), 0, UnityEngine.Random.Range(-_randomOffset.z, _randomOffset.z));
 
             string enemyKey = _enemyToSpawn.GetRandomValue();
             EnemyData randomEnemyData = CSVParser.Instance.EnemyDatas[enemyKey];
@@ -95,11 +116,11 @@ public class EnemySpawner : MonoBehaviour
             if (_playerAttack == null)
                 Debug.LogWarning($"missing PlayerAttack{gameObject.name}");
 
-            Vector3 relativeRandomPos = randomPos;
+            Vector3 relativeRandomPos = randomPos + randomOffset;
 
-            GameObject enemy = Instantiate(randomEnemyPrf, relativeRandomPos, Quaternion.identity);
-            enemy.GetComponent<Enemy>().Init(randomEnemyData).SetLevel(_stageLevel);
-            AddEnemy(enemy);
+            IPooledObject enemy = ObjectPoolingManager.Instance.SpawnFromPool(randomEnemyPrf, relativeRandomPos, Quaternion.identity);
+            enemy.transform.GetComponent<Enemy>().Init(randomEnemyData, _stageLevel);
+            AddEnemy(enemy.transform.gameObject);
             yield return new WaitForSeconds(_spawnInterval);
         }
     }
@@ -121,7 +142,7 @@ public class EnemySpawner : MonoBehaviour
     {
         foreach (var enemy in _enemies)
         {
-            Destroy(enemy.gameObject);
+            ObjectPoolingManager.Instance.ReturnToPool(enemy.gameObject.GetComponent<PooledObject>());
         }
         _enemies.Clear();
     }
