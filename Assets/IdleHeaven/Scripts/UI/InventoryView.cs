@@ -180,6 +180,11 @@ namespace IdleHeaven
             _sortType = "type";
             UpdateInventoryView();
         }
+        public void OnSortByAttackSpeedButtonClicked()
+        {
+            _sortType = "attackSpeed";
+            UpdateInventoryView();
+        }
         public void OnSortByCritChanceButtonClicked()
         {
             _sortType = "critChance";
@@ -188,6 +193,11 @@ namespace IdleHeaven
         public void OnSortByCritDamageButtonClicked()
         {
             _sortType = "critDamage";
+            UpdateInventoryView();
+        }
+        public void OnSortByLevelButtonClicked()
+        {
+            _sortType = "level";
             UpdateInventoryView();
         }
         #endregion
@@ -216,6 +226,11 @@ namespace IdleHeaven
         public void OnFilterUsableButtonClicked()
         {
             _filter = "usable";
+            UpdateInventoryView();
+        }
+        public void OnFilterZeroLevelButtonClicked()
+        {
+            _filter = "zoroLevel";
             UpdateInventoryView();
         }
         #endregion

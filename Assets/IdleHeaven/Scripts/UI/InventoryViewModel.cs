@@ -79,6 +79,11 @@ namespace IdleHeaven
                 equipmentItem.EquipmentData.ItemType == ItemType.Armor).ToList();
             if (filter == "usable")
                 filteredItemList = items.Where(item => item.ItemData.ItemType == ItemType.Usable).ToList();
+            if (filter == "zoroLevel")
+            {
+                filteredItemList = items.Where(item => item is EquipmentItem equipmentItem &&
+                equipmentItem.Level == 1).ToList();
+            }
             if (filteredItemList == null)
                 throw new System.Exception("Invalid filter type");
             else
@@ -123,6 +128,14 @@ namespace IdleHeaven
             if (sortType == "critDamage")
             {
                 result.Sort(SortByCritDamage);
+            }
+            if (sortType == "level")
+            {
+                result.Sort(SortByLevel);
+            }
+            if (sortType == "attackSpeed")
+            {
+                result.Sort(SortByAttack);
             }
             if (!descending)
             {
