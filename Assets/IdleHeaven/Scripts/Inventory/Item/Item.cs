@@ -87,7 +87,6 @@ namespace IdleHeaven
                 _rarityData = value;
             }
         }
-        private float _rarityMultiply;
 
         public ItemEffect[] Effects => _effects;
         public bool Equiped
@@ -173,7 +172,7 @@ namespace IdleHeaven
         }
         public float GetEffectStat(ItemEffect effect)
         {
-            return effect.Value * EnhancedLevel * 1.1f * Level * 0.02f;
+            return effect.Value * EnhancedLevel * .2f * Mathf.Min(Level * effect.LevelMultiplier, effect.MaxLevelMultiplier);
         }
         public bool TryEnhance(CurrencyInventory currencyInventory)
         {
