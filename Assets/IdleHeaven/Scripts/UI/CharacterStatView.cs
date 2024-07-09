@@ -55,12 +55,4 @@ public class CharacterStatView : MonoBehaviour
         HoriNamed_Stats[(int)stat.StatType].Name.text = stat.StatType.ToString();
         HoriNamed_Stats[(int)stat.StatType].Value.text = stat.Value.ToString("N2");
     }
-
-    public void TestMVVM()
-    {
-        foreach(var stat in _viewModel._characterStats.Stats.stats)
-        {
-            stat.Value += 10;
-        }
-    }
 }

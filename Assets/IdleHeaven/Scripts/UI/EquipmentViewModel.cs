@@ -40,7 +40,7 @@ namespace IdleHeaven
         }
 
 
-        private void HandleEquipmentsChagned(EquipmentType slot, Item item)
+        private void HandleEquipmentsChagned(EquipmentType slot, Item item, Equipments equipments)
         {
             if (PropertyChanged != null)
             {

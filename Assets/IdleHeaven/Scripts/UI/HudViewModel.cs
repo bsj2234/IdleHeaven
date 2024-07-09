@@ -45,7 +45,7 @@ public class HudViewModel : MonoBehaviour, INotifyPropertyChanged
 
     private void Start()
     {
-        _characterStats.Stats.stats[(int)StatType.Hp].RegisterStatChanged(HandleMaxHpChanged);
+        _characterStats.GetResultStats().stats[(int)StatType.Hp].RegisterStatChanged(HandleMaxHpChanged);
         _health.OnDamaged.AddListener(HandleOnDamaged);
         _health.OnHeal.AddListener(HandleOnHeal);
     }
@@ -53,7 +53,7 @@ public class HudViewModel : MonoBehaviour, INotifyPropertyChanged
     public void UpdateAllHp()
     {
         Hp = _health.GetHp();
-        MaxHp = _characterStats.Stats.stats[(int)StatType.Hp].Value;
+        MaxHp = _characterStats.GetResultStats()[StatType.Hp];
         HpPercentage = Hp / MaxHp;
     }
 

@@ -13,7 +13,7 @@ public class CharacteStatsViewModel : INotifyPropertyChanged
 
         if (_characterStats != null)
         {
-            foreach (Stat stat in _characterStats.Stats.stats)
+            foreach (Stat stat in _characterStats.GetResultStats().stats)
             {
                 if (stat != null)
                 {
