@@ -28,6 +28,10 @@ public class ShakeVFX : MonoBehaviour, VFX
         {
             return;
         }
+        if(gameObject.activeInHierarchy == false)
+        {
+            return;
+        }
         StartCoroutine(ShakeEffectCoroutine());
     }
 
