@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace IdleHeaven
@@ -10,47 +11,82 @@ namespace IdleHeaven
 
     public class CharacterStats : MonoBehaviour
     {
-        public Stats Stats;
         public LevelSystem LevelSystem;
 
 
+        public Stats ResultStats = new Stats();
         private Stats _effectBonusStats = new Stats();
         private Stats _equipmentBonusStats = new Stats();
+        protected Stats _baseStats = new Stats();
 
 
         private Equipments _equipments;
 
-
+        private Health health;
 
         private void Awake()
         {
             if (TryGetComponent(out Equipments equipments))
             {
                 _equipments = equipments;
-                _equipments.OnEquipped += OnEquippedHandler;
-                _equipments.OnUnEquipped += OnUnequippedHandler;
+                _equipments.OnEquipmentsChagned += RefreshEquipmentStats;
             }
+            health = GetComponent<Health>();
+            CalcResultStats();
+            health.SetMaxHp(ResultStats[StatType.Hp]);
+            health.ResetHpWithRatio(1);
+            ResultStats.stats[(int)StatType.Hp].StatChanged += (Stat stat) =>
+            {
+                health.SetMaxHp(stat.Value);
+            };
+        }
+        private void OnEnable()
+        {
         }
         private void OnDestroy()
         {
             if (_equipments != null)
             {
-                _equipments.OnEquipped -= OnEquippedHandler;
-                _equipments.OnUnEquipped -= OnUnequippedHandler;
+                _equipments.OnEquipmentsChagned -= RefreshEquipmentStats;
             }
         }
-        public float GetStatValue(StatType statType)
+
+        internal void Init(Stats baseStats, int level)
         {
-            return Stats[statType];
+            SetBaseStat(baseStats);
+            LevelSystem.Level = level;
+            CalcResultStats();
         }
 
-        public void RefreshEquipmentStats(Equipments equipments)
+        public Stats GetResultStats()
+        {
+            return ResultStats;
+        }
+
+        protected virtual void CalcResultStats()
+        {
+            ResultStats.Clear();
+            ResultStats.AddStats(_baseStats);
+
+            ResultStats[StatType.Hp] = ResultStats[StatType.Hp] + (LevelSystem.Level) * 100f;
+            ResultStats[StatType.Attack] = ResultStats[StatType.Attack] + (LevelSystem.Level) * 15f;
+            ResultStats[StatType.Defense] = ResultStats[StatType.Defense] + (LevelSystem.Level) * 15f;
+
+            ResultStats.AddStats(_effectBonusStats);
+            ResultStats.AddStats(_equipmentBonusStats);
+
+            ResultStats[StatType.Speed] = Mathf.Min( 500f ,10f + ResultStats[StatType.Speed]);
+            ResultStats[StatType.AttackSpeed] = Mathf.Min( 15f ,1f + ResultStats[StatType.AttackSpeed]);
+        }
+
+        public void RefreshEquipmentStats(EquipmentType type, Item item, Equipments equipments)
         {
             _equipmentBonusStats.Clear();
             foreach (EquipmentItem equipment in equipments.GetEquippedItems().Values)
             {
                 _equipmentBonusStats.AddStats(equipment.ResultStats);
             }
+            CalcResultStats();
         }
         public void RefreshEffectStats(ICharacterEffector effector)
         {
@@ -66,11 +102,11 @@ namespace IdleHeaven
         public DamageInfo GetDamage()
         {
             float rand = UnityEngine.Random.Range(0f, 1f);
-            if (rand <= Stats[StatType.CritChance])
+            if (rand <= ResultStats[StatType.CritChance])
             {
                 return new DamageInfo
                 {
-                    Damage = Stats[StatType.Attack] * ( 1f + Stats[StatType.CritDamage]),
+                    Damage = ResultStats[StatType.Attack] * ( 1f + ResultStats[StatType.CritDamage]),
                     AttackType = AttackType.ChargedMelee
                 };
 
@@ -78,10 +114,10 @@ namespace IdleHeaven
             else
             {
                 Debug.Log("Normal Hit");
-                Debug.Log(Stats[StatType.Attack]);
+                Debug.Log(ResultStats[StatType.Attack]);
                 return new DamageInfo
                 {
-                    Damage = Stats[StatType.Attack],
+                    Damage = ResultStats[StatType.Attack],
                     AttackType = AttackType.Melee
                 };
             }
@@ -90,29 +126,24 @@ namespace IdleHeaven
         public float GetCharacterBattleRating()
         {
             float result = 0f;
-            float damage = Stats[StatType.Attack];
-            float criticalMulti = (1f + Stats[StatType.CritDamage]) * Stats[StatType.CritChance];
-            result = Stats[StatType.AttackSpeed] * criticalMulti * damage;
+            float damage = ResultStats[StatType.Attack];
+            float criticalMulti = (1f + ResultStats[StatType.CritDamage]) * ResultStats[StatType.CritChance];
+            result = ResultStats[StatType.AttackSpeed] * criticalMulti * damage;
             return result;
         }
 
-
-
-        //========장착, 해제이벤트 핸들러
-        private void OnEquippedHandler(Equipments equipments, EquipmentType slot, EquipmentItem item)
+        public void SetBaseStat(Stats baseStats)
         {
-            Stats.AddStats(item.ResultStats);
+            _baseStats = baseStats;
+            CalcResultStats();
         }
 
-        private void OnUnequippedHandler(Equipments equipments, EquipmentType slot, EquipmentItem item)
-        {
-            Stats.SubtractStats(item.ResultStats);
-        }
+
+        //========이벤트 핸들러
         public void OnLevelUpHandler()
         {
-            Stats.AddStat(StatType.Hp, LevelSystem.Level * 100f);
-            Stats.AddStat(StatType.Attack, LevelSystem.Level * 10f);
-            Stats.AddStat(StatType.Defense, LevelSystem.Level * 10f);
+            CalcResultStats();
         }
+
     }
 }

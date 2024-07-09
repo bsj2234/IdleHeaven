@@ -33,7 +33,7 @@ public class EnemyAiController : MonoBehaviour
         _detector = GetComponentInChildren<Detector>();
     }
     //IsGrounded(Walk,Run)	IsFlying	IsSwimming	IsClimbing	IsJumping IsBurrowing	IsSliding	IsSwinging	IsCreeping	IsRolling	IsFloating	IsGliding	IsSoaring
-    private void Start()
+    public void Init()
     {
         stateMachine = GetComponent<StateMachine>();
         stateMachine.Init(transform);
@@ -53,6 +53,5 @@ public class EnemyAiController : MonoBehaviour
         stateMachine.ChangeState<IdleState>();
         _health.OnDead.AddListener((attack, helth) => stateMachine.ChangeState<DeadState>());
 
-        _detector.transform.gameObject.SetActive(true);
     }
 }

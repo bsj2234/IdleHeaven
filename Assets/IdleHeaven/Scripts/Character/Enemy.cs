@@ -10,20 +10,15 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private EnemyRandomItemDropper _itemDroper;
 
-    [SerializeField] private Stats _baseStats;
-    [SerializeField] private Stats _resultStats;
-    [SerializeField] private LevelSystem _levelSystem;
-
     [SerializeField] private CharacterStats _characterStats;
+    [SerializeField] private StateMachine _stateMachine;
+
+    [SerializeField] private EnemyAiController _aiController;
 
     private void Awake()
     {
-        _health.OnDead.AddListener(HandleDead);
-        _levelSystem = GetComponent<CharacterStats>().LevelSystem;
-    }
-    private void OnDestroy()
-    {
-        _health.OnDead.RemoveListener(HandleDead);
+        _stateMachine = GetComponent<StateMachine>();
+        _aiController = GetComponent<EnemyAiController>();
     }
     private void OnValidate()
     {
@@ -33,41 +28,20 @@ public class Enemy : MonoBehaviour
             _autoSet = false;
         }
     }
-
-    private void HandleDead(Attack attacker, Health self)
+    private void OnDestroy()
     {
-        Destroy(gameObject);
+        Debug.Log("Enemy Destroyed");
     }
 
-    public Enemy Init(EnemyData randomEnemyData)
+    public Enemy Init(EnemyData randomEnemyData, int level)
     {
-        SetBaseStats(randomEnemyData);
-        _characterStats.Stats = _baseStats;
-
+        Stats bastStats =randomEnemyData.GetStats();
+        _health.ResetDead();
+        _characterStats.Init(bastStats, level);
+        _health.SetMaxHp(_characterStats.GetResultStats()[StatType.Hp]);
+        _health.ResetHpWithRatio(1);
+        _aiController.Init();
+        _stateMachine.ChangeState<IdleState>();
         return this;
     }
-
-    public void SetLevel(int level)
-    {
-        _levelSystem.Level = level;
-        CalcStat();
-    }
-
-    public void SetBaseStats(EnemyData randomEnemyData)
-    {
-        _baseStats[StatType.Attack] = randomEnemyData.BaseAttack;
-        _baseStats[StatType.Defense] = randomEnemyData.BaseDefense;
-        _baseStats[StatType.Hp] = randomEnemyData.BaseHealth;
-        _baseStats[StatType.Speed] = randomEnemyData.BaseSpeed;
-    }
-
-    public void CalcStat()
-    {
-        _resultStats.Clear();
-        _resultStats.AddStats(_baseStats);
-        _resultStats.MultiplyStats(_levelSystem.Level);
-        _characterStats.Stats = _resultStats;
-    }
-
-
 }
