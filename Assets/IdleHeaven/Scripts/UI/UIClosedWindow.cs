@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class UIClosedWindow : MonoBehaviour
 {
-    private bool _isOpen = false;
     [SerializeField] private bool _startOpen = false;
+    private bool _isOpen = false;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
     private void Start()
     {
         if(_startOpen)
