@@ -25,11 +25,6 @@ public class Stage : MonoBehaviour
 
 
 
-    private void Start()
-    {
-        _wave.OnWaveCompleted += HandleOnWaveCompleted;
-    }
-
     public void SetStageData(StageData stageData)
     {
         _waveDatas = new List<StageData>();
@@ -83,9 +78,11 @@ public class Stage : MonoBehaviour
         Looping = true;
         if (CurrentWaveIndex > 0)
         {
-            _wave.ResetWave();
-            _player.ResetPlayer();
             CurrentWaveIndex--;
+            _player.ResetPlayer();
+            _wave.ResetWave();
+            StageData curStage = CSVParser.GetStageData(_stageName, CurrentWaveIndex);
+            _wave.Init(curStage);
         }
         else
         {
@@ -94,4 +91,5 @@ public class Stage : MonoBehaviour
             _player.ResetPlayer();
         }
     }
+
 }
