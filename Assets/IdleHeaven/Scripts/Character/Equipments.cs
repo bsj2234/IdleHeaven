@@ -4,18 +4,20 @@ using UnityEngine;
 
 namespace IdleHeaven
 {
-    public enum EquipmentType { Head, Chest, Legs, Weapon, Shield }
+    public enum EquipmentType { Head, Chest, Legs, Weapon, Shield , None}
 
     public class Equipments : MonoBehaviour
     {
         [SerializeField] private EquipmentItem[] _slotVisualize;
-        [SerializeField] private CharacterStats _characterStats;
         private Dictionary<EquipmentType, EquipmentItem> _equippedItems = new Dictionary<EquipmentType, EquipmentItem>();
 
-        public Action<EquipmentType, Item> OnEquipmentsChagned { get; set; }
+        public Action<EquipmentType, Item, Equipments> OnEquipmentsChagned { get; set; }
 
         public event Action<Equipments, EquipmentType, EquipmentItem> OnEquipped;
         public event Action<Equipments, EquipmentType, EquipmentItem> OnUnEquipped;
+
+
+        private Stats _itemStats = new Stats();
 
         private void Awake()
         {
@@ -47,7 +49,10 @@ namespace IdleHeaven
             }
             _equippedItems[slot].Equiped = true;
             OnEquipped?.Invoke(this, slot, item);
-            OnEquipmentsChagned?.Invoke(slot, item);
+            CalcEquipmentsStat();
+            OnEquipmentsChagned?.Invoke(slot, item, this);
+
+            item.OnItemChanged += OnItemChanged;
 
             // Update the visual representation of the equipment
             var vals = Enum.GetValues(typeof(EquipmentType));
@@ -76,7 +81,10 @@ namespace IdleHeaven
                 _equippedItems.Remove(slot);
                 OnUnEquipped?.Invoke(this, slot, previousItem);
             }
-            OnEquipmentsChagned?.Invoke(slot, previousItem);
+            OnEquipmentsChagned?.Invoke(slot, previousItem, this); 
+            CalcEquipmentsStat();
+
+            previousItem.OnItemChanged -= OnItemChanged;
             return previousItem;
         }
 
@@ -105,6 +113,21 @@ namespace IdleHeaven
             {
                 OnUnEquipped?.Invoke(this, kvp.Key, kvp.Value);
             }
+        }
+
+        private void CalcEquipmentsStat()
+        {
+            _itemStats.Clear();
+            
+            foreach (EquipmentItem equipment in _equippedItems.Values)
+            {
+                _itemStats.AddStats(equipment.ResultStats);
+            }
+        }
+        private void OnItemChanged()
+        {
+            CalcEquipmentsStat();
+            OnEquipmentsChagned?.Invoke(EquipmentType.None, null, this);
         }
     }
 }
