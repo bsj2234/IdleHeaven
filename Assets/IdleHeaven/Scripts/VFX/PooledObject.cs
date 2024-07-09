@@ -7,7 +7,10 @@ public class PooledObject : MonoBehaviour, IPooledObject
 {
     public UnityEvent OnObjectReuseEvent;
     public GameObject _prefab;
+    public string _tag_Pool;
+    public bool pooled { get; set; }
 
+    public string tag_Pool => _tag_Pool;
     public GameObject Prefab => _prefab;
 
     public void Init(GameObject prefab)
@@ -24,9 +27,22 @@ public class PooledObject : MonoBehaviour, IPooledObject
     {
     }
 
+    private void Update()
+    {
+        if(pooled != gameObject.activeSelf)
+        {
+            Debug.LogError($"{gameObject.name}PooledObject is not enabled");
+        }
+    }
+
+    public void Release()
+    {
+        ObjectPoolingManager.Instance.ReturnToPool(this);
+    }
+
     private IEnumerator ReleaseTimer(float lifeTime)
     {
         yield return new WaitForSeconds(lifeTime);
-        ObjectPoolingManager.Instance.ReturnToPool(Prefab ,this as IPooledObject);
+        ObjectPoolingManager.Instance.ReturnToPool(this);
     }
 }
