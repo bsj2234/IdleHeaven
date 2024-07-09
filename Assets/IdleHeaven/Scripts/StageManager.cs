@@ -40,12 +40,6 @@ public class StageManager : MonoSingleton<StageManager>
 {
     [SerializeField] private Stage stage;
 
-    [SerializeField] private Attack _playerAttack;
-    [SerializeField] private ItemSpawnManager _itemSpawner;
-    [SerializeField] private EnemySpawner _enemySpawner;
-    EnemySpawnData EnemySpawnData;
-
-
     private void Start()
     {
         StartCoroutine(DelayedLoadStage("Stage1", 1f));
