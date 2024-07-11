@@ -7,7 +7,7 @@ namespace IdleHeaven
     public class Inventory : MonoBehaviour
     {
         [SerializeField] private List<Item> items;
-        private Dictionary<string ,Item> hashedItem = new Dictionary<string, Item>();
+        private Dictionary<string, Item> hashedItem = new Dictionary<string, Item>();
 
         public List<Item> Items
         {
@@ -43,7 +43,7 @@ namespace IdleHeaven
 
         public void AddItem(Item item)
         {
-            if(item is not EquipmentItem)
+            if (item is not EquipmentItem)
             {
                 if (hashedItem.ContainsKey(item.Name))
                 {
@@ -92,6 +92,82 @@ namespace IdleHeaven
         public List<Item> GetAllItems()
         {
             return items;
+        }
+
+        internal void LoadItems(List<Item> items)
+        {
+            Dictionary<string, ItemData> itemUsable = CSVParser.Instance.GetItems(ItemType.Usable);
+
+
+            foreach (Item item in items)
+            {
+                if (item.Name == null)
+                {
+                    Debug.Log("Item name is null");
+                    continue;
+                }
+                else
+                {
+                    Debug.Log(item.Name);
+                }
+
+                if (itemUsable.ContainsKey(item.Name))
+                {
+                    item.ItemData = itemUsable[item.Name];
+                    AddItem(item);
+                    continue;
+                }
+                else
+                {
+                    Debug.LogError("Item not found in LoadInventory");
+                }
+            }
+        }
+
+        internal void LoadEquipmentItems(List<EquipmentItem> equipmentItems)
+        {
+            Dictionary<string, ItemData> itemArmor = CSVParser.Instance.GetItems(ItemType.Armor);
+            Dictionary<string, ItemData> itemWeapon = CSVParser.Instance.GetItems(ItemType.Weapon);
+
+
+            foreach (EquipmentItem item in equipmentItems)
+            {
+                if (item.Name == null)
+                {
+                    Debug.Log("Item name is null");
+                    continue;
+                }
+                else
+                {
+                    Debug.Log(item.Name);
+                }
+
+
+                if (itemArmor.ContainsKey(item.Name))
+                {
+                    item.ItemData = itemArmor[item.Name];
+                    AddItem(item);
+                    item.RefreshRarity();
+                    continue;
+                }
+                else if (itemWeapon.ContainsKey(item.Name))
+                {
+                    item.ItemData = itemWeapon[item.Name];
+                    AddItem(item);
+                    item.RefreshRarity();
+                    continue;
+                }
+                else
+                {
+                    Debug.LogError("Item not found in LoadInventory");
+                }
+            }
+        }
+
+        internal void Clear()
+        {
+            items.Clear();
+            hashedItem.Clear();
         }
     }
 }

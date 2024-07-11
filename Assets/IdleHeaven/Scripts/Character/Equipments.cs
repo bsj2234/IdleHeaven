@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,15 +9,21 @@ namespace IdleHeaven
 
     public class Equipments : MonoBehaviour
     {
-        [SerializeField] private EquipmentItem[] _slotVisualize;
+        [JsonIgnore]
+        [SerializeField] private EquipmentItem[] _slotVisualize; 
+        [JsonIgnore]
         private Dictionary<EquipmentType, EquipmentItem> _equippedItems = new Dictionary<EquipmentType, EquipmentItem>();
 
+        public List<EquipmentItem> EquippedItems => new List<EquipmentItem>(_equippedItems.Values);
+
+        [JsonIgnore]
         public Action<EquipmentType, Item, Equipments> OnEquipmentsChagned { get; set; }
 
         public event Action<Equipments, EquipmentType, EquipmentItem> OnEquipped;
         public event Action<Equipments, EquipmentType, EquipmentItem> OnUnEquipped;
 
 
+        [JsonIgnore]
         private Stats _itemStats = new Stats();
 
         private void Awake()
@@ -128,6 +135,55 @@ namespace IdleHeaven
         {
             CalcEquipmentsStat();
             OnEquipmentsChagned?.Invoke(EquipmentType.None, null, this);
+        }
+
+        public void LoadEquipments(List<EquipmentItem> equipments)
+        {
+            
+            Dictionary<string, ItemData> itemArmor = CSVParser.Instance.GetItems(ItemType.Armor);
+            Dictionary<string, ItemData> itemWeapon = CSVParser.Instance.GetItems(ItemType.Weapon);
+
+
+            foreach (EquipmentItem item in equipments)
+            {
+
+                if (item.Name == null)
+                {
+                    Debug.Log("Item name is null");
+                    continue;
+                }
+                else
+                {
+                    Debug.Log(item.Name);
+                }
+
+                if (itemArmor.ContainsKey(item.Name))
+                {
+                    item.ItemData = itemArmor[item.Name];
+                    item.EquipmentData = itemArmor[item.Name] as EquipmentData;
+                    Equip(item);
+                    item.RefreshRarity();
+                    continue;
+                }
+                else if (itemWeapon.ContainsKey(item.Name))
+                {
+                    item.ItemData = itemWeapon[item.Name];
+                    item.EquipmentData = itemWeapon[item.Name] as EquipmentData;
+                    Equip(item);
+                    item.RefreshRarity();
+                    continue;
+                }
+                else
+                {
+                    Debug.LogError("Item not found in item data");
+                    continue;
+                }
+            }
+    }
+
+        internal void Clear()
+        {
+            _equippedItems.Clear();
         }
     }
 }

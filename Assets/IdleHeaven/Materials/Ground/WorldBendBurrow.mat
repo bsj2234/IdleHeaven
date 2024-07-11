@@ -23,7 +23,7 @@ Material:
   m_Name: WorldBendBurrow
   m_Shader: {fileID: -6465566751694194690, guid: c091087085c2ad74a96463f17bf20b40,
     type: 3}
-  m_Parent: {fileID: 2100000, guid: 32bc9edd57b2aa04c983ce77b849fc53, type: 2}
+  m_Parent: {fileID: 2100000, guid: 29c152afb30fba64d84df89822dc64eb, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -37,11 +37,19 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _SampleTexture2D_2cfac12f559042409ed2d77698b0a932_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: a995317a315af07408e9aecad50ab8ad, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture2D:
         m_Texture: {fileID: 2800000, guid: 261aeb92445ef494f943d77c9b1b1a09, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
-    m_Colors: []
+    m_Floats:
+    - _Amount: 0.0025
+    - _CameraOffset: 24.2
+    - _Smoothness: 0
+    m_Colors:
+    - _Color_1: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

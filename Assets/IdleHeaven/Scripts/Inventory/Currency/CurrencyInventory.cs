@@ -37,4 +37,9 @@ public class CurrencyInventory : MonoBehaviour
         currencies[(int)currency.CurrencyType].Quantity += currency.Quantity;
         OnCurrencyChanged?.Invoke(this, EventArgs.Empty);
     }
+
+    internal void Clear()
+    {
+        currencies.Clear();
+    }
 }

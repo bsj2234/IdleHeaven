@@ -10,10 +10,12 @@ namespace IdleHeaven
     public class Item
     {
         [SerializeField] private Inventory _owner;
-        [SerializeField] private string _name;
+        [SerializeField] public string _name;
         [SerializeField] private int _quantity;
+        [JsonIgnore]
         [SerializeField] protected ItemData _itemData;
 
+        [JsonIgnore]
         public Inventory Owner
         {
 
@@ -36,6 +38,7 @@ namespace IdleHeaven
                 OnItemChanged?.Invoke();
             }
         }
+        [JsonIgnore]
         public virtual ItemData ItemData
         {
             get { return _itemData; }
@@ -77,7 +80,11 @@ namespace IdleHeaven
         [SerializeField] Stats _baseStats = new Stats();
         [SerializeField] Stats _resultStats = new Stats();
         private RarityData _rarityData;
-        private float _rarityMultiply;
+        public float _rarityMultiply;
+
+        public Rarity Rarity;
+
+        [JsonIgnore]
         public RarityData RarityData
         {
             get => _rarityData;
@@ -85,10 +92,20 @@ namespace IdleHeaven
             {
                 _rarityMultiply = Random.Range(value.MinRarityStatMulti, value.MaxRarityStatMulti);
                 _rarityData = value;
+                Rarity = value.Rarity;
             }
         }
 
-        public ItemEffect[] Effects => _effects;
+        public void RefreshRarity()
+        {
+            _rarityData = DataManager.Instance.GetRarityData(Rarity);
+        }
+
+        public ItemEffect[] Effects
+        {
+            get { return _effects; }
+            set { _effects = value; }
+        }
         public bool Equiped
         {
             get { return _equiped; }
@@ -117,8 +134,13 @@ namespace IdleHeaven
             {
                 return _resultStats;
             }
+            set
+            {
+                _resultStats = value;
+            }
         }
         public Stats BaseStats => _baseStats;
+        [JsonIgnore]
         public EquipmentData EquipmentData
         {
             set

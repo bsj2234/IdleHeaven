@@ -89,6 +89,10 @@ public class ItemView : MonoBehaviour
         switch (e.PropertyName)
         {
             case nameof(Item):
+                if(sender is EquipmentItem equipmentItem)
+                {
+                    equipmentItem.RefreshRarity();
+                }
                 UpdateItemView(sender as Item);
                 break;
             default:

@@ -65,13 +65,6 @@ public class Stage : MonoBehaviour
         return;
     }
 
-    private IEnumerator DelayedSave()
-    {
-
-        yield return new WaitForSeconds(2f);
-
-        DataManager.Instance.SavePlayerData();
-    }
 
     public void OnPlayerDead(Attack attacker, Health player)
     {

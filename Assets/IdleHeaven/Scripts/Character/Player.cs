@@ -36,14 +36,4 @@ public class Player : MonoBehaviour
         _stateMachine.ChangeState<IdleState>();
     }
 
-    public void TestLoad()
-    {
-        _playerData = DataManager.Instance.TestLoad();
-
-        _playerStats.LevelSystem.Level = _playerData.Level;
-        _playerStats.LevelSystem.Exp = _playerData.Experience;
-
-        _inventory.Items = _playerData.Inventory.Items;
-
-    }
 }

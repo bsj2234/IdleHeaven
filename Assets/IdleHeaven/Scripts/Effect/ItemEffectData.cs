@@ -52,8 +52,8 @@ namespace IdleHeaven
         public Rarity Rarity { get { return _rarity; } set { _rarity = value; } }
         public float Value { get { return _value; } set { _value = value; } }
 
-        public float LevelMultiplier { get; internal set; }
-        public float MaxLevelMultiplier { get; internal set; }
+        public float LevelMultiplier { get; set; }
+        public float MaxLevelMultiplier { get; set; }
 
         public Color GetRarityColor()
         {
