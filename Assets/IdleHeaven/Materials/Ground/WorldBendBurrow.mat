@@ -47,7 +47,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Amount: 0.0025
+    - _Amount: 0.0015
     - _CameraOffset: 24.2
     - _Smoothness: 0
     m_Colors:

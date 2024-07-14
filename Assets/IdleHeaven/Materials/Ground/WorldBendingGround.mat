@@ -93,13 +93,13 @@ Material:
     - ENABLE_BENDING: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Amount: 0.0015
+    - _Amount: 0.015
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BlendOp: 0
     - _Boolean: 0
     - _BumpScale: 1
-    - _CameraOffset: 32.1
+    - _CameraOffset: 30
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
