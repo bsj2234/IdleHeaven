@@ -61,7 +61,7 @@ Material:
     m_Floats:
     - ENABLE_BENDING: 0
     - _Amount: 0.0015
-    - _CameraOffset: 24.2
+    - _CameraOffset: 30
     - _Metalic: 0
     - _MinDiff: 0.95
     - _NormalAmount: 0.01
