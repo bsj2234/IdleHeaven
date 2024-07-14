@@ -97,6 +97,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5076319040806023196}
+        m_TargetAssemblyTypeName: BlinkVFX, Assembly-CSharp
+        m_MethodName: HandleOnDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnHeal:
     m_PersistentCalls:
       m_Calls: []
@@ -119,6 +131,30 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: PooledObject, Assembly-CSharp
         m_MethodName: Release
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6584269660926000852}
+        m_TargetAssemblyTypeName: PooledObject, Assembly-CSharp
+        m_MethodName: Release
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5076319040806023196}
+        m_TargetAssemblyTypeName: BlinkVFX, Assembly-CSharp
+        m_MethodName: ResetEffect
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -320,6 +356,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8342722915026041874}
   - component: {fileID: 7592004462620412373}
+  - component: {fileID: 5076319040806023196}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -354,8 +391,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a070f6180b153419208bb11e3cd092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.013
+  duration: 0.13
   magnitude: 1
+--- !u!114 &5076319040806023196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5851056122427380273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9e2120552ca6044ba62f8cd0c69c0aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.2
+  interval: 0.05
+  _renderer: {fileID: 0}
+  _whiteMaterial: {fileID: 0}
+  _originalMaterial: {fileID: 0}
 --- !u!1 &8056413627272257197
 GameObject:
   m_ObjectHideFlags: 0
