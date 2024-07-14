@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShakeVFX : MonoBehaviour, VFX
 {
-    [SerializeField] float duration = 0.5f;
+    [SerializeField] float duration = 0.2f;
     [SerializeField] float magnitude = 1f;
 
     readonly float baseMagnitude = 0.1f;
@@ -35,7 +35,7 @@ public class ShakeVFX : MonoBehaviour, VFX
         StartCoroutine(ShakeEffectCoroutine());
     }
 
-    IEnumerator ShakeEffectCoroutine()
+    public IEnumerator ShakeEffectCoroutine()
     {
         isPlaying = true;
         Vector3 originalPosition = transform.localPosition;
@@ -62,15 +62,15 @@ public class ShakeVFX : MonoBehaviour, VFX
         switch (attackType)
         {
             case AttackType.None:
-                Set(0.3f)
+                Set(2f)
                     .Play();
                 break;
             case AttackType.Melee:
-                Set(0.7f)
+                Set(3f)
                     .Play();
                 break;
             case AttackType.ChargedMelee:
-                Set(1.5f)
+                Set(4f)
                     .Play();
                 break;
             default:
