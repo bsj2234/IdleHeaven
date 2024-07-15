@@ -51,7 +51,16 @@ public class EnemyAiController : MonoBehaviour
         stateMachine.AddState(deadState);
 
         stateMachine.ChangeState<IdleState>();
-        _health.OnDead.AddListener((attack, helth) => stateMachine.ChangeState<DeadState>());
+        _health.OnDead.RemoveListener(ChangeStateToDead);
+        _health.OnDead.AddListener(ChangeStateToDead);
 
+    }
+    private void OnDestroy()
+    {
+        _health.OnDead.RemoveListener(ChangeStateToDead);
+    }
+    public void ChangeStateToDead(Attack attack, Health health)
+    {
+        stateMachine.ChangeState<DeadState>();
     }
 }

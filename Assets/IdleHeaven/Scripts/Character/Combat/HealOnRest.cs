@@ -18,8 +18,8 @@ public class HealOnRest : MonoBehaviour
     }
     private void OnDisable()
     {
-        _attack.OnAttack.RemoveListener(OnFought);
         _health.OnDamaged.RemoveListener(OnFought);
+        _attack.OnAttack.RemoveListener(OnFought);
         StopAllCoroutines();
     }
 

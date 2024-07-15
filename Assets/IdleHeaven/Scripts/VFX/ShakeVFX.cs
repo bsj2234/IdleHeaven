@@ -2,7 +2,7 @@ using IdleHeaven;
 using System.Collections;
 using UnityEngine;
 
-public class ShakeVFX : MonoBehaviour, VFX
+public class ShakeVfx : MonoBehaviour, Vfx
 {
     [SerializeField] float duration = 0.2f;
     [SerializeField] float magnitude = 1f;
@@ -16,7 +16,7 @@ public class ShakeVFX : MonoBehaviour, VFX
         Shake();
     }
 
-    public ShakeVFX Set(float muliply = 1f)
+    public ShakeVfx Set(float muliply = 1f)
     {
         magnitude = muliply;
         return this;

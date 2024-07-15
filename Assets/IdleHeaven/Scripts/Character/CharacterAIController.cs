@@ -11,11 +11,12 @@ public class CharacterAIController : MonoBehaviour
     [SerializeField] Attack _attack;
     [SerializeField] Detector _detector;
 
-    [SerializeField] NavMeshAgent Agent_movement;
+    [SerializeField] NavMeshAgent NavAgent_movement;
+
+    [SerializeField] Transform[] _patrolWaypoints;
+    [SerializeField] Transform _chaseTarget;
 
     private StateMachine stateMachine;
-    public Transform[] patrolWaypoints;
-    public Transform chaseTarget;
 
     private void OnValidate()
     {
@@ -39,8 +40,8 @@ public class CharacterAIController : MonoBehaviour
         stateMachine.Init(transform);
 
         var idleState = new IdleState(stateMachine, _detector);
-        var patrolState = new PatrolState(stateMachine, patrolWaypoints);
-        var chaseState = new ChaseState(stateMachine, chaseTarget, _detector);
+        var patrolState = new PatrolState(stateMachine, _patrolWaypoints);
+        var chaseState = new ChaseState(stateMachine, _chaseTarget, _detector);
         var attackState = new AttackState(stateMachine, _attack, _detector);
         var deadState = new DeadState(stateMachine);
 
@@ -52,7 +53,12 @@ public class CharacterAIController : MonoBehaviour
 
         stateMachine.ChangeState<IdleState>();
 
-        _health.OnDead.AddListener((attack, helth) => stateMachine.ChangeState<DeadState>());
+        _health.OnDead.AddListener(ChangeStateToDead);
+    }
+    private void OnDestroy()
+    {
+
+        _health.OnDead.RemoveListener(ChangeStateToDead);
     }
     public void ChangeToAuto()
     {
@@ -68,5 +74,8 @@ public class CharacterAIController : MonoBehaviour
         }
         _attack.DealDamage(nearestEnmey.GetComponent<Health>(),99999);
     }
-
+    private void ChangeStateToDead(Attack attack, Health health)
+    {
+        stateMachine.ChangeState<DeadState>();
+    }
 }

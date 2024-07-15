@@ -1,9 +1,8 @@
 using IdleHeaven;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
-public class BlinkVFX : MonoBehaviour, VFX
+public class BlinkVfx : MonoBehaviour, Vfx
 {
     [SerializeField] float duration = 0.2f;
     [SerializeField] float interval = .05f;
@@ -27,7 +26,7 @@ public class BlinkVFX : MonoBehaviour, VFX
         if (_originalMaterial == null)
         {
             _renderer = transform.FindComponentInChildOrSelf<Renderer>();
-            if(_renderer != null)
+            if (_renderer != null)
             {
                 _originalMaterial = _renderer.sharedMaterial;
             }
@@ -39,7 +38,7 @@ public class BlinkVFX : MonoBehaviour, VFX
         Blink();
     }
 
-    public BlinkVFX Set(float interval = .05f)
+    public BlinkVfx Set(float interval = .05f)
     {
         this.interval = interval;
         return this;
@@ -51,7 +50,7 @@ public class BlinkVFX : MonoBehaviour, VFX
         {
             return;
         }
-        if(gameObject.activeInHierarchy == false)
+        if (gameObject.activeInHierarchy == false)
         {
             return;
         }
@@ -68,7 +67,9 @@ public class BlinkVFX : MonoBehaviour, VFX
         {
             _renderer.material = _whiteMaterial;
             yield return new WaitForSeconds(interval);
+            elapsed += interval;
             _renderer.material = _originalMaterial;
+            yield return new WaitForSeconds(interval);
             elapsed += interval;
         }
         isPlaying = false;

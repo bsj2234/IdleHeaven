@@ -1,4 +1,7 @@
-public interface VFX
+namespace IdleHeaven
 {
-    void Play();
+    public interface Vfx
+    {
+        void Play();
+    }
 }
