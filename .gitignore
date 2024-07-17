@@ -73,4 +73,4 @@ crashlytics-build.properties
 #
 
 # Custom Ignore for big size asset
-Assets/BigFileSizeAssets/
+#Assets/BigFileSizeAssets/
