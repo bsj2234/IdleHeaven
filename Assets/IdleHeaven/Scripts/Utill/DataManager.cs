@@ -40,8 +40,6 @@ public class DataManager : MonoSingleton<DataManager>
 {
     public PlayerData SaveData;
     
-
-
     [SerializeField] private CharacterStats _characterStats;
     [SerializeField] private Inventory _inventory;
     [SerializeField] private CurrencyInventory _currencyInventory;
