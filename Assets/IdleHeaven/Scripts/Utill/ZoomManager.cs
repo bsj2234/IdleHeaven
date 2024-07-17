@@ -18,7 +18,8 @@ public class ZoomManager : MonoBehaviour
 
         if(zoomed)
         {
-            _cinemachineBrain.
+            //Todo: 카메라 스윗칭 로직 만들기
+            //_cinemachineBrain.
         }
     }
 
