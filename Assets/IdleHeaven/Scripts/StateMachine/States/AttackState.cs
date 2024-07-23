@@ -33,6 +33,10 @@ public class AttackState : BaseState
 
     private void SetAttackSpeed(Stat stat)
     {
+        if(stat.Value <= 0f)
+        {
+            return;
+        }
         attackDelay = initialAttackDelay / stat.Value;
     }
 
