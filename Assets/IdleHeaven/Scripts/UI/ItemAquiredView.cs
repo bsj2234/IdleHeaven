@@ -1,5 +1,4 @@
 using IdleHeaven;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,8 +12,6 @@ public class ItemAquiredView : MonoBehaviour
     private bool _isPlaying = false;
 
     private Queue<Item> _aquiredItems = new Queue<Item>();
-
-    private Coroutine _closeDrawer;
 
     [SerializeField] private TMP_Text Text_itemName;
     [SerializeField] private TMP_Text[] Text_itemEffect;
@@ -53,8 +50,7 @@ public class ItemAquiredView : MonoBehaviour
             }
         }
 
-        _drawer.TriggerDrawer();
-        DelayedClose();
+        _drawer.OpenWithDelayedClose(2f);
     }
 
     private void OnDrawerClosed()
@@ -78,16 +74,5 @@ public class ItemAquiredView : MonoBehaviour
             text.text = "";
             text.color = Color.white;
         }
-    }
-
-    private void DelayedClose()
-    {
-        _closeDrawer = StartCoroutine(DelayedClose(2f));
-    }
-
-    private IEnumerator DelayedClose(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        _drawer.TriggerDrawer();
     }
 }

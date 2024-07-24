@@ -47,23 +47,57 @@ namespace IdleHeaven
             _rect.anchoredPosition = _hidePosition;
         }
 
-        public void TriggerDrawer()
+        public void TryFlipFlopDrawer()
         {
             StopAllCoroutines();
             if (_isShown)
             {
                 StartCoroutine(HideDrawerCoroutine());
-                TryFlipFlopOpen();
+                TryFlipFlopOpenButton();
             }
             else
             {
                 StartCoroutine(ShowDrawerCoroutine());
-                TryFlipFlopOpen();
+                TryFlipFlopOpenButton();
             }
             _isShown = !_isShown;
         }
+        public void TryOpenDrawer()
+        {
+            if (!_isShown)
+            {
+                StartCoroutine(ShowDrawerCoroutine());
+                TryFlipFlopOpenButton();
+            }
+            _isShown = true;
+        }
+        public void TryCloseDrawer()
+        {
+            if (_isShown)
+            {
+                StartCoroutine(HideDrawerCoroutine());
+                TryFlipFlopOpenButton();
+            }
+            _isShown = false;
+        }
 
-        private void TryFlipFlopOpen()
+
+        public void OpenDrawer()
+        {
+            StopAllCoroutines();
+            StartCoroutine(ShowDrawerCoroutine());
+            TryFlipFlopOpenButton();
+            _isShown = true;
+        }
+        public void CloseDrawer()
+        {
+            StopAllCoroutines();
+            StartCoroutine(HideDrawerCoroutine());
+            TryFlipFlopOpenButton();
+            _isShown = false;
+        }
+
+        private void TryFlipFlopOpenButton()
         {
             if (!isUseButton)
             {
@@ -92,6 +126,18 @@ namespace IdleHeaven
                 yield return null;
             }
             OnDrawerClosed?.Invoke();
+        }
+
+        public void OpenWithDelayedClose(float delay)
+        {
+            OpenDrawer();
+            StartCoroutine(DelayedClose(delay));
+        }
+
+        private IEnumerator DelayedClose(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            CloseDrawer();
         }
     }
 }

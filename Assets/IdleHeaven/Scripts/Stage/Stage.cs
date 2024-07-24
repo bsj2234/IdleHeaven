@@ -19,6 +19,7 @@ public class Stage : MonoBehaviour
     public string StageName { get => _stageName; set => _stageName = value; }
 
     public UnityEvent OnStageClear;
+    public UnityEvent<string, int> OnWaveChanged;
     private int _waveCount;
 
     private List<StageData> _waveDatas;
@@ -58,10 +59,12 @@ public class Stage : MonoBehaviour
             CurrentWaveIndex = 0;
             Debug.Log("Stage Completed");
             OnStageClear?.Invoke();
+            OnWaveChanged?.Invoke(StageName ,CurrentWaveIndex);
             return;
         }
-        StageData curStage = CSVParser.GetStageData(_stageName,CurrentWaveIndex);
+        StageData curStage = CSVParser.GetStageData(StageName, CurrentWaveIndex);
         _wave.Init(curStage);
+        OnWaveChanged?.Invoke(StageName, CurrentWaveIndex);
         return;
     }
 
@@ -74,7 +77,7 @@ public class Stage : MonoBehaviour
             CurrentWaveIndex--;
             _player.ResetPlayer();
             _wave.ResetWave();
-            StageData curStage = CSVParser.GetStageData(_stageName, CurrentWaveIndex);
+            StageData curStage = CSVParser.GetStageData(StageName, CurrentWaveIndex);
             _wave.Init(curStage);
         }
         else
