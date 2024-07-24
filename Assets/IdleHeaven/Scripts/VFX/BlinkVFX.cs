@@ -82,7 +82,7 @@ public class BlinkVfx : MonoBehaviour, Vfx
 
     public void ResetEffect(Attack attacker, Health health)
     {
-        StopCoroutine(_blinkCoroutine);
+        StopAllCoroutines();
         _renderer.material = _originalMaterial;
         isPlaying = false;
     }
