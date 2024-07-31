@@ -169,6 +169,7 @@ public class ItemView : MonoBehaviour
                 Text_stats[(int)equipmentItem.Effects[i].Stat].Name.color = equipmentItem.Effects[i].GetRarityColor();
                 Text_stats[(int)equipmentItem.Effects[i].Stat].Value.color = equipmentItem.Effects[i].GetRarityColor();
             }
+            TrySetText(TEXT_itemQuantity, equipmentItem.EnhancedLevel.ToString());
         }
     }
 
