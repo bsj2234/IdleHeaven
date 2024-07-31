@@ -60,7 +60,7 @@ namespace IdleHeaven
 
         private List<Item> GetFilteredItemList(List<Item> items, string filter)
         {
-            if(items.Count == 0)
+            if (items.Count == 0)
             {
                 return items;
             }
@@ -92,7 +92,7 @@ namespace IdleHeaven
 
         private List<Item> GetSortedItemList(List<Item> items, string sortType, bool descending)
         {
-            if(items.Count == 0)
+            if (items.Count == 0)
             {
                 return items;
             }
@@ -163,7 +163,15 @@ namespace IdleHeaven
             {
                 EquipmentItem equipmentItemA = a as EquipmentItem;
                 EquipmentItem equipmentItemB = b as EquipmentItem;
-                return equipmentItemA.Level.CompareTo(equipmentItemB.Level);
+                int result = equipmentItemA.Level.CompareTo(equipmentItemB.Level);
+                if (result == 0)
+                {
+                    return equipmentItemA.CurrentIndex.CompareTo(equipmentItemB.CurrentIndex);
+                }
+                else
+                {
+                    return result;
+                }
             }
             return 0;
         }
@@ -175,9 +183,19 @@ namespace IdleHeaven
                 EquipmentItem equipmentItemB = b as EquipmentItem;
                 float attackA = equipmentItemA.ResultStats[StatType.Attack];
                 float attackB = equipmentItemB.ResultStats[StatType.Attack];
-                return attackA.CompareTo(attackB);
+                int result = attackA.CompareTo(attackB);
+
+
+                if (result == 0)
+                {
+                    return equipmentItemA.CurrentIndex.CompareTo(equipmentItemB.CurrentIndex);
+                }
+                else
+                {
+                    return result;
+                }
             }
-            return 0;
+            return a.CurrentIndex.CompareTo(b.CurrentIndex);
         }
         private int SortByDefense(Item a, Item b)
         {
@@ -187,9 +205,17 @@ namespace IdleHeaven
                 EquipmentItem equipmentItemB = b as EquipmentItem;
                 float defenseA = equipmentItemA.ResultStats[StatType.Defense];
                 float defenseB = equipmentItemB.ResultStats[StatType.Defense];
-                return defenseA.CompareTo(defenseB);
+                int result = defenseA.CompareTo(defenseB);
+                if (result == 0)
+                {
+                    return equipmentItemA.CurrentIndex.CompareTo(equipmentItemB.CurrentIndex);
+                }
+                else
+                {
+                    return result;
+                }
             }
-            return 0;
+            return a.CurrentIndex.CompareTo(b.CurrentIndex);
         }
         private int SortByRarity(Item a, Item b)
         {
@@ -197,17 +223,41 @@ namespace IdleHeaven
             {
                 EquipmentItem equipmentItemA = a as EquipmentItem;
                 EquipmentItem equipmentItemB = b as EquipmentItem;
-                return equipmentItemA.RarityData.Rarity.CompareTo(equipmentItemB.RarityData.Rarity);
+                int result = equipmentItemA.RarityData.Rarity.CompareTo(equipmentItemB.RarityData.Rarity);
+                if (result == 0)
+                {
+                    return equipmentItemA.CurrentIndex.CompareTo(equipmentItemB.CurrentIndex);
+                }
+                else
+                {
+                    return result;
+                }
             }
-            return 0;
+            return a.CurrentIndex.CompareTo(b.CurrentIndex);
         }
         private int SortByName(Item a, Item b)
         {
-            return a.Name.CompareTo(b.Name);
+            int result = a.Name.CompareTo(b.Name);
+            if (result == 0)
+            {
+                return a.CurrentIndex.CompareTo(b.CurrentIndex);
+            }
+            else
+            {
+                return result;
+            }
         }
         private int SortByType(Item a, Item b)
         {
-            return a.ItemData.ItemType.CompareTo(b.ItemData.ItemType);
+            int result = a.ItemData.ItemType.CompareTo(b.ItemData.ItemType);
+            if (result == 0)
+            {
+                return a.CurrentIndex.CompareTo(b.CurrentIndex);
+            }
+            else
+            {
+                return result;
+            }
         }
         private int SortByCritChance(Item a, Item b)
         {
@@ -217,9 +267,17 @@ namespace IdleHeaven
                 EquipmentItem equipmentItemB = b as EquipmentItem;
                 float critChanceA = equipmentItemA.ResultStats[StatType.CritChance];
                 float critChanceB = equipmentItemB.ResultStats[StatType.CritChance];
-                return critChanceA.CompareTo(critChanceB);
+                int result = critChanceA.CompareTo(critChanceB);
+                if (result == 0)
+                {
+                    return equipmentItemA.CurrentIndex.CompareTo(equipmentItemB.CurrentIndex);
+                }
+                else
+                {
+                    return result;
+                }
             }
-            return 0;
+            return a.CurrentIndex.CompareTo(b.CurrentIndex);
         }
         private int SortByCritDamage(Item a, Item b)
         {
@@ -230,9 +288,17 @@ namespace IdleHeaven
                 EquipmentItem equipmentItemB = b as EquipmentItem;
                 float critDamageA = equipmentItemA.ResultStats[StatType.CritDamage];
                 float critDamageB = equipmentItemB.ResultStats[StatType.CritDamage];
-                return critDamageA.CompareTo(critDamageB);
+                int result = critDamageA.CompareTo(critDamageB);
+                if (result == 0)
+                {
+                    return equipmentItemA.CurrentIndex.CompareTo(equipmentItemB.CurrentIndex);
+                }
+                else
+                {
+                    return result;
+                }
             }
-            return 0;
+            return a.CurrentIndex.CompareTo(b.CurrentIndex);
         }
         #endregion
         private int _currentPage = 0;
