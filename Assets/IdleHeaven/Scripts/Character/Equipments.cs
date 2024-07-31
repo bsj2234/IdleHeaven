@@ -137,7 +137,7 @@ namespace IdleHeaven
             OnEquipmentsChagned?.Invoke(EquipmentType.None, null, this);
         }
 
-        public void LoadEquipments(List<EquipmentItem> equipments)
+        public void LoadEquipments(List<EquipmentItem> equipments, Inventory inventory)
         {
             
             Dictionary<string, ItemData> itemArmor = CSVParser.Instance.GetItems(ItemType.Armor);
@@ -157,27 +157,7 @@ namespace IdleHeaven
                     Debug.Log(item.Name);
                 }
 
-                if (itemArmor.ContainsKey(item.Name))
-                {
-                    item.ItemData = itemArmor[item.Name];
-                    item.EquipmentData = itemArmor[item.Name] as EquipmentData;
-                    Equip(item);
-                    item.RefreshRarity();
-                    continue;
-                }
-                else if (itemWeapon.ContainsKey(item.Name))
-                {
-                    item.ItemData = itemWeapon[item.Name];
-                    item.EquipmentData = itemWeapon[item.Name] as EquipmentData;
-                    Equip(item);
-                    item.RefreshRarity();
-                    continue;
-                }
-                else
-                {
-                    Debug.LogError("Item not found in item data");
-                    continue;
-                }
+                Equip(inventory.GetItems()[item.CurrentIndex] as EquipmentItem);
             }
     }
 
