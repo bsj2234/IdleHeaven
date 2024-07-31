@@ -103,8 +103,8 @@ public class DataManager : MonoSingleton<DataManager>
     public void LoadData(PlayerData playerData, CharacterStats playerStats, Inventory inventory
         , Equipments equipments, CurrencyInventory currencyInventory, Stage stage)
     {
-        inventory.Clear();
         equipments.Clear();
+        inventory.Clear();
         currencyInventory.Clear();
 
         playerStats.LevelSystem.Level = playerData.Level;
@@ -115,7 +115,7 @@ public class DataManager : MonoSingleton<DataManager>
 
         currencyInventory.currencies = playerData.Inventory.Currencies;
 
-        equipments.LoadEquipments(playerData.Equipments.Equipments);
+        equipments.LoadEquipments(playerData.Equipments.Equipments, inventory);
 
         stage.CurrentWaveIndex = playerData.Stage.CurrentWaveIndex;
         stage.StageName = playerData.Stage.StageName;
