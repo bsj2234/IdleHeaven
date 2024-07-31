@@ -23,11 +23,13 @@ public class BendingManager : MonoSingleton<BendingManager>
     {
         RenderPipelineManager.beginCameraRendering += OnBeginCameraRendering;
         RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
+        Shader.EnableKeyword(BENDING_FEATURE);
     }
     private void OnDisable()
     {
         RenderPipelineManager.beginCameraRendering -= OnBeginCameraRendering;
         RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+        Shader.DisableKeyword(BENDING_FEATURE);
     }
 
     private static void OnBeginCameraRendering(ScriptableRenderContext ctx, Camera cam)
