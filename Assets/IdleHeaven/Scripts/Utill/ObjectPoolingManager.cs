@@ -108,18 +108,22 @@ public class ObjectPoolingManager : MonoSingleton<ObjectPoolingManager>
             Debug.LogWarning($"Pool for prefab {prefab.name} doesn't exist.");
             return null;
         }
-        if(poolDictionary[prefab].Count == 0)
+        IPooledObject objectToSpawn = null;
+        if (poolDictionary[prefab].Count == 0)
         {
             Debug.LogWarning($"Pool for prefab {prefab.name} is empty. Instantating");
-            return IntantiateAdditional(prefab);
+            objectToSpawn = IntantiateAdditional(prefab);
         }
-        IPooledObject objectToSpawn = poolDictionary[prefab].Dequeue();
-
-        if (objectToSpawn.transform.gameObject.activeSelf == true)
+        else
         {
-            Debug.LogWarning($"Object {objectToSpawn.transform.gameObject.name} is already active. Instantiate");
-            StartCoroutine(DelayedCheck(objectToSpawn.transform));
-            return IntantiateAdditional(prefab);
+            objectToSpawn = poolDictionary[prefab].Dequeue();
+
+            if (objectToSpawn.transform.gameObject.activeSelf == true)
+            {
+                Debug.LogWarning($"Object {objectToSpawn.transform.gameObject.name} is already active. Instantiate");
+                StartCoroutine(DelayedCheck(objectToSpawn.transform));
+                objectToSpawn = IntantiateAdditional(prefab);
+            }
         }
 
         objectToSpawn.transform.gameObject.SetActive(true);
