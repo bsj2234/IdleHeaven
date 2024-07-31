@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
     [SerializeField] private StateMachine _stateMachine;
     [SerializeField] private Health _health;
     [SerializeField] private CharacterStats _playerStats;
-    [SerializeField] private Inventory _inventory;
     [SerializeField] private NavMeshAgent _navMeshAgent;
 
     private PlayerData _playerData;
