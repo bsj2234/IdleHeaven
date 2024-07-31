@@ -23,12 +23,18 @@ public class Health : MonoBehaviour
     public UnityEvent<Attack, AttackType> OnDamaged;
     public UnityEvent OnHeal;
     public UnityEvent<Attack, Health> OnDead;
+    public UnityEvent OnDisableEvent;
 
 
 
     private void Awake()
     {
         Init();
+    }
+
+    private void OnDisable()
+    {
+        OnDisableEvent?.Invoke();
     }
 
     private void OnDestroy()
