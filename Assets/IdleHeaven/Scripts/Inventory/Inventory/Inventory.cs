@@ -56,6 +56,7 @@ namespace IdleHeaven
                 {
                     hashedItem.Add(item.Name, item);
                     items.Add(item);
+                    item.CurrentIndex = items.Count - 1;
                     OnInventoryChanged?.Invoke(item);
                     return;
                 }
@@ -63,6 +64,7 @@ namespace IdleHeaven
             else
             {
                 items.Add(item);
+                item.CurrentIndex = items.Count - 1;
                 OnInventoryChanged?.Invoke(item);
                 return;
             }
@@ -141,7 +143,6 @@ namespace IdleHeaven
                 {
                     Debug.Log(item.Name);
                 }
-
 
                 if (itemArmor.ContainsKey(item.Name))
                 {

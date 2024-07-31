@@ -28,6 +28,9 @@ namespace IdleHeaven
                 _owner = value;
             }
         }
+
+        public int CurrentIndex { get; set; }
+
         public string Name => _name;
         public int Quantity
         {
