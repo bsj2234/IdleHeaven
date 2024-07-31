@@ -68,7 +68,6 @@ public class Stage : MonoBehaviour
         return;
     }
 
-
     public void OnPlayerDead(Attack attacker, Health player)
     {
         Looping = true;
@@ -82,7 +81,6 @@ public class Stage : MonoBehaviour
         }
         else
         {
-            //스테이지 구현시 전 스테이지로 돌아가게
             _wave.ResetWave();
             _player.ResetPlayer();
         }
