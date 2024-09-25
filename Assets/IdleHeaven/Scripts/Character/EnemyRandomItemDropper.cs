@@ -19,7 +19,7 @@ public class EnemyRandomItemDropper : MonoBehaviour
 
     private void DropItem(Attack attacker, Enemy enemy)
     {
-        Item generatedItem = spawner.generator.GenerateItem(new GenerateInfo(enemy.GetComponent<CharacterStats>().LevelSystem.Level, Rarity.None));
+        Item generatedItem = spawner.generator.GenerateItem(enemy.GetComponent<CharacterStats>().LevelSystem.Level);
         if (generatedItem == null)
         {
             return;

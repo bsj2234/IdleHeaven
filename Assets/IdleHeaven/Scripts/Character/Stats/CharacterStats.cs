@@ -12,17 +12,15 @@ namespace IdleHeaven
     public class CharacterStats : MonoBehaviour
     {
         public LevelSystem LevelSystem;
-
-
         public Stats ResultStats = new Stats();
         private Stats _effectBonusStats = new Stats();
         private Stats _equipmentBonusStats = new Stats();
         protected Stats _baseStats = new Stats();
 
+        private Health _health;
 
         private Equipments _equipments;
 
-        private Health health;
 
         private void Awake()
         {
@@ -31,13 +29,13 @@ namespace IdleHeaven
                 _equipments = equipments;
                 _equipments.OnEquipmentsChagned += RefreshEquipmentStats;
             }
-            health = GetComponent<Health>();
+            _health = GetComponent<Health>();
             CalcResultStats();
-            health.SetMaxHp(ResultStats[StatType.Hp]);
-            health.ResetHpWithRatio(1);
+            _health.SetMaxHp(ResultStats[StatType.Hp]);
+            _health.ResetHpWithRatio(1);
             ResultStats.stats[(int)StatType.Hp].StatChanged += (Stat stat) =>
             {
-                health.SetMaxHp(stat.Value);
+                _health.SetMaxHp(stat.Value);
             };
         }
         private void OnEnable()

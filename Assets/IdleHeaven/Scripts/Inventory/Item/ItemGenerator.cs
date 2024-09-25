@@ -80,7 +80,7 @@ namespace IdleHeaven
         }
 
 
-        public Item GenerateItem(GenerateInfo info, string name = "")
+        public Item GenerateItem(int levelinfo, string name = "")
         {
             Rarity rarity = GetRandomRairity(_rarityTable);
 
@@ -90,10 +90,8 @@ namespace IdleHeaven
             }
             if (rarity == Rarity.Currency)
             {
-                return new Gold(info.EnemyLevel * 50);
+                return new Gold(levelinfo * 50);
             }
-
-            info.ItemRarity = rarity;
 
             ItemType itemType = GetRandomEnum<ItemType>();
             Dictionary<string, ItemData> randomItemDatas = CSVParser.Instance.GetItems(itemType);
@@ -102,7 +100,7 @@ namespace IdleHeaven
             if (string.IsNullOrEmpty(name))
                 name = randomItemdata.ItemName;
 
-            Item randomItem = RandomItem(name, info, randomItemdata);
+            Item randomItem = RandomItem(name, new GenerateInfo(levelinfo, rarity), randomItemdata);
             return randomItem;
         }
 
@@ -160,8 +158,6 @@ namespace IdleHeaven
         private T GetRandomFromDictionary<T>(Dictionary<string, T> dictionary)
         {
             var item = dictionary.Values.GetEnumerator();
-
-
             int randomIndex = Random.Range(0, dictionary.Count);
 
             for (int i = 0; i < randomIndex + 1; i++)
