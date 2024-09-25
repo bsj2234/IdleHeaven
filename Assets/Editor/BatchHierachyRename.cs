@@ -1,17 +1,17 @@
 using UnityEditor;
 using UnityEngine;
 
-public class BatchRename : EditorWindow
+public class BatchHierachyRename : EditorWindow
 {
     private string baseName = "NewName";
     private int startNumber = 1;
     private string findWord = "";
     private string replaceWord = "";
 
-    [MenuItem("Tools/Batch Rename")]
+    [MenuItem("Tools/Batch Hierachy Rename")]
     public static void ShowWindow()
     {
-        GetWindow<BatchRename>("Batch Rename");
+        GetWindow<BatchHierachyRename>("Batch Rename");
     }
 
     private void OnGUI()
