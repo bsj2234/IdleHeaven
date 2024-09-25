@@ -1,0 +1,7 @@
+EnemyID,EnemyType,EnemyName,BaseHealth,BaseAttack,BaseSpeed,BaseDefense,PrefabPath
+1,Normal,Ghost,70,10,1,15,Prefabs/Ghost
+2,Normal,Dragon,100,10,1,30,Prefabs/Dragon
+3,Normal,DragonStone,70,7,1,20,Prefabs/DragonStone
+4,Normal,Mummy,130,7,1,15,Prefabs/Mummy
+5,Normal,Burrow,100,3,1,10,Prefabs/Burrow
+6,Normal,Whale,130,10,1,20,Prefabs/Whale

@@ -1,0 +1,18 @@
+Name,Type,Description,IconPath,SpecificType,AttackSpeed,MinDamage,MaxDamage,DefenseValue,EffectType,EffectValue
+Shield,Armor,A sturdy shield,ESH1,Shield,,,,30,,
+Helmet,Armor,A strong helmet,EH13,Head,,,,20,,
+Chest Armor,Armor,A strong chest,EA21,Chest,,,,30,,
+Legs Armor,Armor,A strong legs,EB1,Legs,,,,20,,
+Fire Shield,Armor,A shield with fire resistance,ESH28,Shield,,,,40,,
+Iron Helmet,Armor,A helmet made of iron,EH26,Head,,,,25,,
+Steel Chestplate,Armor,A chestplate made of steel,EA23,Chest,,,,40,,
+Leather Boots,Armor,A pair of sturdy leather boots,EB1,Legs,,,,15,,
+Speed Elixir,Usable,Increases speed,UPO37,,,,,,Speed,15
+Health Potion,Usable,Restores health,UPO8,,,,,,Heal,50
+Strength Elixir,Usable,Increases strength,UPO39,,,,,,Damage,10
+Sword,Weapon,A powerful sword,WSW1,Melee,1.5,15,25,,,
+Axe,Weapon,A heavy axe,WAX1,Melee,1.2,20,30,,,
+Bow,Weapon,A long-range bow,WBOW1,Ranged,1.8,10,20,,,
+Dagger,Weapon,A quick and sharp dagger,WDAG1,Melee,2,8,15,,,
+Magic Wand,Weapon,A wand infused with magic,WSTF1,Magic,1,12,18,,,
+Greatsword,Weapon,A massive and powerful sword,WSW35,Melee,1,25,35,,,
