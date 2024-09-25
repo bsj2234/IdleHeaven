@@ -1,5 +1,6 @@
 package com.siko25.siko.repository
 
+import com.siko25.siko.document.EnemyData
 import com.siko25.siko.document.Item
 import com.siko25.siko.document.ItemDropRateFamily
 import com.siko25.siko.document.ItemType
@@ -26,4 +27,9 @@ interface WeaponRepository : MongoRepository<Weapon, String> {
 
 interface ItemDropRateFamilyRepository : MongoRepository<ItemDropRateFamily, String> {
     fun findByName(name: String): ItemDropRateFamily
+    fun findByDropId(dropId: String): ItemDropRateFamily
+}
+
+interface EnemyDataRepository : MongoRepository<EnemyData, String> {
+    fun findByName(name: String): EnemyData
 }

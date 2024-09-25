@@ -1,12 +1,16 @@
 package com.siko25.siko.service
 
 import com.siko25.siko.document.Item
+import com.siko25.siko.document.ItemDropRateFamily
+import com.siko25.siko.repository.ItemRepository
 import kotlin.random.Random
 import org.springframework.stereotype.Service
 
 @Service
 class WeightedItemSelector {
-    fun selectRandomItem(items: List<Item>, weights: List<Double>): Item? {
+    fun selectRandomItem(table: ItemDropRateFamily, itemtable: ItemRepository): Item? {
+        val items = table.dropTable.map { it.itemId }
+        val weights = table.dropTable.map { it.dropRate }
         if (items.isEmpty() || items.size != weights.size) {
             return null
         }
@@ -18,10 +22,10 @@ class WeightedItemSelector {
         for (i in items.indices) {
             cumulativeWeight += weights[i]
             if (randomValue <= cumulativeWeight) {
-                return items[i]
+                return itemtable.findById(items[i]).get()
             }
         }
 
-        return items.last()
+        return null
     }
 }
