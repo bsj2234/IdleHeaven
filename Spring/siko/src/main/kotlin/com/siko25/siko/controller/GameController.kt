@@ -12,8 +12,8 @@ class GameController(
         private val dropService: ItemDropService
 ) {
     @GetMapping("/dropitem")
-    fun GetDropItem(@RequestParam playerId: String): Item? {
-        val droppedItem = dropService.getDropItem(playerId)
+    fun GetDropItem(@RequestParam enemy: String): Item? {
+        val droppedItem = dropService.getDropItem(enemy)
 
         return droppedItem
     }
