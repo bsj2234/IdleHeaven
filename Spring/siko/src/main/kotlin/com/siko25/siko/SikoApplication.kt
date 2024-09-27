@@ -1,10 +1,14 @@
 package com.siko25.siko
 
-import com.siko25.siko.service.ItemDropService
-import com.siko25.siko.service.ItemService
-import com.siko25.siko.service.ItemTypeService
-import com.siko25.siko.service.WeaponDataService
-import com.siko25.siko.service.WeaponService
+import com.siko25.siko.character.enemy.*
+import com.siko25.siko.character.player.*
+import com.siko25.siko.item.*
+import com.siko25.siko.item.effect.*
+import com.siko25.siko.item.itemdrop.*
+import com.siko25.siko.item.rarity.*
+import com.siko25.siko.item.weapon.*
+import com.siko25.siko.item.weapon.weaponData.*
+import com.siko25.siko.stage.*
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -19,13 +23,21 @@ class SikoApplication {
             itemService: ItemService,
             weaponService: WeaponService,
             weaponDataService: WeaponDataService,
-            itemDropService: ItemDropService
+            itemDropService: ItemDropService,
+            enemyDataService: EnemyDataService,
+            stageDataService: StageDataService,
+            playerService: PlayerService,
+            itemDropRateFamilySetService: ItemDropRateFamilySetService
     ) = CommandLineRunner {
         itemTypeService.initItemTypes(hardInit = true)
-        itemService.InitItems(hardInit = true)
+        itemService.initItems(hardInit = true)
         weaponDataService.initWeaponData(hardInit = true)
         weaponService.initWeaponData(hardInit = true)
         itemDropService.initDropItemData(hardInit = true)
+        enemyDataService.initEnemyData(hardInit = true)
+        stageDataService.initStageData(hardInit = true)
+        playerService.initPlayerData(hardInit = true)
+        itemDropRateFamilySetService.initDropRateFamilySet(hardInit = true)
     }
 }
 

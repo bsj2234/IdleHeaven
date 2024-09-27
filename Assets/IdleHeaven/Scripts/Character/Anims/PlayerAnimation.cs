@@ -59,19 +59,16 @@ public class PlayerAnimation : MonoBehaviour
         {
             _animator.SetBool("IsMoving", false);
             _animator.SetBool("IsRunning", true);
-            Debug.Log("Running");
         }
         if (IsMoving())
         {
             _animator.SetBool("IsMoving", true);
             _animator.SetBool("IsRunning", false);
-            Debug.Log("Moving");
         }
         if (!IsMoving())
         {
             _animator.SetBool("IsMoving", false);
             _animator.SetBool("IsRunning", false);
-            Debug.Log("Not Moving");
         }
 
 

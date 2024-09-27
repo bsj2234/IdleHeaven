@@ -72,7 +72,6 @@ public class AttackState : BaseState
 
     public override void EnterState()
     {
-        Debug.Log("Enter Attack State");
         _agent.updateRotation = false;
     }
 
@@ -132,7 +131,6 @@ public class AttackState : BaseState
     public override void ExitState(BaseState nextState)
     {
         currentAttackCooldown = 0f;
-        Debug.Log("Exit Attack State");
         _agent.updateRotation = true;
     }
 }

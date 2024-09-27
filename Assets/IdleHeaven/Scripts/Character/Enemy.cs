@@ -30,7 +30,6 @@ public class Enemy : MonoBehaviour
     }
     private void OnDestroy()
     {
-        Debug.Log("Enemy Destroyed");
     }
 
     public Enemy Init(EnemyData randomEnemyData, int level)

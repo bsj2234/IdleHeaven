@@ -37,5 +37,21 @@ kotlin {
 }
 
 tasks.withType<Test> {
-  useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+springBoot {
+    mainClass.set("com.siko25.siko.SikoApplicationKt")
+}
+
+tasks.withType<org.springframework.boot.gradle.tasks.run.BootRun> {
+    mainClass.set("com.siko25.siko.SikoApplicationKt")
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDirs("src/main/kotlin")
+        }
+    }
 }

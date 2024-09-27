@@ -111,8 +111,6 @@ namespace IdleHeaven
             }
             else
             {
-                Debug.Log("Normal Hit");
-                Debug.Log(ResultStats[StatType.Attack]);
                 return new DamageInfo
                 {
                     Damage = ResultStats[StatType.Attack],
