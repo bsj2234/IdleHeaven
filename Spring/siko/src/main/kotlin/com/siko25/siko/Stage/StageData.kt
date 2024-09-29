@@ -7,6 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document
 data class StageData(
         @Id val id: String,
         val name: String,
+        val stageDropSetId: String,
         val description: String,
-        val dropFamilySetId: String
 )

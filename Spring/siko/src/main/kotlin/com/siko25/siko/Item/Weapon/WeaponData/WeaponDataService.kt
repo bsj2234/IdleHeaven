@@ -9,33 +9,37 @@ class WeaponDataService(private val weaponDataRepository: WeaponDataRepository) 
                         val weaponData =
                                 listOf(
                                         WeaponData(
-                                                "0",
-                                                "Siko's Sword",
-                                                listOf("Sword"),
-                                                15,
-                                                20,
+                                                id = "0",
+                                                name = "Siko's Sword",
+                                                type = arrayOf("Sword"),
+                                                description = "A powerful sword",
+                                                effectSet = "swordEffectSet",
+                                                minDam = 15,
+                                                maxDam = 20,
                                                 level = 10,
                                                 attackSpeed = 1.15,
                                                 attackRange = 3,
                                                 randomEffectType = "commonCloseWeaponEffect",
-                                                critChan = .3,
+                                                critChan = 0.3,
                                                 requiredLevel = 10,
-                                                rarity = "rare",
+                                                rarity = "rare"
                                         ),
                                         WeaponData(
-                                                "0",
-                                                "Siko's Staff",
-                                                listOf("Staff"),
-                                                15,
-                                                20,
+                                                id = "1",
+                                                name = "Siko's Staff",
+                                                type = arrayOf("Staff"),
+                                                description = "A magical staff",
+                                                effectSet = "staffEffectSet",
+                                                minDam = 15,
+                                                maxDam = 20,
                                                 level = 10,
                                                 attackSpeed = 1.15,
                                                 attackRange = 15,
                                                 randomEffectType = "commonStaffEffect",
-                                                critChan = .15,
+                                                critChan = 0.15,
                                                 requiredLevel = 10,
-                                                rarity = "rare",
-                                        ),
+                                                rarity = "rare"
+                                        )
                                 )
                         weaponDataRepository.saveAll(weaponData)
                 }

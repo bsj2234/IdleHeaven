@@ -9,10 +9,10 @@ class WeaponService(private val weaponRepository: WeaponRepository) {
                 if (weaponRepository.count() == 0L || hardInit) {
                         val weapon =
                                 listOf(
-                                        Weapon(
+                                        WeaponData(
                                                 "0",
                                                 "Siko's Sword",
-                                                listOf("Sword"),
+                                                arrayOf("Sword"),
                                                 arrayOf(
                                                         Effect(
                                                                 effectType = "STR Bonus",
@@ -34,5 +34,5 @@ class WeaponService(private val weaponRepository: WeaponRepository) {
                 }
         }
 
-        fun getAllWeaponData(): List<Weapon> = weaponRepository.findAll()
+        fun getAllWeaponData(): List<WeaponData> = weaponRepository.findAll()
 }

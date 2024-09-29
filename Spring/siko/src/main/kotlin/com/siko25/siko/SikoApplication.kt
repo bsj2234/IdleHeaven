@@ -20,24 +20,20 @@ class SikoApplication {
     @Bean
     fun init(
             itemTypeService: ItemTypeService,
-            itemService: ItemService,
+            itemDataService: ItemDataService,
             weaponService: WeaponService,
             weaponDataService: WeaponDataService,
-            itemDropService: ItemDropService,
             enemyDataService: EnemyDataService,
             stageDataService: StageDataService,
             playerService: PlayerService,
-            itemDropRateFamilySetService: ItemDropRateFamilySetService
     ) = CommandLineRunner {
         itemTypeService.initItemTypes(hardInit = true)
-        itemService.initItems(hardInit = true)
+        itemDataService.initItemDatas(hardInit = true)
         weaponDataService.initWeaponData(hardInit = true)
         weaponService.initWeaponData(hardInit = true)
-        itemDropService.initDropItemData(hardInit = true)
         enemyDataService.initEnemyData(hardInit = true)
         stageDataService.initStageData(hardInit = true)
         playerService.initPlayerData(hardInit = true)
-        itemDropRateFamilySetService.initDropRateFamilySet(hardInit = true)
     }
 }
 

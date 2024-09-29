@@ -1,6 +1,6 @@
 package com.siko25.siko.character.player
 
-import com.siko25.siko.item.Item
+import com.siko25.siko.item.ItemData
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -14,5 +14,5 @@ data class Player(
         val mana: Int,
         val strength: Int,
         val dexterity: Int,
-        val inventory: MutableList<Item> = mutableListOf()
+        val inventory: MutableList<ItemData> = mutableListOf()
 )

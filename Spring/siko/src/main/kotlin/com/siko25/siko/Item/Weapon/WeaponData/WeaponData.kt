@@ -1,6 +1,6 @@
 package com.siko25.siko.item.weapon.weaponData
 
-import com.siko25.siko.item.Item
+import com.siko25.siko.item.ItemData
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 
@@ -8,7 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document
 data class WeaponData(
         @Id override val id: String = "0",
         override val name: String = "Weapon",
-        override val type: List<String> = listOf("Weapon"),
+        override val type: Array<String> = arrayOf("Weapon"),
+        override val description: String = "",
+        override val effectSet: String = "",
         val minDam: Int = 0,
         val maxDam: Int = 0,
         val level: Int = 0,
@@ -18,4 +20,4 @@ data class WeaponData(
         val critChan: Double = 0.0,
         val requiredLevel: Int = 0,
         val rarity: String = "common",
-) : Item
+) : ItemData
