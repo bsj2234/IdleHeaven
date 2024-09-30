@@ -56,7 +56,7 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "IdleHeaven.sln",
+    "dotnet.defaultSolution": "IdleHeavenTestGitFilter.sln",
     "java.compile.nullAnalysis.mode": "automatic",
     "C_Cpp.errorSquiggles": "enabled"
 }
