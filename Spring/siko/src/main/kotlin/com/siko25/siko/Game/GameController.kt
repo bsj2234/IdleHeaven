@@ -1,6 +1,6 @@
 package com.siko25.siko.game
 
-import com.siko25.siko.character.player.PlayerRepository
+import com.siko25.siko.character.player.*
 import com.siko25.siko.item.itemdrop.ItemDropService
 import com.siko25.siko.item.itemdrop.StageEnterDropSetDataRepository
 import com.siko25.siko.stage.StageDataRepository
@@ -17,7 +17,8 @@ class GameController(
         private val dropService: ItemDropService,
         private val playerRepository: PlayerRepository,
         private val stageDataRepository: StageDataRepository,
-        private val stageEnterDropSetDataRepository: StageEnterDropSetDataRepository
+        private val stageEnterDropSetDataRepository: StageEnterDropSetDataRepository,
+        private val playerService: PlayerService
 ) {
     private val logger = LoggerFactory.getLogger(GameController::class.java)
 
@@ -44,5 +45,32 @@ class GameController(
             logger.error("Error on stage clear", e)
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to clear stage")
         }
+    }
+    @GetMapping("/droppableDead", produces = ["application/json"])
+    fun OnDroppableDead(
+            @RequestParam playerId: String,
+            @RequestParam stageId: String
+    ): ResponseEntity<String> {
+        return try {
+            val player = playerService.getPlayer(playerId)
+            if (player == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Player not found")
+            }
+            val stageEnterDropSet = stageEnterDropSetDataRepository.findById(stageId).orElse(null)
+            if (stageEnterDropSet == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("StageEnterDropSet not found")
+            }
+            dropService.tryDropItem(player, stageEnterDropSet)
+            ResponseEntity.ok("Droppable dead")
+        } catch (e: Exception) {
+            logger.error("Error on droppable dead", e)
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to droppable dead")
+        }
+    }
+
+    @GetMapping("/test")
+    fun test(): ResponseEntity<String> {
+        return ResponseEntity.ok("test")
     }
 }

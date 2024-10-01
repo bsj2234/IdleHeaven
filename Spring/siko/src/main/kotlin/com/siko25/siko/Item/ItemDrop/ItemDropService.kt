@@ -5,7 +5,6 @@ import com.siko25.siko.character.player.*
 import com.siko25.siko.item.*
 import com.siko25.siko.item.effect.*
 import com.siko25.siko.random.RandomService
-import com.siko25.siko.random.WeightedItem
 import com.siko25.siko.stage.*
 import org.springframework.stereotype.Service
 
@@ -18,7 +17,9 @@ class ItemDropService(
         private val stageEnterDropSetDataRepository: StageEnterDropSetDataRepository,
         private val randomService: RandomService,
         private val effectSetRepository: EffectSetRepository,
-        private val effectDataRepository: EffectDataRepository
+        private val effectDataRepository: EffectDataRepository,
+        private val itemInstanceService: ItemInstanceService,
+        private val inventoryService: InventoryService
 ) {
 
         fun getDropItems(stageEnterDropSet: StageEnterDropSetData): ItemData? {
@@ -64,38 +65,22 @@ class ItemDropService(
                         if (effectSet == null) {
                                 continue
                         }
-                        val effects = calculateItemEffect(effectSet.effects)
-                        items[i] = ItemInstance(itemData.name, effects, 1, "")
+                        items[i] = itemInstanceService.createItemInstance(itemData)
                 }
                 return null
         }
 
-        private fun calculateItemEffect(effectSet: Array<WeightedItem>): Array<String> {
-                val effect = randomService.getRandomWeightedItem(effectSet)
-                if (effect == null) {
-                        return arrayOf()
+        fun tryDropItem(player: Player, stageEnterDropSet: StageEnterDropSetData) {
+                val itemData = calculateDropItemOnStageEnter(stageEnterDropSet.stageDropSet)
+                if (itemData == null) {
+                        return
                 }
-                var result = Array<String>(3) { "" }
-                for (i in result.indices) {
-                        val rand = randomService.getRandomWeightedItem(effectSet)
-                        if (rand == null) {
-                                continue
-                        }
-                        val effectData = effectDataRepository.findById(rand.item).orElseGet(null)
-                        if (effectData == null) {
-                                continue
-                        }
-                        result[i] = effectData.id
+                val item = itemInstanceService.createItemInstance(itemData)
+                if (item == null) {
+                        throw Exception("Failed to generate item instance")
                 }
-                return result
+                inventoryService.addItem(player.id, item)
         }
 
         var playerDropTable = HashMap<String, Array<ItemData>>()
-
-        class ItemInstance(
-                val itemType: String,
-                val effects: Array<String>,
-                val count: Int,
-                val owner: String
-        )
 }

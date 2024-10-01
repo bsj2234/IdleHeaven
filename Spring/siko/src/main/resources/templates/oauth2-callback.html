@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Authentication Callback</title>
+</head>
+
+<body>
+    <h1>Authentication Successful</h1>
+    <p>Welcome, <span th:text="${name}">User</span>!</p>
+    <p>Your email is: <span th:text="${email}">email@example.com</span></p>
+
+    <!-- Add this section to display the token -->
+    <div id="tokenDisplay">
+        <h2>Your Token:</h2>
+        <p><span th:text="${token}">No token provided</span></p>
+    </div>
+
+    <script th:inline="javascript">
+        const token = /*[[${token}]]*/ 'No token provided';
+
+        // Send a message to the Unity WebGL client
+        window.parent.postMessage({ type: "AUTH_SUCCESS", name: "[[${name}]]", email: "[[${email}]]", token: token }, "*");
+
+        // Send a message to the local server
+        fetch('http://localhost:1267/auth/callback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: "AUTH_SUCCESS",
+                name: "[[${name}]]",
+                email: "[[${email}]]",
+                token: token
+            })
+        })
+            .then(response => response.json())
+            .then(data => console.log('Success:', data))
+            .catch((error) => console.error('Error:', error));
+
+        localStorage.removeItem('auth_token');
+    </script>
+</body>
+
+</html>

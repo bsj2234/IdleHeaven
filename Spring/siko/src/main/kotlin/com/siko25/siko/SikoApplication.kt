@@ -13,7 +13,9 @@ import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
 
+@EnableRedisRepositories(basePackages = ["com.siko25.siko"])
 @SpringBootApplication
 class SikoApplication {
 
@@ -38,5 +40,6 @@ class SikoApplication {
 }
 
 fun main(args: Array<String>) {
+    println("Hello World")
     runApplication<SikoApplication>(*args)
 }

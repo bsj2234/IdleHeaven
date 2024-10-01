@@ -5,6 +5,29 @@
             "name": "Attach to Unity",
             "type": "vstuc",
             "request": "attach"
+        },
+        {
+            "type": "kotlin",
+            "request": "launch",
+            "name": "Debug Kotlin Spring Boot",
+            "projectRoot": "${workspaceFolder}",
+            "mainClass": "com.siko25.siko.SikoApplicationKt",
+            "vmArgs": [
+                "-Dspring.profiles.active=dev"
+            ]
+        },
+        {
+            "type": "kotlin",
+            "request": "attach",
+            "name": "Attach to Kotlin Process",
+            "hostName": "localhost",
+            "port": 5005,
+            "timeout": 30000,
+            "projectRoot": "${workspaceFolder}",
+            "mainClass": "com.siko25.siko.SikoApplicationKt",
+            "vmArgs": [
+                "-Dspring.profiles.active=dev"
+            ]
         }
-     ]
+    ]
 }

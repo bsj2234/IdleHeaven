@@ -1,0 +1,18 @@
+GET http://localhost:8080/game/droppableDead?playerId=1&stageId=1
+
+###
+
+POST http://localhost:8080/game/stageEnter
+Content-Type: application/json
+
+{
+    "playerId": "0",
+    "stageId": "0"
+}
+
+###
+
+GET http://localhost:8080/game/test
+###
+
+Get http://localhost:8080/login

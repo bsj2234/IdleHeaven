@@ -1,1 +1,2 @@
-rootProject.name = 'siko'
+rootProject.name = 'parent-project'
+include 'Spring:siko'

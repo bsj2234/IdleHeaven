@@ -18,6 +18,9 @@ java {
 repositories { mavenCentral() }
 
 dependencies {
+  implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+  implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+  implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -28,6 +31,10 @@ dependencies {
   implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.11.0")
   implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+  implementation("org.springframework.boot:spring-boot-starter-data-redis")
+  implementation("io.jsonwebtoken:jjwt-api:0.12.5")
+  implementation("io.jsonwebtoken:jjwt-impl:0.12.5")
+  implementation("io.jsonwebtoken:jjwt-jackson:0.12.5")
 }
 
 kotlin {

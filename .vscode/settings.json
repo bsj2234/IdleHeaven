@@ -58,5 +58,19 @@
     },
     "dotnet.defaultSolution": "IdleHeavenTestGitFilter.sln",
     "java.compile.nullAnalysis.mode": "automatic",
-    "C_Cpp.errorSquiggles": "enabled"
+    "C_Cpp.errorSquiggles": "enabled",
+    "gradle.nestedProjects": true,
+    "gradle.autoDetect": "on",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.format.enabled": true,
+    "java.checkstyle.version": "8.44",
+    "java.implementationsCodeLens.enabled": true,
+    "java.referencesCodeLens.enabled": true,
+    "java.completion.enabled": true,
+    "java.signatureHelp.enabled": true,
+    "kotlin.languageServer.enabled": true,
+    "kotlin.debugAdapter.enabled": true,
+    "editor.formatOnSave": true,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000
 }
