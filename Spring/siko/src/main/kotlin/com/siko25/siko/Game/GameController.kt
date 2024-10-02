@@ -1,5 +1,6 @@
 package com.siko25.siko.game
 
+import com.siko25.siko.OAuth.CustomOAuth2UserService
 import com.siko25.siko.character.player.*
 import com.siko25.siko.item.itemdrop.ItemDropService
 import com.siko25.siko.item.itemdrop.StageEnterDropSetDataRepository
@@ -18,7 +19,8 @@ class GameController(
         private val playerRepository: PlayerRepository,
         private val stageDataRepository: StageDataRepository,
         private val stageEnterDropSetDataRepository: StageEnterDropSetDataRepository,
-        private val playerService: PlayerService
+        private val playerService: PlayerService,
+        private val customOAuth2UserService: CustomOAuth2UserService
 ) {
     private val logger = LoggerFactory.getLogger(GameController::class.java)
 
@@ -73,4 +75,15 @@ class GameController(
     fun test(): ResponseEntity<String> {
         return ResponseEntity.ok("test")
     }
+
+    @PostMapping("/userinfo", consumes = ["application/json"], produces = ["application/json"])
+    fun GetUserInfo(@RequestBody loginRequest: LoginRequest): ResponseEntity<String> {
+        val isValid = customOAuth2UserService.validateUser(loginRequest.playerId, loginRequest.token)
+        if (isValid) {
+            return ResponseEntity.ok("Valid token")
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token")
+    }
 }
+
+class LoginRequest(val token: String, val playerId: String)

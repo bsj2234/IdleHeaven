@@ -15,5 +15,9 @@ public class ButtonEventHolderEditor : Editor
         {
             script.TriggerButtonEvent();
         }
+        if (GUILayout.Button("Trigger Event 2"))
+        {
+            script.TriggerButtonEvent2();
+        }
     }
 }

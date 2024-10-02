@@ -19,7 +19,15 @@ class CustomOAuth2UserService(private val jwtTokenService: JwtTokenService) :
 
     fun generateToken(playerId: String): String {
         val token = jwtTokenService.generateToken(playerId)
-        tokenMap[token.accessToken] = playerId
+        tokenMap[playerId] = token.accessToken
         return token.accessToken
+    }
+
+    fun validateUser(playerId: String, token: String): Boolean {
+        val storedToken = tokenMap[playerId]
+        if (storedToken == null) {
+            return false
+        }
+        return storedToken == token
     }
 }

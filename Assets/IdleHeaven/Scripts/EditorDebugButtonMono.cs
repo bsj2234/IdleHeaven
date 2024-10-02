@@ -6,10 +6,11 @@ public class EditorDebugButtonMono : MonoBehaviour
     public UnityEvent buttonClickEvent;
     public AuthManager authManager;
 
-    private void Awake() {
-        #if !UNITY_EDITOR
+    private void Awake()
+    {
+#if !UNITY_EDITOR
         Debug.LogError("EditorDebugButtonMono can only be used in the editor");
-        #endif
+#endif
     }
 
     public void TriggerButtonEvent()
@@ -17,5 +18,9 @@ public class EditorDebugButtonMono : MonoBehaviour
         Debug.Log("TriggerButtonEvent");
         authManager.StartLogin();
         buttonClickEvent.Invoke();
+    }
+    public void TriggerButtonEvent2()
+    {
+        AuthManager.ForceCloseAllListeners();
     }
 }

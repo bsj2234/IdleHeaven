@@ -9,7 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.core.user.OAuth2User
+import org.springframework.security.web.DefaultRedirectStrategy
+import org.springframework.security.web.RedirectStrategy
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.stereotype.Component
 
@@ -46,7 +49,9 @@ class SecurityConfig(
 @Component
 class OAuth2AuthenticationSuccessHandler(
         private val customOAuth2UserService: CustomOAuth2UserService
-) : SimpleUrlAuthenticationSuccessHandler() {
+) : SimpleUrlAuthenticationSuccessHandler(), AuthenticationSuccessHandler {
+
+    private val redirectStrategy: RedirectStrategy = DefaultRedirectStrategy()
     override fun onAuthenticationSuccess(
             request: HttpServletRequest,
             response: HttpServletResponse,
@@ -57,9 +62,10 @@ class OAuth2AuthenticationSuccessHandler(
 
         println("Generated token: $token") // Add this line for debugging
 
-        val redirectUrl = "http://localhost:8080/oauth2-callback?token=$token"
-        println("Redirecting to: $redirectUrl") // Add this line for debugging
+        // Store the token in the session temporarily
+        request.session.setAttribute("oauth2_token", token)
 
-        response.sendRedirect(redirectUrl)
+        // Redirect to the callback URL without the token in the URL
+        redirectStrategy.sendRedirect(request, response, "/oauth2-callback")
     }
 }
