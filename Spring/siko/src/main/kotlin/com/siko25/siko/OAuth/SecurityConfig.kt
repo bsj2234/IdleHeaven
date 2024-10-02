@@ -1,20 +1,11 @@
 package com.siko25.siko.OAuth
 
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
-import org.springframework.security.core.Authentication
-import org.springframework.security.oauth2.core.user.OAuth2User
-import org.springframework.security.web.DefaultRedirectStrategy
-import org.springframework.security.web.RedirectStrategy
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
-import org.springframework.stereotype.Component
 
 @Configuration
 @EnableWebSecurity
@@ -25,9 +16,16 @@ class SecurityConfig(
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-                .authorizeHttpRequests { authorizeRequests ->
-                    authorizeRequests
-                            .requestMatchers("/login", "/auth/callback", "/error")
+                // .requiresChannel { channel -> channel.anyRequest().requiresSecure() }
+                .requiresChannel { channel -> channel.anyRequest().requiresInsecure() }
+                .authorizeHttpRequests { authorize ->
+                    authorize
+                            .requestMatchers(
+                                    "/login",
+                                    "/auth/callback",
+                                    "/error",
+                                    "/login/oauth2/code/*"
+                            )
                             .permitAll()
                             .anyRequest()
                             .authenticated()
@@ -43,29 +41,5 @@ class SecurityConfig(
                 .csrf { csrf -> csrf.disable() } // For testing purposes. Enable in production.
 
         return http.build()
-    }
-}
-
-@Component
-class OAuth2AuthenticationSuccessHandler(
-        private val customOAuth2UserService: CustomOAuth2UserService
-) : SimpleUrlAuthenticationSuccessHandler(), AuthenticationSuccessHandler {
-
-    private val redirectStrategy: RedirectStrategy = DefaultRedirectStrategy()
-    override fun onAuthenticationSuccess(
-            request: HttpServletRequest,
-            response: HttpServletResponse,
-            authentication: Authentication
-    ) {
-        val oAuth2User = authentication.principal as OAuth2User
-        val token = customOAuth2UserService.generateToken(oAuth2User.name)
-
-        println("Generated token: $token") // Add this line for debugging
-
-        // Store the token in the session temporarily
-        request.session.setAttribute("oauth2_token", token)
-
-        // Redirect to the callback URL without the token in the URL
-        redirectStrategy.sendRedirect(request, response, "/oauth2-callback")
     }
 }

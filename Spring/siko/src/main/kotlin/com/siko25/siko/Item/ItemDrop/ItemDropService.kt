@@ -2,6 +2,7 @@ package com.siko25.siko.item.itemdrop
 
 import com.siko25.siko.character.enemy.*
 import com.siko25.siko.character.player.*
+import com.siko25.siko.character.player.inventory.InventoryService
 import com.siko25.siko.item.*
 import com.siko25.siko.item.effect.*
 import com.siko25.siko.random.RandomService

@@ -1,4 +1,4 @@
-package com.siko25.siko.character.player
+package com.siko25.siko.character.player.inventory
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository

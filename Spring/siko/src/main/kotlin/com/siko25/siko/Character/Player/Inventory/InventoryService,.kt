@@ -1,4 +1,4 @@
-package com.siko25.siko.character.player
+package com.siko25.siko.character.player.inventory
 
 import com.siko25.siko.item.ItemInstance
 import org.springframework.stereotype.Service

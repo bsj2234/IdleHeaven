@@ -1,6 +1,6 @@
 package com.siko25.siko.item
 
-import com.siko25.siko.character.player.InventoryService
+import com.siko25.siko.character.player.inventory.InventoryService
 import com.siko25.siko.item.effect.EffectDataRepository
 import com.siko25.siko.item.effect.EffectSetRepository
 import com.siko25.siko.random.*

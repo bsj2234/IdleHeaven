@@ -22,14 +22,22 @@ class LoginController {
             model: Model
     ): String {
         // Retrieve the token from the session
-        val token = request.session.getAttribute("oauth2_token") as? String
-        request.session.removeAttribute("oauth2_token") // Remove the token from the session
+        // val token = request.session.getAttribute("oauth2_token") as? String
+        // request.session.removeAttribute("oauth2_token") // Remove the token from the session
+        println("All cookies: ${request.cookies?.joinToString { "${it.name}=${it.value}" }}")
+        val token = request.cookies?.find { it.name == "auth_token" }?.value
+        println("Found auth_token: $token")
+
+        if (token == null) {
+            println("No token provided")
+            return "redirect:/login"
+        }
 
         user?.let {
             model.addAttribute("name", it.getAttribute("name"))
             model.addAttribute("email", it.getAttribute("email"))
         }
-        model.addAttribute("token", token ?: "No token provided")
+        model.addAttribute("token", token)
         return "oauth2-callback"
     }
 }
