@@ -25,6 +25,7 @@ class JwtTokenService {
         val jwts =
                 Jwts.builder()
                         .subject(playerId)
+                        .claim("playerId", playerId) // Add this line
                         .issuedAt(now)
                         .expiration(expiration)
                         .signWith(getKey())
@@ -42,15 +43,10 @@ class JwtTokenService {
 
     fun getAuthentication(jwt: String): Authentication {
         val claims = getClaims(jwt)
-        val authorities =
-                (claims.get("role") as? List<*>)?.filterIsInstance<String>() ?: emptyList()
-        val userId = claims.get("userId") as String
-        val principal = User(userId, "", authorities.map { SimpleGrantedAuthority(it) })
-        return UsernamePasswordAuthenticationToken(
-                principal,
-                jwt,
-                authorities.map { SimpleGrantedAuthority(it) }
-        )
+        val authorities = listOf(SimpleGrantedAuthority("ROLE_USER")) // Default role
+        val playerId = claims.subject // Use the subject as playerId
+        val principal = User(playerId, "", authorities)
+        return UsernamePasswordAuthenticationToken(principal, jwt, authorities)
     }
 
     fun validateToken(jwt: String): Boolean {

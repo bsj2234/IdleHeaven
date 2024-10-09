@@ -9,7 +9,7 @@ class RandomService {
         return Random.nextDouble(min, max)
     }
 
-    fun getRandomWeightedItem(items: Array<WeightedItem>): WeightedItem? {
+    fun <T : WeightedItem> getRandomWeightedItem(items: Array<T>): T {
         val totalWeight = items.sumOf { it.weight }
         val randomValue = randomDouble(0.0, totalWeight)
         var cumulativeWeight = 0.0
@@ -20,6 +20,10 @@ class RandomService {
                 return item
             }
         }
-        return null
+        throw Exception("Failed to get random weighted item")
+    }
+
+    fun getRandomFloat(min: Float, max: Float): Float {
+        return Random.nextFloat() * (max - min) + min
     }
 }

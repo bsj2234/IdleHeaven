@@ -1,6 +1,6 @@
 package com.siko25.siko.character.player.inventory
 
-import com.siko25.siko.item.ItemInstance
+import com.siko25.siko.item.Item
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,7 +11,7 @@ class InventoryService(
         inventoryRepository.save(inventory)
     }
 
-    fun addItem(playerId: String, itemInstance: ItemInstance) {
+    fun addItem(playerId: String, itemInstance: Item) {
         val inventory = getInventory(playerId)
         if (inventory == null) {
             return
