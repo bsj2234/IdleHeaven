@@ -1,16 +1,50 @@
 using UnityEngine;
 using System.Net;
-using System.Threading;
 using System;
 using System.IO;
 using System.Collections;
 using System.Threading.Tasks;
 using System.Reflection;
+
 public class AuthManager : MonoBehaviour
 {
+    //     [SerializeField] private ClientDataObject _clientData;
+
+
+
+
     private const string LoginUrl = "http://localhost:8080/login";
     private HttpListener listener;
-    private string authToken;
+    private static string authToken;
+    public static string AuthToken
+    {
+        get { return authToken; }
+    }
+
+    //     private void Start()
+    //     {
+    //         OpenIDConnectService oidcService = new OpenIDConnectService();
+    //         oidcService.OidcProvider = new GoogleOidcProvider();
+    //         oidcService.OidcProvider.ClientData
+    //         ServiceManager.RegisterService(oidcService);
+    //     }
+
+    //     public async void StartLogin()
+    // {
+    //     OpenIDConnectService oidcService = ServiceManager.GetService<OpenIDConnectService>();
+    //     bool success = await oidcService.LoginAsync();
+
+    //     if (success)
+    //     {
+    //         string accessToken = oidcService.AccessToken;
+    //         // Use the access token for further API requests
+    //     }
+    //     else
+    //     {
+    //         Debug.LogError("Login failed");
+    //     }
+    // }
+
 
     public void StartLogin()
     {
@@ -37,7 +71,7 @@ public class AuthManager : MonoBehaviour
     private void StartLocalServer()
     {
         listener = new HttpListener();
-        listener.Prefixes.Add("http://localhost:1267/auth/callback/");
+        listener.Prefixes.Add("http://localhost:1267/auth-callback/");
         listener.Start();
     }
 
@@ -46,13 +80,13 @@ public class AuthManager : MonoBehaviour
         await ProcessRequest();
         listener.Stop();
     }
-
+    string token;
     private async Task ProcessRequest()
     {
         HttpListenerContext context = null;
         while (listener != null && listener.IsListening)
         {
-            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(5)); // 10-second timeout
+            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(15)); // 15-second timeout
             var getContextTask = Task.Run(() => listener.GetContext());
             var completedTask = await Task.WhenAny(getContextTask, timeoutTask);
 
@@ -87,6 +121,7 @@ public class AuthManager : MonoBehaviour
                             {
                                 var jsonData = JsonUtility.FromJson<AuthCallbackData>(requestBody);
                                 authToken = jsonData.token;
+                                response.AddHeader("Authorization", "Bearer " + authToken);
                                 Debug.Log($"Parsed data - Type: {jsonData.type}, Name: {jsonData.name}, Email: {jsonData.email}, Token: {jsonData.token}");
                                 listener.Close();
                             }
@@ -226,7 +261,7 @@ public class AuthManager : MonoBehaviour
 //         }
 
 //         listener = new HttpListener();
-//         listener.Prefixes.Add("http://localhost:1267/auth/callback/");
+//         listener.Prefixes.Add("http://localhost:1267/auth-callback/");
 //         SetListenerTimeout(listener, TimeSpan.FromSeconds(TimeoutSeconds));
 
 //         listener.Start();
@@ -467,7 +502,7 @@ public class AuthManager : MonoBehaviour
 //     {
 //         listener = new HttpListener();
 //         listener.Start();
-//         listener.Prefixes.Add("http://localhost:1267/auth/callback/");
+//         listener.Prefixes.Add("http://localhost:1267/auth-callback/");
 //     }
 
 //     private async Task HandleCallback()

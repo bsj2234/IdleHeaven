@@ -3,24 +3,32 @@ using System.Collections;
 using UnityEngine.Networking;
 using System.Threading.Tasks;
 using System;
+using IdleHeaven;
 
 public class GameServerClient : MonoBehaviour
 {
-    private const string ServerUrl = "http://localhost:8080"; // Replace with your server's URL when deploying
+    public static readonly string ServerUrl = "http://localhost:8080"; // Replace with your server's URL when deploying
 
-    public async Task<string> GetDropItem(string enemy)
+    public static async Task<string> GetDropItem(string enemy)
     {
-        return await SendRequest($"/game/dropitem?enemy={enemy}", UnityWebRequest.kHttpVerbGET);
+        string endpoint = $"/game/dropitem?enemy={enemy}";
+        return await SendRequest(endpoint, UnityWebRequest.kHttpVerbGET);
     }
 
-    public async Task<string> SendStageClear(StageClearRequest stageClearRequest)
+    public static async Task<string> SendStageClear(StageClearRequest stageClearRequest)
     {
         string endpoint = "/game/stageClear";
         string jsonBody = JsonUtility.ToJson(stageClearRequest);
-        return await SendRequest(endpoint, "POST", jsonBody);
+        return await SendRequest(endpoint, UnityWebRequest.kHttpVerbPOST, jsonBody);
     }
 
-    private async Task<string> SendRequest(string endpoint, string method, string bodyData = null)
+    public static async Task<string> GetItemData()
+    {
+        string endpoint = "/game/itemdata";
+        return await SendRequest(endpoint, UnityWebRequest.kHttpVerbGET);
+    }
+
+    private static async Task<string> SendRequest(string endpoint, string method, string bodyData = null)
     {
         using (UnityWebRequest webRequest = new UnityWebRequest(ServerUrl + endpoint, method))
         {
@@ -32,7 +40,7 @@ public class GameServerClient : MonoBehaviour
             webRequest.downloadHandler = new DownloadHandlerBuffer();
             webRequest.SetRequestHeader("Content-Type", "application/json");
             webRequest.SetRequestHeader("Accept", "application/json");
-
+            webRequest.SetRequestHeader("auth_token", AuthManager.AuthToken);
             await webRequest.SendWebRequest();
 
             if (webRequest.result == UnityWebRequest.Result.Success)

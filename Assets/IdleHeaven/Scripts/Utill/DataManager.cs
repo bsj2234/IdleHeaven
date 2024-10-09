@@ -39,7 +39,7 @@ public class StageaveData
 public class DataManager : MonoSingleton<DataManager>
 {
     public PlayerData SaveData;
-    
+
     [SerializeField] private CharacterStats _characterStats;
     [SerializeField] private Inventory _inventory;
     [SerializeField] private CurrencyInventory _currencyInventory;
@@ -47,20 +47,15 @@ public class DataManager : MonoSingleton<DataManager>
     [SerializeField] private Equipments _equipment;
     [SerializeField] private Stage _stage;
 
-    private void Start()
-    {
-        Init();
-    }
-
     public void Init()
     {
-        SaveData = new PlayerData();
-        SaveData.Inventory = new InventoryData();
-        SaveData.Inventory.Items = new List<Item>();
-        SaveData.Inventory.EquipmentItems = new List<EquipmentItem>();
-        SaveData.Equipments = new EquipmentsData();
-        SaveData.Equipments.Equipments = new List<EquipmentItem>();
-        SaveData.Stage = new StageaveData();
+        // SaveData = new PlayerData();
+        // SaveData.Inventory = new InventoryData();
+        // SaveData.Inventory.Items = new List<Item>();
+        // SaveData.Inventory.EquipmentItems = new List<EquipmentItem>();
+        // SaveData.Equipments = new EquipmentsData();
+        // SaveData.Equipments.Equipments = new List<EquipmentItem>();
+        // SaveData.Stage = new StageaveData();
     }
 
     public void SaveGameData(PlayerData playerData, CharacterStats playerStats, Inventory inventory
@@ -133,5 +128,54 @@ public class DataManager : MonoSingleton<DataManager>
     public RarityData GetRarityData(Rarity itemRarity)
     {
         return _rarityDatas[(int)itemRarity];
+    }
+
+    [System.Serializable]
+    public class Json_ItemData
+    {
+        public string id;
+        public string name;
+        public string[] type;
+        public string description;
+        public string effectSet;
+
+        public override string ToString()
+        {
+            return $"Id: {id}, Name: {name}, Type: {string.Join(", ", type)}, Description: {description}, EffectSet: {effectSet}";
+        }
+    }
+
+    private Json_ItemData _itemData;
+    private List<Json_ItemData> _itemDataList; [System.Serializable]
+    private class Json_ItemDataList
+    {
+        public List<Json_ItemData> items;
+    }
+    public async void InitItemData()
+    {
+        var result = await GameServerClient.GetItemData();
+
+        Debug.Log($"Fetched Itemdata: {result}");
+        // Wrap the result in an object
+        string wrappedJson = "{ \"items\": " + result + "}";
+
+
+        Json_ItemDataList wrapper = JsonUtility.FromJson<Json_ItemDataList>(wrappedJson);
+        _itemDataList = wrapper.items;
+
+        Debug.Log($"Successfully parsed {_itemDataList.Count} items");
+
+        // You can now use _itemDataList
+        foreach (var item in _itemDataList)
+        {
+            Debug.Log($"Item: {item.name}, ID: {item.id}");
+        }
+    }
+
+    public List<string> GetItemNames()
+    {
+        var itemNames = new List<string>();
+        itemNames.Add("InitItemData");
+        return itemNames;
     }
 }

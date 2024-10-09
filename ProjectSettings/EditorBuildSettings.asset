@@ -14,4 +14,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/IdleHeaven/Scenes/GachaScene.unity
     guid: 5e74ae68e302c0d43b9e341b0640f631
+  - enabled: 1
+    path: Assets/IdleHeaven/Scenes/LodingScene.unity
+    guid: aa6fb034a44f9104fb10b3fde98823e0
+  - enabled: 1
+    path: Assets/IdleHeaven/Scenes/MainScene.unity
+    guid: 57a60922b106ad9458e55599939298ed
+  - enabled: 1
+    path: Assets/IdleHeaven/Scenes/ShopScene.unity
+    guid: 1b6962ad32d685749a5ab84ab2ead994
+  - enabled: 1
+    path: Assets/IdleHeaven/Scenes/StartScene.unity
+    guid: 5cfd253911cf47042b20a57c69a72bcd
   m_configObjects: {}

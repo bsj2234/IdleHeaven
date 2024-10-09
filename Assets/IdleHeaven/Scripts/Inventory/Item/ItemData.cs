@@ -7,6 +7,7 @@ namespace IdleHeaven
     [System.Serializable]
     public class ItemData : IRandomItemInstance
     {
+
         [SerializeField] string _itemName;
         [SerializeField] ItemType _itemType;
         [SerializeField] string _description;

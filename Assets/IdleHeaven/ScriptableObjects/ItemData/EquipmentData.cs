@@ -3,7 +3,7 @@ using IdleHeaven;
 using System;
 
 [System.Serializable]
-public class EquipmentData: ItemData
+public class EquipmentData : ItemData
 {
     [SerializeField] EquipmentType _equipmentSlot;
     [SerializeField] Stats _stats = new Stats();
