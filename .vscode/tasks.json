@@ -15,7 +15,8 @@
             "args": [
                 "build",
                 "-p",
-                "Spring\\siko"
+                "Spring\\siko",
+                "--info"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
